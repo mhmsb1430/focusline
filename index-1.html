@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>ورّاق</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F8F6FF;--bg2:#fff;--bg3:#EEE9FF;--card:#fff;
+  --border:rgba(120,100,200,0.13);
+  --v:#7B5EA7;--v2:#9B78C8;--vl:rgba(123,94,167,0.12);
+  --t:#2BBFA4;--tl:rgba(43,191,164,0.12);
+  --c:#FF6B6B;--cl:rgba(255,107,107,0.12);
+  --a:#FFAA33;--al:rgba(255,170,51,0.12);
+  --sk:#4BA3E3;--skl:rgba(75,163,227,0.12);
+  --ro:#F46AB1;--rol:rgba(244,106,177,0.12);
+  --tx:#1E1640;--tx2:#7A70A0;--tx3:#B0AAD0;
+  --sh:0 4px 20px rgba(123,94,167,0.13);
+}
+.dark{
+  --bg:#12101E;--bg2:#1C1830;--bg3:#261F40;--card:#1C1830;
+  --border:rgba(180,160,255,0.10);
+  --vl:rgba(123,94,167,0.22);--tl:rgba(43,191,164,0.20);
+  --cl:rgba(255,107,107,0.20);--al:rgba(255,170,51,0.20);
+  --skl:rgba(75,163,227,0.20);--rol:rgba(244,106,177,0.20);
+  --tx:#EDE8FF;--tx2:#9A90C0;--tx3:#5A5080;
+  --sh:0 4px 20px rgba(0,0,0,0.35);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:'Tajawal',sans-serif;background:#0E0B1A;display:flex;align-items:center;justify-content:center}
+button,input,textarea{font-family:'Tajawal',sans-serif}
+button{cursor:pointer;border:none;background:none}
+::-webkit-scrollbar{display:none}
+
+/* PHONE */
+.phone{width:390px;height:844px;background:var(--bg);border-radius:48px;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 2px rgba(255,255,255,0.07),0 60px 100px rgba(0,0,0,0.7);transition:background .3s}
+.sbar{height:36px;background:var(--bg);display:flex;align-items:center;justify-content:space-between;padding:8px 22px 2px;font-size:12px;font-weight:700;color:var(--tx2);flex-shrink:0}
+
+/* SCREENS */
+.screen{position:absolute;top:36px;left:0;right:0;bottom:70px;display:none;flex-direction:column;overflow:hidden;background:var(--bg)}
+.screen.active{display:flex}
+.scrl{flex:1;overflow-y:auto;padding:0 16px 12px}
+
+/* BOTTOM NAV */
+.bnav{position:absolute;bottom:0;left:0;right:0;height:70px;background:var(--bg2);border-top:1px solid var(--border);display:flex;z-index:100}
+.bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--tx3);padding:6px 2px 12px;transition:color .2s;font-family:'Tajawal',sans-serif}
+.bni.on{color:var(--v)}
+.bni .ico{font-size:24px;transition:transform .2s}
+.bni.on .ico{transform:scale(1.15)}
+.bni .lbl{font-size:10px;font-weight:700}
+
+/* SHARED */
+.ph{padding:16px 16px 8px;flex-shrink:0}
+.pt{font-size:24px;font-weight:900;color:var(--tx)}
+.ps{font-size:12px;color:var(--tx2);margin-top:3px}
+.rh{display:flex;justify-content:space-between;align-items:center;padding:12px 16px 8px;flex-shrink:0}
+.rh h3{font-size:14px;font-weight:700;color:var(--tx)}
+.rh button{font-size:12px;color:var(--v);font-weight:700}
+.btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;transition:all .15s;border:none;cursor:pointer;font-family:'Tajawal',sans-serif}
+.btn:active{transform:scale(.96)}
+.btn-v{background:var(--v);color:#fff;box-shadow:0 6px 18px rgba(123,94,167,0.4)}
+.btn-g{background:var(--bg3);color:var(--tx)}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;gap:10px}
+.empty span:first-child{font-size:48px;opacity:.35}
+.empty span:last-child{font-size:13px;color:var(--tx2);text-align:center;line-height:1.65}
+.slbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tx2);padding:8px 0 6px 2px}
+
+/* HOME */
+.hhd{padding:16px 16px 8px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.logo{font-size:26px;font-weight:900;color:var(--tx)}
+.lsub{font-size:13px;color:var(--tx2);margin-top:2px}
+.av{width:42px;height:42px;border-radius:50%;background:var(--v);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;box-shadow:0 4px 12px rgba(123,94,167,0.4)}
+.hero{margin:0 16px 12px;background:linear-gradient(135deg,var(--v),#9B5EA7 60%,var(--t));border-radius:22px;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;border:none;width:calc(100% - 32px);text-align:right;transition:all .15s;box-shadow:0 10px 28px rgba(123,94,167,0.45);font-family:'Tajawal',sans-serif;flex-shrink:0}
+.hero:hover{transform:translateY(-2px)}
+.hero:active{transform:scale(.98)}
+.hi{width:54px;height:54px;background:rgba(255,255,255,0.18);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.ht{font-size:18px;font-weight:900;color:#fff}
+.hs{font-size:12px;color:rgba(255,255,255,0.72);margin-top:4px}
+.ar{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 4px;flex-shrink:0}
+.ab{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:13px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .2s;box-shadow:var(--sh);border:none;font-family:'Tajawal',sans-serif;text-align:right}
+.ab:hover{transform:translateY(-2px)}
+.ab:active{transform:scale(.97)}
+.ai2{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.at{font-size:13px;font-weight:700;color:var(--tx)}
+.as{font-size:10px;color:var(--tx2);margin-top:2px}
+.fl{flex:1;overflow-y:auto;padding:0 16px 8px}
+.fc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px 13px;display:flex;align-items:center;gap:11px;margin-bottom:9px;cursor:pointer;transition:all .2s;box-shadow:var(--sh)}
+.fc:hover{border-color:var(--v);transform:translateX(-2px)}
+.fc:active{transform:scale(.99)}
+.ft{width:44px;height:52px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.fn{font-size:13px;font-weight:700;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fm{font-size:11px;color:var(--tx2);margin-top:3px}
+.fm2{font-size:18px;color:var(--tx3);padding:4px 6px;border-radius:8px}
+.fm2:hover{background:var(--bg3)}
+
+/* SHEETS */
+.back{display:none;position:absolute;inset:0;background:rgba(14,11,26,0.65);backdrop-filter:blur(5px);z-index:200;align-items:flex-end}
+.back.on{display:flex}
+.sheet{background:var(--bg2);border-radius:28px 28px 0 0;width:100%;padding:0 18px 28px;border:1px solid var(--border);border-bottom:none;max-height:94%;overflow-y:auto}
+.drag{width:40px;height:4px;background:var(--border);border-radius:100px;margin:12px auto 16px}
+.stit{font-size:19px;font-weight:900;color:var(--tx);margin-bottom:14px}
+.cback{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);z-index:250;align-items:center;justify-content:center}
+.cback.on{display:flex}
+.ccard{background:var(--bg2);border-radius:20px;padding:22px;width:88%;border:1px solid var(--border)}
+.full{display:none;position:absolute;inset:0;flex-direction:column;z-index:300;background:var(--bg)}
+.full.on{display:flex}
+.ftop{padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);flex-shrink:0}
+.ftit{flex:1;text-align:center;font-size:15px;font-weight:700;color:var(--tx)}
+.bbtn{width:38px;height:38px;background:var(--bg3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--tx);cursor:pointer;border:none;flex-shrink:0;transition:all .2s;font-weight:900}
+.bbtn:hover{background:var(--v);color:#fff;transform:scale(1.08)}
+
+/* ── CAMERA ── */
+.camwrap{width:100%;border-radius:16px;overflow:hidden;position:relative;background:#000;margin-bottom:13px;flex-shrink:0}
+
+/* Larger higher quality video */
+#cam-vid{
+  width:100%;height:300px;object-fit:cover;display:block;
+  background:#000;image-rendering:high-quality;
+}
+
+/* Placeholder shown when cam is off */
+.cam-ph{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+  background:linear-gradient(160deg,#0a0814,#12122a);
+  pointer-events:none;
+}
+.cam-ph.hidden{display:none}
+
+/* Targeting frame over video */
+.cam-frame{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.frame-box{width:85%;height:86%;border:2px solid rgba(255,255,255,0.2);border-radius:14px;position:relative;display:none}
+.frame-box.on{display:block}
+.frame-box.on::after{content:'';position:absolute;left:5%;right:5%;height:2px;background:linear-gradient(90deg,transparent,var(--t),transparent);animation:scanline 2.5s linear infinite;top:0}
+@keyframes scanline{0%{top:0}100%{top:100%}}
+.co{position:absolute;width:24px;height:24px;border-color:var(--t);border-style:solid}
+.co.tl{top:-2px;right:-2px;border-width:3px 3px 0 0;border-radius:0 8px 0 0}
+.co.tr{top:-2px;left:-2px;border-width:3px 0 0 3px;border-radius:8px 0 0 0}
+.co.bl{bottom:-2px;right:-2px;border-width:0 3px 3px 0;border-radius:0 0 8px 0}
+.co.br{bottom:-2px;left:-2px;border-width:0 0 3px 3px;border-radius:0 0 0 8px}
+
+.cam-hint{font-size:12px;color:rgba(255,255,255,0.45);text-align:center;padding:0 20px}
+.modes{display:flex;gap:7px;overflow-x:auto;margin-bottom:13px;flex-shrink:0}
+.mc{padding:6px 13px;border-radius:100px;font-size:11px;font-weight:700;border:1.5px solid var(--border);background:var(--bg3);color:var(--tx2);cursor:pointer;white-space:nowrap;transition:all .2s;font-family:'Tajawal',sans-serif}
+.mc.on{background:var(--v);border-color:var(--v);color:#fff}
+.cambar{display:flex;justify-content:space-around;align-items:center;margin:10px 0;flex-shrink:0}
+.cbtn{width:50px;height:50px;background:var(--bg3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;cursor:pointer;border:none;transition:all .2s}
+.cbtn:hover{background:var(--border)}
+.cbtn:active{transform:scale(.9)}
+.shut{width:68px;height:68px;background:var(--v);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;border:4px solid rgba(123,94,167,0.25);box-shadow:0 6px 20px rgba(123,94,167,0.5);transition:all .15s}
+.shut:hover{transform:scale(1.06)}
+.shut:active{transform:scale(.92)}
+.divv{display:flex;align-items:center;gap:10px;margin:10px 0;flex-shrink:0}
+.divl{flex:1;height:1px;background:var(--border)}
+.divt{font-size:11px;color:var(--tx3)}
+
+/* ── GALLERY BUTTON ── */
+/* Uses a real <label> wrapping hidden <input type=file> */
+.gal-label{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  border:2px dashed var(--border);border-radius:14px;padding:14px;
+  cursor:pointer;transition:all .2s;margin-bottom:10px;width:100%;
+  font-size:13px;font-weight:700;color:var(--t);background:none;
+}
+.gal-label:hover{border-color:var(--v);background:var(--vl)}
+#gal-inp{display:none}
+
+/* PREVIEW */
+.pia{flex:1;display:flex;align-items:center;justify-content:center;background:var(--bg3)}
+.pp{font-size:80px;opacity:.5}
+#prev-img-el{max-width:100%;max-height:100%;border-radius:14px;display:none}
+.ocrsec{padding:14px 16px;border-top:1px solid var(--border);flex-shrink:0}
+.ocrlbl{font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:8px}
+.ocrarea{width:100%;background:var(--bg3);border:1.5px solid var(--border);border-radius:12px;padding:11px 13px;font-size:13px;color:var(--tx);outline:none;direction:rtl;resize:none;line-height:1.7;transition:border-color .2s;min-height:80px;font-family:'Tajawal',sans-serif}
+.ocrarea:focus{border-color:var(--v)}
+.pacts{display:flex;gap:9px;padding:12px 16px 16px;flex-shrink:0}
+.pacts .btn{flex:1}
+
+/* FORM */
+.inp{width:100%;background:var(--bg3);border:1.5px solid var(--border);border-radius:13px;padding:12px 14px;font-size:14px;color:var(--tx);outline:none;direction:rtl;transition:border-color .2s;font-family:'Tajawal',sans-serif}
+.inp:focus{border-color:var(--v)}
+.mrow{display:flex;gap:9px;margin-top:14px}
+.mrow .btn{flex:1}
+
+/* DETAIL */
+.dpr{background:var(--bg3);border-radius:18px;height:155px;display:flex;align-items:center;justify-content:center;font-size:64px;margin-bottom:14px;border:1px solid var(--border);overflow:hidden}
+.dpr img{width:100%;height:100%;object-fit:contain}
+.ic{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:12px}
+.ir{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--border)}
+.ir:last-child{border-bottom:none}
+.ik{font-size:12px;color:var(--tx2);font-weight:600}
+.iv{font-size:12px;color:var(--tx);font-weight:700}
+.ob{background:var(--bg3);border-radius:14px;padding:13px;margin-bottom:12px;border:1px solid var(--border)}
+.ol{font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:7px}
+.od{font-size:12px;color:var(--tx);line-height:1.7;white-space:pre-wrap}
+.oe{width:100%;background:transparent;border:1.5px solid var(--v);border-radius:10px;padding:9px;font-size:12px;color:var(--tx);line-height:1.7;resize:none;direction:rtl;display:none;font-family:'Tajawal',sans-serif;min-height:80px;outline:none}
+.oe.on{display:block}
+.dag{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.da{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;transition:all .2s;font-family:'Tajawal',sans-serif;width:100%}
+.da:hover{border-color:var(--v);background:var(--vl);transform:translateY(-2px)}
+.da:active{transform:scale(.95)}
+.da .di{font-size:20px}
+.da .dl{font-size:10px;font-weight:700;color:var(--tx2)}
+.da.red:hover{border-color:var(--c);background:var(--cl)}
+.da.red .dl{color:var(--c)}
+.aibtn{width:100%;padding:15px;background:linear-gradient(135deg,var(--v),var(--t));border-radius:16px;border:none;cursor:pointer;font-size:15px;font-weight:900;color:#fff;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 24px rgba(123,94,167,0.4);font-family:'Tajawal',sans-serif}
+.aibtn:hover{opacity:.9;transform:translateY(-2px)}
+.aibtn:active{transform:scale(.97)}
+
+/* AI */
+.aitabs{display:flex;background:var(--bg3);margin:12px 16px 0;border-radius:14px;padding:3px;gap:2px;flex-shrink:0}
+.aitab{flex:1;padding:9px 4px;border-radius:11px;border:none;background:transparent;color:var(--tx2);font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Tajawal',sans-serif}
+.aitab.on{background:var(--card);color:var(--v);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.aip{display:none;flex:1;overflow-y:auto;padding:12px 16px}
+.aip.on{display:block}
+.aic{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:15px;margin-bottom:11px}
+.act{font-size:14px;font-weight:700;color:var(--v);margin-bottom:10px}
+.acb{font-size:13px;color:var(--tx);line-height:1.8}
+.kp{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid var(--border)}
+.kp:last-child{border-bottom:none}
+.kpd{width:7px;height:7px;background:var(--v);border-radius:50%;flex-shrink:0;margin-top:6px}
+.kpt{font-size:12px;color:var(--tx);line-height:1.65}
+.mc2{display:flex;justify-content:center;margin:12px 0}
+.mn{padding:10px 20px;border-radius:100px;background:var(--vl);border:2px solid var(--v);font-size:14px;font-weight:900;color:var(--v)}
+.mbs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+.mb{padding:7px 13px;border-radius:100px;background:var(--bg3);border:1px solid var(--border);font-size:12px;font-weight:700;color:var(--tx)}
+.qc{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:14px;box-shadow:var(--sh)}
+.qb{font-size:11px;font-weight:700;padding:4px 12px;border-radius:100px;margin-bottom:12px;display:inline-block}
+.qb.s{background:var(--tl);color:var(--t)}
+.qb.d{background:var(--vl);color:var(--v)}
+.qt{font-size:16px;font-weight:900;color:var(--tx);margin-bottom:14px;line-height:1.6}
+.qo{display:flex;flex-direction:column;gap:10px}
+.qopt{width:100%;padding:14px 16px;border-radius:14px;border:2px solid var(--border);background:var(--bg2);color:var(--tx);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;text-align:right;font-family:'Tajawal',sans-serif;display:flex;align-items:center;gap:12px;box-shadow:var(--sh)}
+.qopt:hover:not(:disabled){border-color:var(--v);background:var(--vl);transform:translateX(-3px)}
+.qopt.correct{background:var(--tl)!important;border-color:var(--t)!important;color:var(--t)!important;font-weight:900!important}
+.qopt.wrong{background:var(--cl)!important;border-color:var(--c)!important;color:var(--c)!important}
+.olt{width:30px;height:30px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--tx2);flex-shrink:0}
+.qe{font-size:13px;color:var(--tx2);margin-top:12px;padding:12px 14px;background:var(--bg3);border-radius:12px;display:none;line-height:1.7;font-weight:600}
+.qe.on{display:block}
+
+/* REVIEW */
+.srow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px}
+.sb{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;text-align:center;box-shadow:var(--sh)}
+.sn{font-size:26px;font-weight:900;color:var(--v)}
+.sl{font-size:10px;font-weight:700;color:var(--tx2);margin-top:3px}
+.rp{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:13px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:all .2s;margin-bottom:9px;box-shadow:var(--sh)}
+.rp.sel{border-color:var(--v);background:var(--vl)}
+.rp:active{transform:scale(.98)}
+.ri{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.rn{font-size:13px;font-weight:700;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rm{font-size:11px;color:var(--tx2);margin-top:2px}
+.rc{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;transition:all .2s}
+.rp.sel .rc{background:var(--v);border-color:var(--v);color:#fff}
+.stbtn{width:100%;padding:15px;background:linear-gradient(135deg,var(--v),var(--t));border-radius:16px;border:none;cursor:pointer;font-size:15px;font-weight:900;color:#fff;box-shadow:0 8px 24px rgba(123,94,167,0.45);transition:all .2s;font-family:'Tajawal',sans-serif;margin-top:10px}
+.stbtn:hover{opacity:.9}
+.stbtn:active{transform:scale(.97)}
+.stbtn2{width:100%;padding:14px;border-radius:16px;border:2px solid var(--v);background:none;cursor:pointer;font-size:14px;font-weight:700;color:var(--v);font-family:'Tajawal',sans-serif;margin-top:10px;transition:all .2s}
+.stbtn2:hover{background:var(--vl)}
+
+/* QUIZ */
+.qpr{display:flex;justify-content:space-between;margin-bottom:5px;font-size:11px;font-weight:700}
+.qpb{height:8px;background:var(--bg3);border-radius:100px;overflow:hidden;flex:1}
+.qpf{height:100%;background:var(--v);border-radius:100px;transition:width .4s ease}
+.scbdg{display:inline-flex;align-items:center;padding:6px 14px;border-radius:100px;background:var(--al);color:var(--a);font-size:12px;font-weight:900;margin-bottom:14px}
+.qfb{margin-top:12px;padding:12px;border-radius:12px;font-size:12px;font-weight:600;display:none;line-height:1.65}
+.qfb.on{display:block}
+.qfb.ok{background:var(--tl);color:var(--t)}
+.qfb.nope{background:var(--cl);color:var(--c)}
+.nxbtn{width:calc(100% - 32px);margin:0 16px 16px;padding:14px;background:var(--v);border-radius:14px;border:none;cursor:pointer;font-size:14px;font-weight:900;color:#fff;font-family:'Tajawal',sans-serif;display:none;transition:all .15s;box-shadow:0 6px 18px rgba(123,94,167,0.4)}
+.nxbtn.on{display:block}
+.nxbtn:hover{background:var(--v2)}
+.nxbtn:active{transform:scale(.97)}
+.resinn{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:28px;text-align:center}
+.rstr{font-size:72px;margin-bottom:14px;animation:bns .6s ease}
+@keyframes bns{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+.rstit{font-size:24px;font-weight:900;color:var(--tx);margin-bottom:8px}
+.rssco{font-size:52px;font-weight:900;color:var(--v)}
+.rsof{font-size:14px;color:var(--tx2);margin-bottom:24px}
+
+/* SETTINGS */
+.phero{background:linear-gradient(135deg,var(--v),var(--t));border-radius:20px;padding:18px;display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.pav{width:52px;height:52px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.pnm{font-size:18px;font-weight:900;color:#fff}
+.psb{font-size:11px;color:rgba(255,255,255,0.65);margin-top:3px}
+.fbdg{background:rgba(255,255,255,0.2);padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;color:#fff;margin-right:auto}
+.strc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:14px}
+.strtp{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:8px}
+.strtp span:first-child{color:var(--tx)}
+.strtp span:last-child{color:var(--v)}
+.strb{height:9px;background:var(--bg3);border-radius:100px;overflow:hidden}
+.strf{height:100%;background:linear-gradient(90deg,var(--v),var(--t));border-radius:100px;transition:width .6s}
+.strn{font-size:11px;color:var(--tx2);margin-top:7px}
+.sg{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:12px}
+.sr{display:flex;align-items:center;gap:11px;padding:13px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.sr:last-child{border-bottom:none}
+.sr:hover{background:var(--bg3)}
+.sico{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.slb{font-size:13px;font-weight:700;color:var(--tx)}
+.ssb{font-size:11px;color:var(--tx2);margin-top:1px}
+.srt{font-size:12px;color:var(--tx2)}
+.tog{width:42px;height:24px;background:var(--bg3);border-radius:100px;position:relative;cursor:pointer;transition:background .25s;flex-shrink:0;border:none}
+.tog.on{background:var(--v)}
+.tog::after{content:'';position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;top:2px;right:2px;transition:right .25s;box-shadow:0 1px 4px rgba(0,0,0,0.2)}
+.tog.on::after{right:20px}
+
+/* TOAST */
+.toast{position:absolute;bottom:82px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--tx);color:var(--bg2);padding:10px 20px;border-radius:100px;font-size:12px;font-weight:700;white-space:nowrap;opacity:0;transition:all .28s;z-index:999;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,0.25)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── CAMERA ERROR BANNER ── */
+.cam-err{background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.3);border-radius:10px;padding:10px 13px;font-size:12px;color:#FF6B6B;margin-bottom:12px;line-height:1.55;display:none}
+.cam-err.on{display:block}
+</style>
+</head>
+<body>
+<div class="phone" id="phone">
+  <div class="sbar"><span id="clk">9:41</span><div style="display:flex;gap:4px;font-size:15px"><span>📶</span><span>🔋</span></div></div>
+
+  <!-- ══ HOME ══ -->
+  <div class="screen active" id="home">
+    <div class="hhd">
+      <div><div class="logo">ورّاق 📖</div><div class="lsub">دفاترك، رقمياً وذكياً</div></div>
+      <div class="av" onclick="toast('👤 الملف الشخصي')">👤</div>
+    </div>
+    <button class="hero" onclick="openScan()">
+      <div class="hi">📷</div>
+      <div style="flex:1"><div class="ht">صوّر دفترك الآن</div><div class="hs">تحويل فوري إلى PDF + تلخيص ذكي</div></div>
+      <span style="color:rgba(255,255,255,0.6);font-size:18px">←</span>
+    </button>
+    <div class="ar">
+      <!-- Gallery button — real label wrapping hidden input -->
+      <label class="ab" for="gal-inp" style="cursor:pointer">
+        <div class="ai2" style="background:var(--tl)">🖼️</div>
+        <div><div class="at">رفع من المعرض</div><div class="as">صور موجودة</div></div>
+      </label>
+      <button class="ab" onclick="openManual()">
+        <div class="ai2" style="background:var(--al)">✏️</div>
+        <div><div class="at">كتابة يدوية</div><div class="as">أدخل النص</div></div>
+      </button>
+    </div>
+    <!-- Single hidden file input used by both gallery buttons -->
+    <input type="file" id="gal-inp" accept="image/*" onchange="handleGallery(this)">
+    <div class="rh"><h3>📚 ملفاتي الأخيرة</h3><button onclick="toast('عرض جميع الملفات')">عرض الكل</button></div>
+    <div class="fl" id="file-list"></div>
+  </div>
+
+  <!-- ══ REVIEW ══ -->
+  <div class="screen" id="review">
+    <div class="ph"><div class="pt">🎯 مراجعة السابق</div><div class="ps">اختبر نفسك بطريقة تفاعلية وحماسية</div></div>
+    <div class="scrl" id="rev-body"></div>
+  </div>
+
+  <!-- ══ SETTINGS ══ -->
+  <div class="screen" id="settings">
+    <div class="ph"><div class="pt">⚙️ الإعدادات</div></div>
+    <div class="scrl" id="set-body"></div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bnav">
+    <button class="bni on" id="nav-home" onclick="goTo('home')"><span class="ico">🏠</span><span class="lbl">الرئيسية</span></button>
+    <button class="bni" id="nav-review" onclick="goTo('review')"><span class="ico">🎯</span><span class="lbl">مراجعة</span></button>
+    <button class="bni" id="nav-settings" onclick="goTo('settings')"><span class="ico">⚙️</span><span class="lbl">إعدادات</span></button>
+  </div>
+
+  <!-- ══ SCAN SHEET ══ -->
+  <div class="back" id="scan-back">
+    <div class="sheet">
+      <div class="drag" onclick="closeScan()" style="cursor:pointer"></div>
+      <div class="stit">📷 مسح الدفتر</div>
+
+      <!-- Camera error message -->
+      <div class="cam-err" id="cam-err">
+        ⚠️ تعذّر تشغيل الكاميرا. تأكد من:<br>
+        • السماح بصلاحية الكاميرا في المتصفح<br>
+        • استخدام HTTPS أو localhost<br>
+        استخدم زر «رفع من المعرض» كبديل.
+      </div>
+
+      <!-- Camera wrapper -->
+      <div class="camwrap" id="camwrap">
+        <video id="cam-vid" autoplay playsinline muted></video>
+        <div class="cam-ph" id="cam-ph">
+          <div style="font-size:42px;opacity:.2">📖</div>
+          <div class="cam-hint">اضغط 📸 لتشغيل الكاميرا</div>
+        </div>
+        <div class="cam-frame">
+          <div class="frame-box" id="frame-box">
+            <div class="co tl"></div><div class="co tr"></div>
+            <div class="co bl"></div><div class="co br"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scan modes + add archive -->
+      <div class="modes" id="modes-row"></div>
+
+      <!-- Camera controls -->
+      <div class="cambar">
+        <button class="cbtn" onclick="switchCam()" title="تبديل الكاميرا">🔄</button>
+        <div class="shut" onclick="takePic()">📸</div>
+        <button class="cbtn" id="flash-btn" onclick="toggleFlash()" title="فلاش">⚡</button>
+      </div>
+
+      <div class="divv"><div class="divl"></div><span class="divt">أو</span><div class="divl"></div></div>
+
+      <!-- Gallery upload — label wraps hidden input -->
+      <label class="gal-label" for="gal-inp">
+        <span style="font-size:22px">🖼️</span>
+        ارفع صورة من المعرض / الاستوديو
+      </label>
+
+      <div style="display:flex;gap:9px;padding-bottom:4px">
+        <button class="btn btn-g" style="flex:1" onclick="closeScan()">إلغاء</button>
+        <button class="btn btn-v" style="flex:2" onclick="takePic()">📸 التقاط</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PREVIEW SCREEN ══ -->
+  <div class="full" id="prev-scr">
+    <div class="ftop">
+      <button class="bbtn" onclick="closePrev()">←</button>
+      <span class="ftit">معاينة وتعديل</span>
+      <div style="width:38px"></div>
+    </div>
+    <div class="pia"><div class="pp" id="prev-ph">📖</div><img id="prev-img-el" src="" alt=""></div>
+    <div class="ocrsec">
+      <div class="ocrlbl">🔤 النص المستخرج — يمكنك التعديل اليدوي</div>
+      <textarea class="ocrarea" id="ocr-area" placeholder="النص المستخرج سيظهر هنا..." rows="4"></textarea>
+    </div>
+    <div class="pacts">
+      <button class="btn btn-g" onclick="closePrev()">↩ إعادة</button>
+      <button class="btn btn-v" style="flex:2" onclick="openSaveMod()">💾 حفظ كـ PDF</button>
+    </div>
+  </div>
+
+  <!-- ══ SAVE MODAL ══ -->
+  <div class="back" id="save-back">
+    <div class="sheet">
+      <div class="drag"></div>
+      <div class="stit">💾 حفظ الملف</div>
+      <input class="inp" id="fname" placeholder="اسم الملف...">
+      <div class="modes" id="save-cats" style="margin-top:11px;margin-bottom:0"></div>
+      <div class="mrow">
+        <button class="btn btn-g" onclick="closeSaveMod()">إلغاء</button>
+        <button class="btn btn-v" style="flex:2" onclick="saveFile()">✅ حفظ وإنشاء PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ADD CAT ══ -->
+  <div class="cback" id="addcat-back">
+    <div class="ccard">
+      <div class="stit">إضافة أرشيف جديد 📂</div>
+      <input class="inp" id="new-cat" placeholder="مثال: كيمياء، رياضيات..." style="margin-bottom:0">
+      <div class="mrow">
+        <button class="btn btn-g" onclick="closeAddCat()">إلغاء</button>
+        <button class="btn btn-v" style="flex:2" onclick="addCat()">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MANUAL ══ -->
+  <div class="back" id="manual-back">
+    <div class="sheet">
+      <div class="drag"></div>
+      <div class="stit">✏️ كتابة يدوية</div>
+      <textarea class="inp" id="manual-txt" placeholder="اكتب ملاحظاتك أو محاضرتك هنا..." rows="8" style="min-height:150px;resize:none;margin-bottom:0"></textarea>
+      <div class="mrow">
+        <button class="btn btn-g" onclick="closeManual()">إلغاء</button>
+        <button class="btn btn-v" style="flex:2" onclick="saveManual()">💾 حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DETAIL SCREEN ══ -->
+  <div class="full" id="det-scr">
+    <div class="ftop">
+      <button class="bbtn" onclick="closeDet()">←</button>
+      <span class="ftit" id="det-title" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">—</span>
+      <button onclick="toggleFav()" style="font-size:22px;background:none;border:none;cursor:pointer" id="fav-btn">🤍</button>
+    </div>
+    <div class="scrl" id="det-body"></div>
+  </div>
+
+  <!-- ══ AI SCREEN ══ -->
+  <div class="full" id="ai-scr">
+    <div class="ftop">
+      <button class="bbtn" onclick="closeAI()">←</button>
+      <span class="ftit">🤖 التحليل الذكي</span>
+      <div style="width:38px"></div>
+    </div>
+    <div class="aitabs">
+      <button class="aitab on" onclick="aiTab(this,'ai-sum')">📝 ملخص</button>
+      <button class="aitab" onclick="aiTab(this,'ai-mind')">🗺️ خريطة</button>
+      <button class="aitab" onclick="aiTab(this,'ai-qs')">❓ أسئلة</button>
+    </div>
+    <div class="aip on" id="ai-sum"></div>
+    <div class="aip" id="ai-mind"></div>
+    <div class="aip" id="ai-qs"></div>
+  </div>
+
+  <!-- ══ QUIZ SCREEN ══ -->
+  <div class="full" id="quiz-scr">
+    <div class="ftop">
+      <button class="bbtn" onclick="closeQuiz()">←</button>
+      <div style="flex:1;margin:0 10px">
+        <div class="qpr"><span id="q-lbl" style="color:var(--tx2)">السؤال 1</span><span id="q-sc-lbl" style="color:var(--v)">⭐ 0</span></div>
+        <div class="qpb"><div class="qpf" id="q-prog" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="scrl" id="quiz-body"></div>
+    <button class="nxbtn" id="nxt-btn" onclick="nextQ()">التالي ←</button>
+  </div>
+
+  <!-- ══ RESULT ══ -->
+  <div class="full" id="res-scr">
+    <div class="resinn">
+      <div class="rstr" id="res-trophy">🏆</div>
+      <div class="rstit" id="res-title">ممتاز!</div>
+      <div class="rssco" id="res-score">0</div>
+      <div class="rsof" id="res-of">من 0 سؤال</div>
+      <div style="display:flex;gap:10px;width:100%">
+        <button class="btn btn-g" style="flex:1" onclick="closeRes()">إغلاق</button>
+        <button class="btn btn-v" style="flex:2" onclick="restartQuiz()">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast-el"></div>
+</div>
+
+<script>
+/* ══════════ DATA ══════════ */
+const AI={
+  summary:'هذا الملف يحتوي على محتوى دراسي منظّم يشمل المفاهيم الأساسية مع أمثلة توضيحية ونقاط مراجعة مهمة.',
+  points:['المفاهيم الأساسية موضحة بأمثلة من الواقع','نقاط المراجعة الجوهرية للاختبار','الروابط المنطقية بين الأفكار الرئيسية','التطبيقات العملية للمادة الدراسية'],
+  mindmap:{center:'الملف',branches:['المفاهيم','الأمثلة','المراجعة','التطبيقات','الملخص']},
+  questions:[
+    {t:'s',txt:'ما أفضل وقت لمراجعة ملاحظات المحاضرة؟',opts:['قبيل الاختبار','خلال 24 ساعة','بعد أسبوع','لا فرق'],a:1,exp:'المراجعة المبكرة خلال 24 ساعة تُعزز الذاكرة بفعالية وفقاً لمنحنى النسيان.'},
+    {t:'d',txt:'لماذا الخريطة الذهنية أكثر فاعلية من القراءة الخطية؟',opts:['لأنها ملوّنة','لأنها تربط المفاهيم وتُظهر العلاقات','لأنها أسرع','لا فرق'],a:1,exp:'الخرائط الذهنية تُنشّط نصفَي الدماغ وتُظهر العلاقات بين الأفكار مما يُعزز الفهم العميق.'},
+    {t:'s',txt:'ما أهمية تنظيم الملاحظات بعناوين واضحة؟',opts:['مجرد جماليات','تسهّل المراجعة السريعة','طلب الأستاذ','لا أهمية'],a:1,exp:'التنظيم الجيد يُقلّل وقت البحث ويُسهّل الاسترجاع أثناء المراجعة.'},
+  ]
+};
+
+let files=[
+  {id:1,name:'محاضرة الكيمياء العضوية',cat:'📖 دفتر',size:'1.2 MB',date:'اليوم',pages:6,fav:true,img:null,ocr:'الكيمياء العضوية: دراسة المركبات الكربونية.\nالهيدروكربونات هي أبسط أنواعها.\nالإيثانول: CH₃CH₂OH'},
+  {id:2,name:'درس التفاضل والتكامل',cat:'📝 ملاحظات',size:'0.9 MB',date:'أمس',pages:4,fav:false,img:null,ocr:'قاعدة القوة: d/dx(xⁿ) = nxⁿ⁻¹\n∫xⁿdx = xⁿ⁺¹/(n+1) + C'},
+  {id:3,name:'محاضرة الأدب الجاهلي',cat:'📄 وثيقة',size:'0.7 MB',date:'الأسبوع الماضي',pages:3,fav:true,img:null,ocr:'الأدب الجاهلي: ما نُظم قبل الإسلام.\nالمعلقات أشهر قصائده.'},
+];
+let cats=[{id:1,name:'📄 وثيقة'},{id:2,name:'📖 دفتر'},{id:3,name:'📝 ملاحظات'},{id:4,name:'📊 مخططات'}];
+let selCat=1,curFile=null,pendImg=null,pendOcr='';
+let camStream=null,camFace='environment',flashOn=false,isDark=false;
+let quizSel=new Set(),quizQs=[],quizIdx=0,quizScore=0,quizAns=false,quizSelOpt=null;
+let editOcr=false;
+let togState={autoSum:true,autoOCR:true,smartNm:true,mindAuto:true,bioLock:true,drive:false};
+
+/* ══ CLOCK ══ */
+(function tick(){const n=new Date();document.getElementById('clk').textContent=n.getHours()+':'+(n.getMinutes()<10?'0':'')+n.getMinutes();setTimeout(tick,20000)})();
+
+/* ══ TOAST ══ */
+let tT;
+function toast(m){const e=document.getElementById('toast-el');e.textContent=m;e.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>e.classList.remove('on'),2700)}
+
+/* ══ THEME ══ */
+function toggleTheme(){
+  isDark=!isDark;
+  document.getElementById('phone').classList.toggle('dark',isDark);
+  const tog=document.getElementById('theme-tog');
+  if(tog)tog.classList.toggle('on',isDark);
+  const sub=document.getElementById('theme-sub');
+  if(sub)sub.textContent=isDark?'الوضع الليلي مفعّل':'الوضع النهاري مفعّل';
+  toast(isDark?'🌙 الوضع الليلي':'☀️ الوضع النهاري');
+}
+
+/* ══ NAV ══ */
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.bni').forEach(b=>b.classList.remove('on'));
+  const nb=document.getElementById('nav-'+id);if(nb)nb.classList.add('on');
+  if(id==='home')renderHome();
+  if(id==='review')renderReview();
+  if(id==='settings')renderSettings();
+  if(id!=='home')stopCam();
+}
+
+/* ══ HOME ══ */
+function renderHome(){
+  const el=document.getElementById('file-list');
+  if(!files.length){el.innerHTML='<div class="empty"><span>📂</span><span>لا توجد ملفات بعد<br>ابدأ بتصوير دفترك!</span></div>';return}
+  el.innerHTML=files.map(f=>`
+    <div class="fc" onclick="openDet(${f.id})">
+      <div class="ft" style="background:var(--vl)">📄</div>
+      <div style="flex:1;min-width:0">
+        <div class="fn">${f.name}</div>
+        <div class="fm">${f.cat} · ${f.size} · ${f.date} ${f.fav?'⭐':''}</div>
+      </div>
+      <button class="fm2" onclick="event.stopPropagation();toast('خيارات: ${f.name}')">⋯</button>
+    </div>`).join('');
+}
+renderHome();
+
+/* ══ CAMERA ══ */
+function openScan(){
+  document.getElementById('scan-back').classList.add('on');
+  document.getElementById('cam-err').classList.remove('on');
+  renderModes();
+  // Auto-start camera after sheet opens
+  setTimeout(startCam, 500);
+}
+function closeScan(){document.getElementById('scan-back').classList.remove('on');stopCam()}
+
+async function startCam(){
+  // Check if getUserMedia is available
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    showCamErr();return;
+  }
+  try{
+    if(camStream)stopCam();
+    camStream=await navigator.mediaDevices.getUserMedia({
+      video:{
+        facingMode:camFace,
+        width:{ideal:1920,min:1280},
+        height:{ideal:1080,min:720},
+        frameRate:{ideal:30},
+        aspectRatio:{ideal:16/9}
+      },
+      audio:false
+    });
+    const vid=document.getElementById('cam-vid');
+    vid.srcObject=camStream;
+    // Wait for metadata then show
+    vid.onloadedmetadata=()=>{ vid.play(); };
+    document.getElementById('cam-ph').classList.add('hidden');
+    document.getElementById('frame-box').classList.add('on');
+    document.getElementById('cam-err').classList.remove('on');
+    toast('📷 الكاميرا تعمل ✅');
+  }catch(err){
+    console.warn('Camera error:',err);
+    showCamErr();
+  }
+}
+
+function showCamErr(){
+  document.getElementById('cam-ph').classList.remove('hidden');
+  document.getElementById('frame-box').classList.remove('on');
+  document.getElementById('cam-err').classList.add('on');
+}
+
+function stopCam(){
+  if(!camStream)return;
+  camStream.getTracks().forEach(t=>t.stop());camStream=null;
+  const vid=document.getElementById('cam-vid');
+  vid.srcObject=null;
+  const ph=document.getElementById('cam-ph');if(ph)ph.classList.remove('hidden');
+  const fb=document.getElementById('frame-box');if(fb)fb.classList.remove('on');
+}
+
+async function switchCam(){
+  camFace=camFace==='environment'?'user':'environment';
+  if(camStream)await startCam();
+  toast(camFace==='user'?'🤳 كاميرا أمامية':'📷 كاميرا خلفية');
+}
+
+function toggleFlash(){
+  flashOn=!flashOn;
+  if(camStream){
+    const track=camStream.getVideoTracks()[0];
+    if(track&&track.getCapabilities){
+      const cap=track.getCapabilities();
+      if(cap.torch)track.applyConstraints({advanced:[{torch:flashOn}]});
+    }
+  }
+  document.getElementById('flash-btn').style.color=flashOn?'var(--a)':'';
+  toast(flashOn?'⚡ فلاش شغّال':'⚡ فلاش مطفي');
+}
+
+function takePic(){
+  if(!camStream){
+    // Try to start camera first
+    startCam().then(()=>{
+      if(camStream)toast('الكاميرا جاهزة — اضغط 📸 مرة أخرى للالتقاط');
+    });
+    return;
+  }
+  const vid=document.getElementById('cam-vid');
+  if(!vid.videoWidth){toast('⚠️ الكاميرا لم تجهز بعد، انتظر...');return}
+  const cv=document.createElement('canvas');
+  cv.width=vid.videoWidth;cv.height=vid.videoHeight;
+  cv.getContext('2d').drawImage(vid,0,0);
+  pendImg=cv.toDataURL('image/jpeg',0.92);
+  pendOcr=genOCR();
+  closeScan();
+  setTimeout(()=>showPrev(pendImg),350);
+}
+
+/* ══ GALLERY ══ */
+// This function is triggered by the hidden <input type="file" id="gal-inp">
+function handleGallery(inp){
+  const f=inp.files[0];if(!f)return;
+  // Close scan sheet if open
+  document.getElementById('scan-back').classList.remove('on');
+  stopCam();
+  const reader=new FileReader();
+  reader.onload=e=>{
+    pendImg=e.target.result;
+    pendOcr=genOCR();
+    setTimeout(()=>showPrev(pendImg),200);
+  };
+  reader.readAsDataURL(f);
+  inp.value=''; // reset so same file can be selected again
+}
+
+function genOCR(){
+  const s=[
+    'الفقرة الأولى: مقدمة الدرس وأهدافه الرئيسية.\nالفقرة الثانية: شرح المفاهيم الأساسية.\nملاحظة: مراجعة الفصل الثالث مهمة للاختبار.',
+    'المحاضرة تتضمن:\n١. المفاهيم النظرية الأساسية\n٢. الأمثلة التطبيقية\n٣. التمارين والمسائل\n٤. أسئلة المراجعة',
+    'المصطلحات الأساسية:\n• المفهوم الأول: تعريفه وأهميته\n• المفهوم الثاني: تطبيقاته العملية\n• الخلاصة والاستنتاجات النهائية',
+  ];
+  return s[Math.floor(Math.random()*s.length)];
+}
+
+function showPrev(src){
+  const img=document.getElementById('prev-img-el'),ph=document.getElementById('prev-ph');
+  if(src){img.src=src;img.style.display='block';ph.style.display='none';}
+  else{img.style.display='none';ph.style.display='block';}
+  document.getElementById('ocr-area').value=pendOcr;
+  document.getElementById('prev-scr').classList.add('on');
+  toast('✅ جاهز — يمكنك تعديل النص قبل الحفظ');
+}
+function closePrev(){document.getElementById('prev-scr').classList.remove('on')}
+
+/* ══ MODES ══ */
+function renderModes(){
+  const el=document.getElementById('modes-row');
+  el.innerHTML=cats.map(c=>`<button class="mc${selCat===c.id?' on':''}" onclick="selCatFn(${c.id},this)">${c.name}</button>`).join('')
+    +`<button class="mc" style="background:var(--t);color:#fff;border-color:var(--t)" onclick="openAddCat()">+ إضافة أرشيف</button>`;
+}
+function selCatFn(id,btn){selCat=id;document.querySelectorAll('#modes-row .mc').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
+function openAddCat(){document.getElementById('addcat-back').classList.add('on');setTimeout(()=>document.getElementById('new-cat').focus(),200)}
+function closeAddCat(){document.getElementById('addcat-back').classList.remove('on');document.getElementById('new-cat').value=''}
+function addCat(){
+  const v=document.getElementById('new-cat').value.trim();
+  if(!v){toast('⚠️ أدخل اسم الأرشيف');return}
+  cats.push({id:Date.now(),name:v});closeAddCat();renderModes();toast('✅ تم إضافة الأرشيف');
+}
+
+/* ══ SAVE ══ */
+function openSaveMod(){
+  const ocrVal=document.getElementById('ocr-area').value;if(ocrVal)pendOcr=ocrVal;
+  const c=cats.find(x=>x.id===selCat);
+  document.getElementById('fname').value=`محاضرة ${c?.name||''} ${files.length+1}`;
+  const sc=document.getElementById('save-cats');
+  sc.innerHTML=cats.map(c=>`<button class="mc${selCat===c.id?' on':''}" onclick="document.querySelectorAll('#save-cats .mc').forEach(b=>b.classList.remove('on'));this.classList.add('on');selCat=${c.id}">${c.name}</button>`).join('');
+  document.getElementById('save-back').classList.add('on');
+}
+function closeSaveMod(){document.getElementById('save-back').classList.remove('on')}
+function saveFile(){
+  const name=document.getElementById('fname').value.trim();
+  if(!name){toast('⚠️ أدخل اسم الملف');return}
+  const c=cats.find(x=>x.id===selCat);
+  files.unshift({id:Date.now(),name,cat:c?.name||'📄 وثيقة',size:`0.${Math.floor(Math.random()*9)+1} MB`,date:'الآن',pages:Math.floor(Math.random()*5)+1,fav:false,img:pendImg||null,ocr:pendOcr||''});
+  closeSaveMod();closePrev();pendImg=null;pendOcr='';
+  renderHome();toast('✅ تم الحفظ كـ PDF! 🎉');
+}
+
+/* ══ MANUAL ══ */
+function openManual(){document.getElementById('manual-back').classList.add('on')}
+function closeManual(){document.getElementById('manual-back').classList.remove('on');document.getElementById('manual-txt').value=''}
+function saveManual(){
+  const txt=document.getElementById('manual-txt').value.trim();
+  if(!txt){toast('⚠️ اكتب شيئاً أولاً');return}
+  pendOcr=txt;pendImg=null;closeManual();setTimeout(()=>showPrev(null),200);
+}
+
+/* ══ DETAIL ══ */
+function openDet(id){
+  curFile=files.find(f=>f.id===id);if(!curFile)return;
+  document.getElementById('det-title').textContent=curFile.name;
+  document.getElementById('fav-btn').textContent=curFile.fav?'❤️':'🤍';
+  editOcr=false;renderDetBody();
+  document.getElementById('det-scr').classList.add('on');
+}
+function closeDet(){document.getElementById('det-scr').classList.remove('on')}
+function toggleFav(){
+  if(!curFile)return;curFile.fav=!curFile.fav;
+  files=files.map(f=>f.id===curFile.id?curFile:f);
+  document.getElementById('fav-btn').textContent=curFile.fav?'❤️':'🤍';
+  toast(curFile.fav?'❤️ أضيف للمفضلة':'💔 حُذف من المفضلة');renderHome();
+}
+function delFile(){
+  if(!curFile)return;
+  if(confirm('هل تريد حذف هذا الملف؟')){
+    files=files.filter(f=>f.id!==curFile.id);
+    closeDet();renderHome();toast('🗑️ تم الحذف');
+  }
+}
+function renderDetBody(){
+  const b=document.getElementById('det-body');
+  const imgH=curFile.img?`<img src="${curFile.img}" style="width:100%;height:100%;object-fit:contain">`:`<span style="font-size:64px">📄</span>`;
+  const ocrH=curFile.ocr?`
+    <div class="ob">
+      <div class="ol">🔤 النص المستخرج</div>
+      <div class="od" id="ocr-d">${curFile.ocr.replace(/\n/g,'<br>')}</div>
+      <textarea class="oe" id="ocr-e">${curFile.ocr}</textarea>
+      <div style="display:flex;gap:8px;margin-top:9px" id="ocr-btns">
+        <button class="btn btn-g" style="flex:1;padding:9px" onclick="toggleEditOcr()">✏️ تعديل النص</button>
+      </div>
+    </div>`:'';
+  b.innerHTML=`
+    <div class="dpr">${imgH}</div>
+    <div class="ic">
+      <div class="ir"><span class="ik">التصنيف</span><span class="iv">${curFile.cat}</span></div>
+      <div class="ir"><span class="ik">الحجم</span><span class="iv">${curFile.size}</span></div>
+      <div class="ir"><span class="ik">التاريخ</span><span class="iv">${curFile.date}</span></div>
+      <div class="ir" style="border-bottom:none"><span class="ik">الصفحات</span><span class="iv">${curFile.pages} صفحة</span></div>
+    </div>
+    ${ocrH}
+    <div class="dag">
+      <button class="da" onclick="toast('📤 تم المشاركة')"><span class="di">📤</span><span class="dl">مشاركة</span></button>
+      <button class="da" onclick="toast('📂 مدير الملفات')"><span class="di">📂</span><span class="dl">مدير الملفات</span></button>
+      <button class="da" onclick="toast('☁️ جاري الرفع...')"><span class="di">☁️</span><span class="dl">Drive</span></button>
+      <button class="da red" onclick="delFile()"><span class="di">🗑️</span><span class="dl">حذف</span></button>
+    </div>
+    <!-- Export buttons -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <button class="da" style="border-color:rgba(239,68,68,0.25);padding:14px" onclick="exportPDF()">
+        <span class="di" style="font-size:24px">📄</span>
+        <span class="dl" style="font-size:12px;color:#EF4444;font-weight:900">تصدير PDF</span>
+      </button>
+      <button class="da" style="border-color:rgba(37,99,235,0.25);padding:14px" onclick="exportWord()">
+        <span class="di" style="font-size:24px">📝</span>
+        <span class="dl" style="font-size:12px;color:#2563EB;font-weight:900">تصدير Word</span>
+      </button>
+    </div>
+    <button class="aibtn" onclick="openAI()">🤖 تلخيص ذكي + خريطة + أسئلة</button>`;
+}
+function toggleEditOcr(){
+  editOcr=!editOcr;
+  document.getElementById('ocr-d').style.display=editOcr?'none':'block';
+  document.getElementById('ocr-e').classList.toggle('on',editOcr);
+  document.getElementById('ocr-btns').innerHTML=editOcr
+    ?`<button class="btn btn-g" style="flex:1;padding:9px" onclick="cancelOcr()">إلغاء</button><button class="btn btn-v" style="flex:2;padding:9px" onclick="saveOcr()">💾 حفظ</button>`
+    :`<button class="btn btn-g" style="flex:1;padding:9px" onclick="toggleEditOcr()">✏️ تعديل النص</button>`;
+  if(editOcr)document.getElementById('ocr-e').focus();
+}
+function cancelOcr(){editOcr=true;toggleEditOcr()}
+function saveOcr(){
+  const v=document.getElementById('ocr-e').value;
+  curFile.ocr=v;files=files.map(f=>f.id===curFile.id?curFile:f);
+  editOcr=true;toggleEditOcr();
+  document.getElementById('ocr-d').innerHTML=v.replace(/\n/g,'<br>');
+  toast('✅ تم حفظ التعديل');
+}
+
+/* ══ AI ══ */
+function openAI(){
+  document.getElementById('ai-sum').innerHTML=`
+    <div class="aic"><div class="act">📋 الملخص الرئيسي</div><div class="acb">${AI.summary}</div></div>
+    <div class="aic"><div class="act">🔑 النقاط الأساسية</div>
+    ${AI.points.map(p=>`<div class="kp"><div class="kpd"></div><div class="kpt">${p}</div></div>`).join('')}</div>`;
+  document.getElementById('ai-mind').innerHTML=`
+    <div class="aic"><div class="act" style="color:var(--t)">🗺️ الخريطة الذهنية</div>
+    <div class="mc2"><div class="mn">${AI.mindmap.center}</div></div>
+    <div class="mbs">${AI.mindmap.branches.map(b=>`<div class="mb">${b}</div>`).join('')}</div></div>`;
+  document.getElementById('ai-qs').innerHTML=AI.questions.map((q,qi)=>`
+    <div class="qc">
+      <span class="qb ${q.t}">${q.t==='s'?'✅ بسيط':'🔬 تحليلي'}</span>
+      <div class="qt">${q.txt}</div>
+      <div class="qo">${q.opts.map((o,oi)=>`
+        <button class="qopt" onclick="ansQ(this,${qi},${oi},${q.a})">
+          <span class="olt">${['أ','ب','ج','د'][oi]}</span>${o}
+        </button>`).join('')}
+      </div>
+      <div class="qe" id="qe-${qi}">${q.exp}</div>
+    </div>`).join('');
+  document.querySelectorAll('.aitab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.aip').forEach(p=>p.classList.remove('on'));
+  document.querySelector('.aitab').classList.add('on');
+  document.getElementById('ai-sum').classList.add('on');
+  document.getElementById('ai-scr').classList.add('on');
+}
+function closeAI(){document.getElementById('ai-scr').classList.remove('on')}
+function aiTab(btn,id){
+  document.querySelectorAll('.aitab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.aip').forEach(p=>p.classList.remove('on'));
+  btn.classList.add('on');document.getElementById(id).classList.add('on');
+}
+function ansQ(btn,qi,oi,correct){
+  const card=btn.closest('.qc');
+  card.querySelectorAll('.qopt').forEach(b=>b.disabled=true);
+  btn.classList.add(oi===correct?'correct':'wrong');
+  if(oi!==correct)card.querySelectorAll('.qopt')[correct].classList.add('correct');
+  document.getElementById('qe-'+qi).classList.add('on');
+  toast(oi===correct?'✅ ممتاز!':'❌ الإجابة الصحيحة باللون الأخضر');
+}
+
+/* ══ REVIEW ══ */
+function renderReview(){
+  const b=document.getElementById('rev-body');
+  b.innerHTML=`
+    <div class="srow">
+      <div class="sb"><div class="sn">${files.length}</div><div class="sl">إجمالي الملفات</div></div>
+      <div class="sb"><div class="sn">${files.filter(f=>f.fav).length}</div><div class="sl">مفضلة</div></div>
+      <div class="sb"><div class="sn">${cats.length}</div><div class="sl">التصنيفات</div></div>
+    </div>
+    <div style="font-size:13px;font-weight:700;color:var(--tx2);margin-bottom:10px">اختر ملفات المراجعة:</div>
+    ${files.map(f=>`
+      <div class="rp${quizSel.has(f.id)?' sel':''}" id="rp-${f.id}" onclick="toggleSel(${f.id})">
+        <div class="ri" style="background:var(--vl)">📄</div>
+        <div style="flex:1;min-width:0"><div class="rn">${f.name}</div><div class="rm">${f.cat}</div></div>
+        <div class="rc">${quizSel.has(f.id)?'✓':''}</div>
+      </div>`).join('')}
+    <button class="stbtn" onclick="startQuiz(false)">🎯 ابدأ المسابقة للملفات المحددة</button>
+    <button class="stbtn2" onclick="startQuiz(true)">📚 مراجعة جميع الملفات</button>
+    <div style="height:16px"></div>`;
+}
+function toggleSel(id){
+  quizSel.has(id)?quizSel.delete(id):quizSel.add(id);
+  const el=document.getElementById('rp-'+id);
+  el.classList.toggle('sel',quizSel.has(id));
+  el.querySelector('.rc').textContent=quizSel.has(id)?'✓':'';
+}
+function startQuiz(all){
+  const src=all?files:files.filter(f=>quizSel.has(f.id));
+  if(!src.length){toast('⚠️ اختر ملفاً واحداً على الأقل');return}
+  const pool=[];src.forEach(()=>AI.questions.forEach(q=>pool.push(q)));
+  quizQs=pool.sort(()=>Math.random()-.5).slice(0,Math.min(pool.length,8));
+  quizIdx=0;quizScore=0;quizAns=false;quizSelOpt=null;
+  document.getElementById('quiz-scr').classList.add('on');renderQ();
+}
+function closeQuiz(){document.getElementById('quiz-scr').classList.remove('on')}
+function renderQ(){
+  const q=quizQs[quizIdx];
+  document.getElementById('q-lbl').textContent=`السؤال ${quizIdx+1} من ${quizQs.length}`;
+  document.getElementById('q-sc-lbl').textContent=`⭐ ${quizScore}`;
+  document.getElementById('q-prog').style.width=`${(quizIdx/quizQs.length)*100}%`;
+  document.getElementById('nxt-btn').classList.remove('on');
+  document.getElementById('quiz-body').innerHTML=`
+    <div class="scbdg">⭐ النقاط: ${quizScore}</div>
+    <div style="display:inline-block;padding:4px 10px;border-radius:100px;margin-bottom:10px;font-size:11px;font-weight:700;background:${q.t==='s'?'var(--tl)':'var(--vl)'};color:${q.t==='s'?'var(--t)':'var(--v)'}">
+      ${q.t==='s'?'✅ بسيط':'🔬 تحليلي'}
+    </div>
+    <div style="font-size:16px;font-weight:900;color:var(--tx);line-height:1.55;margin-bottom:18px">${q.txt}</div>
+    <div class="qo">
+      ${q.opts.map((o,oi)=>`
+        <button class="qopt" id="qo-${oi}" onclick="pickOpt(this,${oi},${q.a},'${q.exp.replace(/'/g,"\\'").replace(/\n/g,' ')}')">
+          <span class="olt">${['أ','ب','ج','د'][oi]}</span>${o}
+        </button>`).join('')}
+    </div>
+    <div class="qfb" id="qfb"></div>`;
+}
+function pickOpt(btn,oi,correct,exp){
+  if(quizAns)return;quizAns=true;
+  document.querySelectorAll('.qopt').forEach(b=>b.disabled=true);
+  const isRight=oi===correct;
+  btn.classList.add(isRight?'correct':'wrong');
+  if(!isRight)document.getElementById('qo-'+correct).classList.add('correct');
+  if(isRight)quizScore++;
+  document.getElementById('q-sc-lbl').textContent=`⭐ ${quizScore}`;
+  const fb=document.getElementById('qfb');
+  fb.className='qfb '+(isRight?'ok':'nope')+' on';
+  fb.textContent=(isRight?'✅ ممتاز! ':'')+exp;
+  const nb=document.getElementById('nxt-btn');nb.classList.add('on');
+  nb.textContent=quizIdx<quizQs.length-1?'التالي ←':'🏁 النتيجة';
+}
+function nextQ(){
+  quizIdx++;quizAns=false;
+  if(quizIdx>=quizQs.length){closeQuiz();showResult();}else renderQ();
+}
+function showResult(){
+  const pct=Math.round((quizScore/quizQs.length)*100);
+  document.getElementById('res-trophy').textContent=pct>=80?'🏆':pct>=50?'🌟':'💪';
+  document.getElementById('res-title').textContent=pct>=80?'ممتاز جداً!':pct>=50?'جيد جداً!':'يمكنك التحسن!';
+  document.getElementById('res-score').textContent=quizScore;
+  document.getElementById('res-of').textContent=`من ${quizQs.length} سؤال · ${pct}%`;
+  document.getElementById('res-scr').classList.add('on');
+}
+function closeRes(){document.getElementById('res-scr').classList.remove('on')}
+function restartQuiz(){closeRes();startQuiz(true)}
+
+/* ══ EXPORT ══ */
+function exportPDF(){
+  if(!curFile){toast('⚠️ لا يوجد ملف');return}
+  toast('📄 جاري إنشاء PDF...');
+  setTimeout(()=>{
+    // Build printable HTML and open print dialog
+    const w=window.open('','_blank');
+    w.document.write(`<!DOCTYPE html><html dir="rtl"><head>
+      <meta charset="UTF-8">
+      <title>${curFile.name}</title>
+      <style>
+        body{font-family:'Tajawal',Arial,sans-serif;direction:rtl;padding:40px;max-width:800px;margin:0 auto;color:#1E1640;font-size:15px;line-height:1.8}
+        h1{font-size:26px;font-weight:900;color:#7B5EA7;margin-bottom:8px}
+        .meta{color:#7A70A0;font-size:13px;margin-bottom:28px;border-bottom:2px solid #EEE9FF;padding-bottom:14px}
+        .content{white-space:pre-wrap;font-size:15px;line-height:2;color:#1E1640}
+        .footer{margin-top:40px;padding-top:14px;border-top:1px solid #EEE9FF;font-size:12px;color:#B0AAD0;text-align:center}
+        @media print{body{padding:20px}}
+      </style>
+    </head><body>
+      <h1>${curFile.name}</h1>
+      <div class="meta">📂 ${curFile.cat} &nbsp;|&nbsp; 📅 ${curFile.date} &nbsp;|&nbsp; 📄 ${curFile.pages} صفحة</div>
+      <div class="content">${(curFile.ocr||'لا يوجد نص مستخرج').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      <div class="footer">تم إنشاؤه بواسطة ورّاق ✨</div>
+    </body></html>`);
+    w.document.close();
+    setTimeout(()=>{w.print();},400);
+    toast('✅ فُتح مربع الطباعة — اختر "حفظ كـ PDF"');
+  },500);
+}
+
+function exportWord(){
+  if(!curFile){toast('⚠️ لا يوجد ملف');return}
+  toast('📝 جاري إنشاء ملف Word...');
+  setTimeout(()=>{
+    const content=`<!DOCTYPE html>
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="ProgId" content="Word.Document">
+  <title>${curFile.name}</title>
+  <style>
+    body{font-family:Arial,sans-serif;direction:rtl;padding:40px;font-size:14pt;line-height:1.8;color:#1E1640}
+    h1{font-size:22pt;font-weight:bold;color:#7B5EA7;margin-bottom:8pt}
+    .meta{color:#7A70A0;font-size:11pt;margin-bottom:20pt;border-bottom:1pt solid #EEE9FF;padding-bottom:10pt}
+    .content{font-size:14pt;line-height:2;white-space:pre-wrap}
+  </style>
+</head>
+<body>
+  <h1>${curFile.name}</h1>
+  <div class="meta">${curFile.cat} | ${curFile.date} | ${curFile.pages} صفحة</div>
+  <div class="content">${(curFile.ocr||'لا يوجد نص').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+  <br><p style="color:#B0AAD0;font-size:10pt;text-align:center">تم إنشاؤه بواسطة ورّاق ✨</p>
+</body></html>`;
+    const blob=new Blob(['\ufeff'+content],{type:'application/msword;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=curFile.name.replace(/\s+/g,'_')+'.doc';
+    document.body.appendChild(a);a.click();
+    document.body.removeChild(a);URL.revokeObjectURL(url);
+    toast('✅ تم تحميل ملف Word!');
+  },500);
+}
+function renderSettings(){
+  const pct=Math.min(files.length*6,100);
+  document.getElementById('set-body').innerHTML=`
+    <div class="phero">
+      <div class="pav">👤</div>
+      <div style="flex:1"><div class="pnm">ورّاق</div><div class="psb">مجاني للأبد ✨</div></div>
+      <div class="fbdg">🔓 بلا قيود</div>
+    </div>
+    <div class="strc">
+      <div class="strtp"><span>💾 مساحة التخزين</span><span>${pct}%</span></div>
+      <div class="strb"><div class="strf" style="width:${pct}%"></div></div>
+      <div class="strn">📂 ${files.length} ملف — مساحة لامحدودة ✨</div>
+    </div>
+    <div class="slbl">المظهر</div>
+    <div class="sg">
+      <div class="sr" onclick="toggleTheme()">
+        <div class="sico" style="background:var(--al)">🌙</div>
+        <div style="flex:1"><div class="slb">الوضع الليلي / النهاري</div><div class="ssb" id="theme-sub">${isDark?'الوضع الليلي مفعّل':'الوضع النهاري مفعّل'}</div></div>
+        <button class="tog${isDark?' on':''}" id="theme-tog" onclick="event.stopPropagation();toggleTheme()"></button>
+      </div>
+    </div>
+    <div class="slbl">الذكاء الاصطناعي</div>
+    <div class="sg">
+      ${mkSet('📝','var(--vl)','تلخيص تلقائي','ملخص + خريطة + أسئلة','autoSum',true)}
+      ${mkSet('🔤','var(--tl)','استخراج النص (OCR)','قراءة الخط المكتوب','autoOCR',true)}
+      ${mkSet('✨','var(--al)','تسمية ذكية','يسمّي الملف تلقائياً','smartNm',true)}
+      ${mkSet('🗺️','var(--skl)','خريطة ذهنية تلقائية','داخل كل ملف','mindAuto',false)}
+    </div>
+    <div class="slbl">التخزين والنسخ الاحتياطي</div>
+    <div class="sg">
+      ${mkSet('☁️','var(--al)','Google Drive','نسخ احتياطي تلقائي','drive',true)}
+      <div class="sr" onclick="toast('📂 جاري الربط بمدير الملفات...')">
+        <div class="sico" style="background:var(--skl)">📂</div>
+        <div style="flex:1"><div class="slb">مدير الملفات</div><div class="ssb">ترتيب ونقل الملفات</div></div>
+        <span class="srt" style="color:var(--v);font-weight:700">ربط ←</span>
+      </div>
+    </div>
+    <div class="slbl">الأمان والخصوصية</div>
+    <div class="sg">
+      ${mkSet('👆','var(--tl)','قفل البصمة / Face ID','حماية ملفاتك','bioLock',true)}
+      <div class="sr" onclick="toast('🔢 إعداد رمز الأمان')">
+        <div class="sico" style="background:var(--rol)">🔢</div>
+        <div style="flex:1"><div class="slb">رمز الأمان (PIN)</div><div class="ssb">4 أرقام سرية</div></div>
+        <span class="srt" style="color:var(--v);font-weight:700">إعداد ←</span>
+      </div>
+    </div>
+    <div style="height:16px"></div>`;
+}
+function mkSet(ico,bg,lbl,sub,key,border){
+  return `<div class="sr" style="${!border?'border-bottom:none':''}" onclick="toggleSet('${key}')">
+    <div class="sico" style="background:${bg}">${ico}</div>
+    <div style="flex:1"><div class="slb">${lbl}</div><div class="ssb">${sub}</div></div>
+    <button class="tog${togState[key]?' on':''}" id="tog-${key}" onclick="event.stopPropagation();toggleSet('${key}')"></button>
+  </div>`;
+}
+function toggleSet(key){
+  togState[key]=!togState[key];
+  const el=document.getElementById('tog-'+key);if(el)el.classList.toggle('on',togState[key]);
+  toast(togState[key]?'✅ تم التفعيل':'⛔ تم الإيقاف');
+}
+renderSettings();
+</script>
+</body>
+</html>
