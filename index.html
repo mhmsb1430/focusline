@@ -1,2978 +1,1033 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<meta name="theme-color" content="#10C98F" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<meta name="apple-mobile-web-app-title" content="FocusLine" />
-<title>FocusLine</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎯%3C/text%3E%3C/svg%3E" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>ورّاق</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:'Tajawal','Noto Sans Arabic',sans-serif;background:#F0F4FF;-webkit-tap-highlight-color:transparent;direction:rtl;}
-  ::-webkit-scrollbar{width:0;display:none;}
-  #loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;background:linear-gradient(145deg,#EEF2FF,#F0FDF4,#FFF7ED);z-index:9999;padding:20px;}
-  .spinner{width:48px;height:48px;border:4px solid #10C98F30;border-top:4px solid #10C98F;border-radius:50%;animation:spin 0.8s linear infinite;}
-  @keyframes spin{to{transform:rotate(360deg);}}
-  #loading p{font-weight:800;color:#10C98F;font-size:14px;font-family:'Tajawal',sans-serif;}
-  #error-box{position:fixed;inset:0;background:#fff;padding:24px;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;z-index:99999;text-align:center;}
-  #error-box.show{display:flex;}
-  #error-box h2{color:#F43F5E;font-size:18px;font-weight:900;}
-  #error-box pre{background:#FFF1F2;padding:12px;border-radius:8px;font-size:11px;text-align:left;direction:ltr;max-width:100%;overflow:auto;white-space:pre-wrap;word-break:break-word;color:#1E2A3B;line-height:1.6;border:1px solid #FECDD3;}
-  #error-box button{padding:12px 24px;background:#10C98F;color:#fff;border:none;border-radius:10px;font-weight:800;cursor:pointer;font-family:'Tajawal',sans-serif;}
+:root{
+  --bg:#F8F6FF;--bg2:#fff;--bg3:#EEE9FF;--card:#fff;
+  --border:rgba(120,100,200,0.13);
+  --v:#7B5EA7;--v2:#9B78C8;--vl:rgba(123,94,167,0.12);
+  --t:#2BBFA4;--tl:rgba(43,191,164,0.12);
+  --c:#FF6B6B;--cl:rgba(255,107,107,0.12);
+  --a:#FFAA33;--al:rgba(255,170,51,0.12);
+  --sk:#4BA3E3;--skl:rgba(75,163,227,0.12);
+  --ro:#F46AB1;--rol:rgba(244,106,177,0.12);
+  --tx:#1E1640;--tx2:#7A70A0;--tx3:#B0AAD0;
+  --sh:0 4px 20px rgba(123,94,167,0.13);
+}
+.dark{
+  --bg:#12101E;--bg2:#1C1830;--bg3:#261F40;--card:#1C1830;
+  --border:rgba(180,160,255,0.10);
+  --vl:rgba(123,94,167,0.22);--tl:rgba(43,191,164,0.20);
+  --cl:rgba(255,107,107,0.20);--al:rgba(255,170,51,0.20);
+  --skl:rgba(75,163,227,0.20);--rol:rgba(244,106,177,0.20);
+  --tx:#EDE8FF;--tx2:#9A90C0;--tx3:#5A5080;
+  --sh:0 4px 20px rgba(0,0,0,0.35);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:'Tajawal',sans-serif;background:#0E0B1A;display:flex;align-items:center;justify-content:center}
+button,input,textarea{font-family:'Tajawal',sans-serif}
+button{cursor:pointer;border:none;background:none}
+::-webkit-scrollbar{display:none}
+
+/* PHONE */
+.phone{width:390px;height:844px;background:var(--bg);border-radius:48px;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 2px rgba(255,255,255,0.07),0 60px 100px rgba(0,0,0,0.7);transition:background .3s}
+.sbar{height:36px;background:var(--bg);display:flex;align-items:center;justify-content:space-between;padding:8px 22px 2px;font-size:12px;font-weight:700;color:var(--tx2);flex-shrink:0}
+
+/* SCREENS */
+.screen{position:absolute;top:36px;left:0;right:0;bottom:70px;display:none;flex-direction:column;overflow:hidden;background:var(--bg)}
+.screen.active{display:flex}
+.scrl{flex:1;overflow-y:auto;padding:0 16px 12px}
+
+/* BOTTOM NAV */
+.bnav{position:absolute;bottom:0;left:0;right:0;height:70px;background:var(--bg2);border-top:1px solid var(--border);display:flex;z-index:100}
+.bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--tx3);padding:6px 2px 12px;transition:color .2s;font-family:'Tajawal',sans-serif}
+.bni.on{color:var(--v)}
+.bni .ico{font-size:24px;transition:transform .2s}
+.bni.on .ico{transform:scale(1.15)}
+.bni .lbl{font-size:10px;font-weight:700}
+
+/* SHARED */
+.ph{padding:16px 16px 8px;flex-shrink:0}
+.pt{font-size:24px;font-weight:900;color:var(--tx)}
+.ps{font-size:12px;color:var(--tx2);margin-top:3px}
+.rh{display:flex;justify-content:space-between;align-items:center;padding:12px 16px 8px;flex-shrink:0}
+.rh h3{font-size:14px;font-weight:700;color:var(--tx)}
+.rh button{font-size:12px;color:var(--v);font-weight:700}
+.btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;transition:all .15s;border:none;cursor:pointer;font-family:'Tajawal',sans-serif}
+.btn:active{transform:scale(.96)}
+.btn-v{background:var(--v);color:#fff;box-shadow:0 6px 18px rgba(123,94,167,0.4)}
+.btn-g{background:var(--bg3);color:var(--tx)}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;gap:10px}
+.empty span:first-child{font-size:48px;opacity:.35}
+.empty span:last-child{font-size:13px;color:var(--tx2);text-align:center;line-height:1.65}
+.slbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tx2);padding:8px 0 6px 2px}
+
+/* HOME */
+.hhd{padding:16px 16px 8px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.logo{font-size:26px;font-weight:900;color:var(--tx)}
+.lsub{font-size:13px;color:var(--tx2);margin-top:2px}
+.av{width:42px;height:42px;border-radius:50%;background:var(--v);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;box-shadow:0 4px 12px rgba(123,94,167,0.4)}
+.hero{margin:0 16px 12px;background:linear-gradient(135deg,var(--v),#9B5EA7 60%,var(--t));border-radius:22px;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;border:none;width:calc(100% - 32px);text-align:right;transition:all .15s;box-shadow:0 10px 28px rgba(123,94,167,0.45);font-family:'Tajawal',sans-serif;flex-shrink:0}
+.hero:hover{transform:translateY(-2px)}
+.hero:active{transform:scale(.98)}
+.hi{width:54px;height:54px;background:rgba(255,255,255,0.18);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.ht{font-size:18px;font-weight:900;color:#fff}
+.hs{font-size:12px;color:rgba(255,255,255,0.72);margin-top:4px}
+.ar{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 4px;flex-shrink:0}
+.ab{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:13px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .2s;box-shadow:var(--sh);border:none;font-family:'Tajawal',sans-serif;text-align:right}
+.ab:hover{transform:translateY(-2px)}
+.ab:active{transform:scale(.97)}
+.ai2{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.at{font-size:13px;font-weight:700;color:var(--tx)}
+.as{font-size:10px;color:var(--tx2);margin-top:2px}
+.fl{flex:1;overflow-y:auto;padding:0 16px 8px}
+.fc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px 13px;display:flex;align-items:center;gap:11px;margin-bottom:9px;cursor:pointer;transition:all .2s;box-shadow:var(--sh)}
+.fc:hover{border-color:var(--v);transform:translateX(-2px)}
+.fc:active{transform:scale(.99)}
+.ft{width:44px;height:52px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.fn{font-size:13px;font-weight:700;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fm{font-size:11px;color:var(--tx2);margin-top:3px}
+.fm2{font-size:18px;color:var(--tx3);padding:4px 6px;border-radius:8px}
+.fm2:hover{background:var(--bg3)}
+
+/* SHEETS */
+.back{display:none;position:absolute;inset:0;background:rgba(14,11,26,0.65);backdrop-filter:blur(5px);z-index:200;align-items:flex-end}
+.back.on{display:flex}
+.sheet{background:var(--bg2);border-radius:28px 28px 0 0;width:100%;padding:0 18px 28px;border:1px solid var(--border);border-bottom:none;max-height:94%;overflow-y:auto}
+.drag{width:40px;height:4px;background:var(--border);border-radius:100px;margin:12px auto 16px}
+.stit{font-size:19px;font-weight:900;color:var(--tx);margin-bottom:14px}
+.cback{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);z-index:250;align-items:center;justify-content:center}
+.cback.on{display:flex}
+.ccard{background:var(--bg2);border-radius:20px;padding:22px;width:88%;border:1px solid var(--border)}
+.full{display:none;position:absolute;inset:0;flex-direction:column;z-index:300;background:var(--bg)}
+.full.on{display:flex}
+.ftop{padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);flex-shrink:0}
+.ftit{flex:1;text-align:center;font-size:15px;font-weight:700;color:var(--tx)}
+.bbtn{width:38px;height:38px;background:var(--bg3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--tx);cursor:pointer;border:none;flex-shrink:0;transition:background .15s}
+.bbtn:hover{background:var(--border)}
+
+/* ── CAMERA ── */
+.camwrap{width:100%;border-radius:16px;overflow:hidden;position:relative;background:#000;margin-bottom:13px;flex-shrink:0}
+
+/* The video always fills the wrapper */
+#cam-vid{
+  width:100%;height:220px;object-fit:cover;display:block;
+  background:#000;
+}
+
+/* Placeholder shown when cam is off */
+.cam-ph{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+  background:linear-gradient(160deg,#0a0814,#12122a);
+  pointer-events:none;
+}
+.cam-ph.hidden{display:none}
+
+/* Targeting frame over video */
+.cam-frame{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.frame-box{width:160px;height:200px;border:2px solid rgba(255,255,255,0.25);border-radius:12px;position:relative;display:none}
+.frame-box.on{display:block}
+.co{position:absolute;width:18px;height:18px;border-color:var(--t);border-style:solid}
+.co.tl{top:-2px;right:-2px;border-width:2.5px 2.5px 0 0;border-radius:0 6px 0 0}
+.co.tr{top:-2px;left:-2px;border-width:2.5px 0 0 2.5px;border-radius:6px 0 0 0}
+.co.bl{bottom:-2px;right:-2px;border-width:0 2.5px 2.5px 0;border-radius:0 0 6px 0}
+.co.br{bottom:-2px;left:-2px;border-width:0 0 2.5px 2.5px;border-radius:0 0 0 6px}
+
+.cam-hint{font-size:12px;color:rgba(255,255,255,0.45);text-align:center;padding:0 20px}
+.modes{display:flex;gap:7px;overflow-x:auto;margin-bottom:13px;flex-shrink:0}
+.mc{padding:6px 13px;border-radius:100px;font-size:11px;font-weight:700;border:1.5px solid var(--border);background:var(--bg3);color:var(--tx2);cursor:pointer;white-space:nowrap;transition:all .2s;font-family:'Tajawal',sans-serif}
+.mc.on{background:var(--v);border-color:var(--v);color:#fff}
+.cambar{display:flex;justify-content:space-around;align-items:center;margin:10px 0;flex-shrink:0}
+.cbtn{width:50px;height:50px;background:var(--bg3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;cursor:pointer;border:none;transition:all .2s}
+.cbtn:hover{background:var(--border)}
+.cbtn:active{transform:scale(.9)}
+.shut{width:68px;height:68px;background:var(--v);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;border:4px solid rgba(123,94,167,0.25);box-shadow:0 6px 20px rgba(123,94,167,0.5);transition:all .15s}
+.shut:hover{transform:scale(1.06)}
+.shut:active{transform:scale(.92)}
+.divv{display:flex;align-items:center;gap:10px;margin:10px 0;flex-shrink:0}
+.divl{flex:1;height:1px;background:var(--border)}
+.divt{font-size:11px;color:var(--tx3)}
+
+/* ── GALLERY BUTTON ── */
+/* Uses a real <label> wrapping hidden <input type=file> */
+.gal-label{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  border:2px dashed var(--border);border-radius:14px;padding:14px;
+  cursor:pointer;transition:all .2s;margin-bottom:10px;width:100%;
+  font-size:13px;font-weight:700;color:var(--t);background:none;
+}
+.gal-label:hover{border-color:var(--v);background:var(--vl)}
+#gal-inp{display:none}
+
+/* PREVIEW */
+.pia{flex:1;display:flex;align-items:center;justify-content:center;background:var(--bg3)}
+.pp{font-size:80px;opacity:.5}
+#prev-img-el{max-width:100%;max-height:100%;border-radius:14px;display:none}
+.ocrsec{padding:14px 16px;border-top:1px solid var(--border);flex-shrink:0}
+.ocrlbl{font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:8px}
+.ocrarea{width:100%;background:var(--bg3);border:1.5px solid var(--border);border-radius:12px;padding:11px 13px;font-size:13px;color:var(--tx);outline:none;direction:rtl;resize:none;line-height:1.7;transition:border-color .2s;min-height:80px;font-family:'Tajawal',sans-serif}
+.ocrarea:focus{border-color:var(--v)}
+.pacts{display:flex;gap:9px;padding:12px 16px 16px;flex-shrink:0}
+.pacts .btn{flex:1}
+
+/* FORM */
+.inp{width:100%;background:var(--bg3);border:1.5px solid var(--border);border-radius:13px;padding:12px 14px;font-size:14px;color:var(--tx);outline:none;direction:rtl;transition:border-color .2s;font-family:'Tajawal',sans-serif}
+.inp:focus{border-color:var(--v)}
+.mrow{display:flex;gap:9px;margin-top:14px}
+.mrow .btn{flex:1}
+
+/* DETAIL */
+.dpr{background:var(--bg3);border-radius:18px;height:155px;display:flex;align-items:center;justify-content:center;font-size:64px;margin-bottom:14px;border:1px solid var(--border);overflow:hidden}
+.dpr img{width:100%;height:100%;object-fit:contain}
+.ic{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:12px}
+.ir{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--border)}
+.ir:last-child{border-bottom:none}
+.ik{font-size:12px;color:var(--tx2);font-weight:600}
+.iv{font-size:12px;color:var(--tx);font-weight:700}
+.ob{background:var(--bg3);border-radius:14px;padding:13px;margin-bottom:12px;border:1px solid var(--border)}
+.ol{font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:7px}
+.od{font-size:12px;color:var(--tx);line-height:1.7;white-space:pre-wrap}
+.oe{width:100%;background:transparent;border:1.5px solid var(--v);border-radius:10px;padding:9px;font-size:12px;color:var(--tx);line-height:1.7;resize:none;direction:rtl;display:none;font-family:'Tajawal',sans-serif;min-height:80px;outline:none}
+.oe.on{display:block}
+.dag{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.da{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;transition:all .2s;font-family:'Tajawal',sans-serif;width:100%}
+.da:hover{border-color:var(--v);background:var(--vl);transform:translateY(-2px)}
+.da:active{transform:scale(.95)}
+.da .di{font-size:20px}
+.da .dl{font-size:10px;font-weight:700;color:var(--tx2)}
+.da.red:hover{border-color:var(--c);background:var(--cl)}
+.da.red .dl{color:var(--c)}
+.aibtn{width:100%;padding:15px;background:linear-gradient(135deg,var(--v),var(--t));border-radius:16px;border:none;cursor:pointer;font-size:15px;font-weight:900;color:#fff;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 24px rgba(123,94,167,0.4);font-family:'Tajawal',sans-serif}
+.aibtn:hover{opacity:.9;transform:translateY(-2px)}
+.aibtn:active{transform:scale(.97)}
+
+/* AI */
+.aitabs{display:flex;background:var(--bg3);margin:12px 16px 0;border-radius:14px;padding:3px;gap:2px;flex-shrink:0}
+.aitab{flex:1;padding:9px 4px;border-radius:11px;border:none;background:transparent;color:var(--tx2);font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Tajawal',sans-serif}
+.aitab.on{background:var(--card);color:var(--v);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.aip{display:none;flex:1;overflow-y:auto;padding:12px 16px}
+.aip.on{display:block}
+.aic{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:15px;margin-bottom:11px}
+.act{font-size:14px;font-weight:700;color:var(--v);margin-bottom:10px}
+.acb{font-size:13px;color:var(--tx);line-height:1.8}
+.kp{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid var(--border)}
+.kp:last-child{border-bottom:none}
+.kpd{width:7px;height:7px;background:var(--v);border-radius:50%;flex-shrink:0;margin-top:6px}
+.kpt{font-size:12px;color:var(--tx);line-height:1.65}
+.mc2{display:flex;justify-content:center;margin:12px 0}
+.mn{padding:10px 20px;border-radius:100px;background:var(--vl);border:2px solid var(--v);font-size:14px;font-weight:900;color:var(--v)}
+.mbs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+.mb{padding:7px 13px;border-radius:100px;background:var(--bg3);border:1px solid var(--border);font-size:12px;font-weight:700;color:var(--tx)}
+.qc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:11px}
+.qb{font-size:10px;font-weight:700;padding:3px 9px;border-radius:100px;margin-bottom:9px;display:inline-block}
+.qb.s{background:var(--tl);color:var(--t)}
+.qb.d{background:var(--vl);color:var(--v)}
+.qt{font-size:14px;font-weight:700;color:var(--tx);margin-bottom:12px;line-height:1.55}
+.qo{display:flex;flex-direction:column;gap:8px}
+.qopt{width:100%;padding:11px 13px;border-radius:12px;border:1.5px solid var(--border);background:var(--bg3);color:var(--tx);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;text-align:right;font-family:'Tajawal',sans-serif;display:flex;align-items:center;gap:10px}
+.qopt:hover:not(:disabled){border-color:var(--v);background:var(--vl)}
+.qopt.correct{background:var(--tl)!important;border-color:var(--t)!important;color:var(--t)!important}
+.qopt.wrong{background:var(--cl)!important;border-color:var(--c)!important;color:var(--c)!important}
+.olt{width:26px;height:26px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:var(--tx2);flex-shrink:0}
+.qe{font-size:11px;color:var(--tx2);margin-top:9px;padding:9px;background:var(--bg3);border-radius:10px;display:none;line-height:1.65}
+.qe.on{display:block}
+
+/* REVIEW */
+.srow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px}
+.sb{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;text-align:center;box-shadow:var(--sh)}
+.sn{font-size:26px;font-weight:900;color:var(--v)}
+.sl{font-size:10px;font-weight:700;color:var(--tx2);margin-top:3px}
+.rp{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:13px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:all .2s;margin-bottom:9px;box-shadow:var(--sh)}
+.rp.sel{border-color:var(--v);background:var(--vl)}
+.rp:active{transform:scale(.98)}
+.ri{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.rn{font-size:13px;font-weight:700;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rm{font-size:11px;color:var(--tx2);margin-top:2px}
+.rc{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;transition:all .2s}
+.rp.sel .rc{background:var(--v);border-color:var(--v);color:#fff}
+.stbtn{width:100%;padding:15px;background:linear-gradient(135deg,var(--v),var(--t));border-radius:16px;border:none;cursor:pointer;font-size:15px;font-weight:900;color:#fff;box-shadow:0 8px 24px rgba(123,94,167,0.45);transition:all .2s;font-family:'Tajawal',sans-serif;margin-top:10px}
+.stbtn:hover{opacity:.9}
+.stbtn:active{transform:scale(.97)}
+.stbtn2{width:100%;padding:14px;border-radius:16px;border:2px solid var(--v);background:none;cursor:pointer;font-size:14px;font-weight:700;color:var(--v);font-family:'Tajawal',sans-serif;margin-top:10px;transition:all .2s}
+.stbtn2:hover{background:var(--vl)}
+
+/* QUIZ */
+.qpr{display:flex;justify-content:space-between;margin-bottom:5px;font-size:11px;font-weight:700}
+.qpb{height:8px;background:var(--bg3);border-radius:100px;overflow:hidden;flex:1}
+.qpf{height:100%;background:var(--v);border-radius:100px;transition:width .4s ease}
+.scbdg{display:inline-flex;align-items:center;padding:6px 14px;border-radius:100px;background:var(--al);color:var(--a);font-size:12px;font-weight:900;margin-bottom:14px}
+.qfb{margin-top:12px;padding:12px;border-radius:12px;font-size:12px;font-weight:600;display:none;line-height:1.65}
+.qfb.on{display:block}
+.qfb.ok{background:var(--tl);color:var(--t)}
+.qfb.nope{background:var(--cl);color:var(--c)}
+.nxbtn{width:calc(100% - 32px);margin:0 16px 16px;padding:14px;background:var(--v);border-radius:14px;border:none;cursor:pointer;font-size:14px;font-weight:900;color:#fff;font-family:'Tajawal',sans-serif;display:none;transition:all .15s;box-shadow:0 6px 18px rgba(123,94,167,0.4)}
+.nxbtn.on{display:block}
+.nxbtn:hover{background:var(--v2)}
+.nxbtn:active{transform:scale(.97)}
+.resinn{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:28px;text-align:center}
+.rstr{font-size:72px;margin-bottom:14px;animation:bns .6s ease}
+@keyframes bns{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+.rstit{font-size:24px;font-weight:900;color:var(--tx);margin-bottom:8px}
+.rssco{font-size:52px;font-weight:900;color:var(--v)}
+.rsof{font-size:14px;color:var(--tx2);margin-bottom:24px}
+
+/* SETTINGS */
+.phero{background:linear-gradient(135deg,var(--v),var(--t));border-radius:20px;padding:18px;display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.pav{width:52px;height:52px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.pnm{font-size:18px;font-weight:900;color:#fff}
+.psb{font-size:11px;color:rgba(255,255,255,0.65);margin-top:3px}
+.fbdg{background:rgba(255,255,255,0.2);padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;color:#fff;margin-right:auto}
+.strc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:14px}
+.strtp{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:8px}
+.strtp span:first-child{color:var(--tx)}
+.strtp span:last-child{color:var(--v)}
+.strb{height:9px;background:var(--bg3);border-radius:100px;overflow:hidden}
+.strf{height:100%;background:linear-gradient(90deg,var(--v),var(--t));border-radius:100px;transition:width .6s}
+.strn{font-size:11px;color:var(--tx2);margin-top:7px}
+.sg{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:12px}
+.sr{display:flex;align-items:center;gap:11px;padding:13px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.sr:last-child{border-bottom:none}
+.sr:hover{background:var(--bg3)}
+.sico{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.slb{font-size:13px;font-weight:700;color:var(--tx)}
+.ssb{font-size:11px;color:var(--tx2);margin-top:1px}
+.srt{font-size:12px;color:var(--tx2)}
+.tog{width:42px;height:24px;background:var(--bg3);border-radius:100px;position:relative;cursor:pointer;transition:background .25s;flex-shrink:0;border:none}
+.tog.on{background:var(--v)}
+.tog::after{content:'';position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;top:2px;right:2px;transition:right .25s;box-shadow:0 1px 4px rgba(0,0,0,0.2)}
+.tog.on::after{right:20px}
+
+/* TOAST */
+.toast{position:absolute;bottom:82px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--tx);color:var(--bg2);padding:10px 20px;border-radius:100px;font-size:12px;font-weight:700;white-space:nowrap;opacity:0;transition:all .28s;z-index:999;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,0.25)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── CAMERA ERROR BANNER ── */
+.cam-err{background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.3);border-radius:10px;padding:10px 13px;font-size:12px;color:#FF6B6B;margin-bottom:12px;line-height:1.55;display:none}
+.cam-err.on{display:block}
 </style>
 </head>
 <body>
-<div id="loading">
-  <div class="spinner"></div>
-  <p id="loading-text">FocusLine — جاري التحميل...</p>
-</div>
+<div class="phone" id="phone">
+  <div class="sbar"><span id="clk">9:41</span><div style="display:flex;gap:4px;font-size:15px"><span>📶</span><span>🔋</span></div></div>
 
-<div id="error-box">
-  <h2>⚠️ حدث خطأ</h2>
-  <p style="color:#6B7A99;font-size:13px;font-family:'Tajawal',sans-serif;">المنصة ما تقدر تشتغل. هذا التفصيل:</p>
-  <pre id="error-detail">...</pre>
-  <button onclick="location.reload()">🔄 إعادة المحاولة</button>
-</div>
+  <!-- ══ HOME ══ -->
+  <div class="screen active" id="home">
+    <div class="hhd">
+      <div><div class="logo">ورّاق 📖</div><div class="lsub">دفاترك، رقمياً وذكياً</div></div>
+      <div class="av" onclick="toast('👤 الملف الشخصي')">👤</div>
+    </div>
+    <button class="hero" onclick="openScan()">
+      <div class="hi">📷</div>
+      <div style="flex:1"><div class="ht">صوّر دفترك الآن</div><div class="hs">تحويل فوري إلى PDF + تلخيص ذكي</div></div>
+      <span style="color:rgba(255,255,255,0.6);font-size:18px">←</span>
+    </button>
+    <div class="ar">
+      <!-- Gallery button — real label wrapping hidden input -->
+      <label class="ab" for="gal-inp" style="cursor:pointer">
+        <div class="ai2" style="background:var(--tl)">🖼️</div>
+        <div><div class="at">رفع من المعرض</div><div class="as">صور موجودة</div></div>
+      </label>
+      <button class="ab" onclick="openManual()">
+        <div class="ai2" style="background:var(--al)">✏️</div>
+        <div><div class="at">كتابة يدوية</div><div class="as">أدخل النص</div></div>
+      </button>
+    </div>
+    <!-- Single hidden file input used by both gallery buttons -->
+    <input type="file" id="gal-inp" accept="image/*" onchange="handleGallery(this)">
+    <div class="rh"><h3>📚 ملفاتي الأخيرة</h3><button onclick="toast('عرض جميع الملفات')">عرض الكل</button></div>
+    <div class="fl" id="file-list"></div>
+  </div>
 
-<div id="root"></div>
+  <!-- ══ REVIEW ══ -->
+  <div class="screen" id="review">
+    <div class="ph"><div class="pt">🎯 مراجعة السابق</div><div class="ps">اختبر نفسك بطريقة تفاعلية وحماسية</div></div>
+    <div class="scrl" id="rev-body"></div>
+  </div>
+
+  <!-- ══ SETTINGS ══ -->
+  <div class="screen" id="settings">
+    <div class="ph"><div class="pt">⚙️ الإعدادات</div></div>
+    <div class="scrl" id="set-body"></div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bnav">
+    <button class="bni on" id="nav-home" onclick="goTo('home')"><span class="ico">🏠</span><span class="lbl">الرئيسية</span></button>
+    <button class="bni" id="nav-review" onclick="goTo('review')"><span class="ico">🎯</span><span class="lbl">مراجعة</span></button>
+    <button class="bni" id="nav-settings" onclick="goTo('settings')"><span class="ico">⚙️</span><span class="lbl">إعدادات</span></button>
+  </div>
+
+  <!-- ══ SCAN SHEET ══ -->
+  <div class="back" id="scan-back">
+    <div class="sheet">
+      <div class="drag" onclick="closeScan()" style="cursor:pointer"></div>
+      <div class="stit">📷 مسح الدفتر</div>
+
+      <!-- Camera error message -->
+      <div class="cam-err" id="cam-err">
+        ⚠️ تعذّر تشغيل الكاميرا. تأكد من:<br>
+        • السماح بصلاحية الكاميرا في المتصفح<br>
+        • استخدام HTTPS أو localhost<br>
+        استخدم زر «رفع من المعرض» كبديل.
+      </div>
+
+      <!-- Camera wrapper -->
+      <div class="camwrap" id="camwrap">
+        <video id="cam-vid" autoplay playsinline muted></video>
+        <div class="cam-ph" id="cam-ph">
+          <div style="font-size:42px;opacity:.2">📖</div>
+          <div class="cam-hint">اضغط 📸 لتشغيل الكاميرا</div>
+        </div>
+        <div class="cam-frame">
+          <div class="frame-box" id="frame-box">
+            <div class="co tl"></div><div class="co tr"></div>
+            <div class="co bl"></div><div class="co br"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scan modes + add archive -->
+      <div class="modes" id="modes-row"></div>
+
+      <!-- Camera controls -->
+      <div class="cambar">
+        <button class="cbtn" onclick="switchCam()" title="تبديل الكاميرا">🔄</button>
+        <div class="shut" onclick="takePic()">📸</div>
+        <button class="cbtn" id="flash-btn" onclick="toggleFlash()" title="فلاش">⚡</button>
+      </div>
+
+      <div class="divv"><div class="divl"></div><span class="divt">أو</span><div class="divl"></div></div>
+
+      <!-- Gallery upload — label wraps hidden input -->
+      <label class="gal-label" for="gal-inp">
+        <span style="font-size:22px">🖼️</span>
+        ارفع صورة من المعرض / الاستوديو
+      </label>
+
+      <div style="display:flex;gap:9px;padding-bottom:4px">
+        <button class="btn btn-g" style="flex:1" onclick="closeScan()">إلغاء</button>
+        <button class="btn btn-v" style="flex:2" onclick="takePic()">📸 التقاط</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PREVIEW SCREEN ══ -->
+  <div class="full" id="prev-scr">
+    <div class="ftop">
+      <button class="bbtn" onclick="closePrev()">→</button>
+      <span class="ftit">معاينة وتعديل</span>
+      <div style="width:38px"></div>
+    </div>
+    <div class="pia"><div class="pp" id="prev-ph">📖</div><img id="prev-img-el" src="" alt=""></div>
+    <div class="ocrsec">
+      <div class="ocrlbl">🔤 النص المستخرج — يمكنك التعديل اليدوي</div>
+      <textarea class="ocrarea" id="ocr-area" placeholder="النص المستخرج سيظهر هنا..." rows="4"></textarea>
+    </div>
+    <div class="pacts">
+      <button class="btn btn-g" onclick="closePrev()">↩ إعادة</button>
+      <button class="btn btn-v" style="flex:2" onclick="openSaveMod()">💾 حفظ كـ PDF</button>
+    </div>
+  </div>
+
+  <!-- ══ SAVE MODAL ══ -->
+  <div class="back" id="save-back">
+    <div class="sheet">
+      <div class="drag"></div>
+      <div class="stit">💾 حفظ الملف</div>
+      <input class="inp" id="fname" placeholder="اسم الملف...">
+      <div class="modes" id="save-cats" style="margin-top:11px;margin-bottom:0"></div>
+      <div class="mrow">
+        <button class="btn btn-g" onclick="closeSaveMod()">إلغاء</button>
+        <button class="btn btn-v" style="flex:2" onclick="saveFile()">✅ حفظ وإنشاء PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ADD CAT ══ -->
+  <div class="cback" id="addcat-back">
+    <div class="ccard">
+      <div class="stit">إضافة أرشيف جديد 📂</div>
+      <input class="inp" id="new-cat" placeholder="مثال: كيمياء، رياضيات..." style="margin-bottom:0">
+      <div class="mrow">
+        <button class="btn btn-g" onclick="closeAddCat()">إلغاء</button>
+        <button class="btn btn-v" style="flex:2" onclick="addCat()">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MANUAL ══ -->
+  <div class="back" id="manual-back">
+    <div class="sheet">
+      <div class="drag"></div>
+      <div class="stit">✏️ كتابة يدوية</div>
+      <textarea class="inp" id="manual-txt" placeholder="اكتب ملاحظاتك أو محاضرتك هنا..." rows="8" style="min-height:150px;resize:none;margin-bottom:0"></textarea>
+      <div class="mrow">
+        <button class="btn btn-g" onclick="closeManual()">إلغاء</button>
+        <button class="btn btn-v" style="flex:2" onclick="saveManual()">💾 حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DETAIL SCREEN ══ -->
+  <div class="full" id="det-scr">
+    <div class="ftop">
+      <button class="bbtn" onclick="closeDet()">→</button>
+      <span class="ftit" id="det-title" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">—</span>
+      <button onclick="toggleFav()" style="font-size:22px;background:none;border:none;cursor:pointer" id="fav-btn">🤍</button>
+    </div>
+    <div class="scrl" id="det-body"></div>
+  </div>
+
+  <!-- ══ AI SCREEN ══ -->
+  <div class="full" id="ai-scr">
+    <div class="ftop">
+      <button class="bbtn" onclick="closeAI()">→</button>
+      <span class="ftit">🤖 التحليل الذكي</span>
+      <div style="width:38px"></div>
+    </div>
+    <div class="aitabs">
+      <button class="aitab on" onclick="aiTab(this,'ai-sum')">📝 ملخص</button>
+      <button class="aitab" onclick="aiTab(this,'ai-mind')">🗺️ خريطة</button>
+      <button class="aitab" onclick="aiTab(this,'ai-qs')">❓ أسئلة</button>
+    </div>
+    <div class="aip on" id="ai-sum"></div>
+    <div class="aip" id="ai-mind"></div>
+    <div class="aip" id="ai-qs"></div>
+  </div>
+
+  <!-- ══ QUIZ SCREEN ══ -->
+  <div class="full" id="quiz-scr">
+    <div class="ftop">
+      <button class="bbtn" onclick="closeQuiz()">→</button>
+      <div style="flex:1;margin:0 10px">
+        <div class="qpr"><span id="q-lbl" style="color:var(--tx2)">السؤال 1</span><span id="q-sc-lbl" style="color:var(--v)">⭐ 0</span></div>
+        <div class="qpb"><div class="qpf" id="q-prog" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="scrl" id="quiz-body"></div>
+    <button class="nxbtn" id="nxt-btn" onclick="nextQ()">التالي ←</button>
+  </div>
+
+  <!-- ══ RESULT ══ -->
+  <div class="full" id="res-scr">
+    <div class="resinn">
+      <div class="rstr" id="res-trophy">🏆</div>
+      <div class="rstit" id="res-title">ممتاز!</div>
+      <div class="rssco" id="res-score">0</div>
+      <div class="rsof" id="res-of">من 0 سؤال</div>
+      <div style="display:flex;gap:10px;width:100%">
+        <button class="btn btn-g" style="flex:1" onclick="closeRes()">إغلاق</button>
+        <button class="btn btn-v" style="flex:2" onclick="restartQuiz()">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast-el"></div>
+</div>
 
 <script>
-  // عرض أي خطأ يحدث
-  window.addEventListener('error', function(e) {
-    var box = document.getElementById('error-box');
-    var detail = document.getElementById('error-detail');
-    if (box && detail) {
-      box.classList.add('show');
-      detail.textContent = 'Error: ' + e.message + '\n\nFile: ' + (e.filename || 'inline') + '\nLine: ' + (e.lineno || '?') + '\n\nStack:\n' + (e.error && e.error.stack ? e.error.stack.slice(0, 500) : 'none');
-    }
-  });
-  
-  // كشف حالة التحميل
-  var loadingText = document.getElementById('loading-text');
-  var libsLoaded = { react: false, reactdom: false, babel: false };
-  
-  function checkLoaded() {
-    if (libsLoaded.react && libsLoaded.reactdom && libsLoaded.babel) {
-      if (loadingText) loadingText.textContent = 'FocusLine — تشغيل التطبيق...';
-    }
+/* ══════════ DATA ══════════ */
+const AI={
+  summary:'هذا الملف يحتوي على محتوى دراسي منظّم يشمل المفاهيم الأساسية مع أمثلة توضيحية ونقاط مراجعة مهمة.',
+  points:['المفاهيم الأساسية موضحة بأمثلة من الواقع','نقاط المراجعة الجوهرية للاختبار','الروابط المنطقية بين الأفكار الرئيسية','التطبيقات العملية للمادة الدراسية'],
+  mindmap:{center:'الملف',branches:['المفاهيم','الأمثلة','المراجعة','التطبيقات','الملخص']},
+  questions:[
+    {t:'s',txt:'ما أفضل وقت لمراجعة ملاحظات المحاضرة؟',opts:['قبيل الاختبار','خلال 24 ساعة','بعد أسبوع','لا فرق'],a:1,exp:'المراجعة المبكرة خلال 24 ساعة تُعزز الذاكرة بفعالية وفقاً لمنحنى النسيان.'},
+    {t:'d',txt:'لماذا الخريطة الذهنية أكثر فاعلية من القراءة الخطية؟',opts:['لأنها ملوّنة','لأنها تربط المفاهيم وتُظهر العلاقات','لأنها أسرع','لا فرق'],a:1,exp:'الخرائط الذهنية تُنشّط نصفَي الدماغ وتُظهر العلاقات بين الأفكار مما يُعزز الفهم العميق.'},
+    {t:'s',txt:'ما أهمية تنظيم الملاحظات بعناوين واضحة؟',opts:['مجرد جماليات','تسهّل المراجعة السريعة','طلب الأستاذ','لا أهمية'],a:1,exp:'التنظيم الجيد يُقلّل وقت البحث ويُسهّل الاسترجاع أثناء المراجعة.'},
+  ]
+};
+
+let files=[
+  {id:1,name:'محاضرة الكيمياء العضوية',cat:'📖 دفتر',size:'1.2 MB',date:'اليوم',pages:6,fav:true,img:null,ocr:'الكيمياء العضوية: دراسة المركبات الكربونية.\nالهيدروكربونات هي أبسط أنواعها.\nالإيثانول: CH₃CH₂OH'},
+  {id:2,name:'درس التفاضل والتكامل',cat:'📝 ملاحظات',size:'0.9 MB',date:'أمس',pages:4,fav:false,img:null,ocr:'قاعدة القوة: d/dx(xⁿ) = nxⁿ⁻¹\n∫xⁿdx = xⁿ⁺¹/(n+1) + C'},
+  {id:3,name:'محاضرة الأدب الجاهلي',cat:'📄 وثيقة',size:'0.7 MB',date:'الأسبوع الماضي',pages:3,fav:true,img:null,ocr:'الأدب الجاهلي: ما نُظم قبل الإسلام.\nالمعلقات أشهر قصائده.'},
+];
+let cats=[{id:1,name:'📄 وثيقة'},{id:2,name:'📖 دفتر'},{id:3,name:'📝 ملاحظات'},{id:4,name:'📊 مخططات'}];
+let selCat=1,curFile=null,pendImg=null,pendOcr='';
+let camStream=null,camFace='environment',flashOn=false,isDark=false;
+let quizSel=new Set(),quizQs=[],quizIdx=0,quizScore=0,quizAns=false,quizSelOpt=null;
+let editOcr=false;
+let togState={autoSum:true,autoOCR:true,smartNm:true,mindAuto:true,bioLock:true,drive:false};
+
+/* ══ CLOCK ══ */
+(function tick(){const n=new Date();document.getElementById('clk').textContent=n.getHours()+':'+(n.getMinutes()<10?'0':'')+n.getMinutes();setTimeout(tick,20000)})();
+
+/* ══ TOAST ══ */
+let tT;
+function toast(m){const e=document.getElementById('toast-el');e.textContent=m;e.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>e.classList.remove('on'),2700)}
+
+/* ══ THEME ══ */
+function toggleTheme(){
+  isDark=!isDark;
+  document.getElementById('phone').classList.toggle('dark',isDark);
+  const tog=document.getElementById('theme-tog');
+  if(tog)tog.classList.toggle('on',isDark);
+  const sub=document.getElementById('theme-sub');
+  if(sub)sub.textContent=isDark?'الوضع الليلي مفعّل':'الوضع النهاري مفعّل';
+  toast(isDark?'🌙 الوضع الليلي':'☀️ الوضع النهاري');
+}
+
+/* ══ NAV ══ */
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.bni').forEach(b=>b.classList.remove('on'));
+  const nb=document.getElementById('nav-'+id);if(nb)nb.classList.add('on');
+  if(id==='home')renderHome();
+  if(id==='review')renderReview();
+  if(id==='settings')renderSettings();
+  if(id!=='home')stopCam();
+}
+
+/* ══ HOME ══ */
+function renderHome(){
+  const el=document.getElementById('file-list');
+  if(!files.length){el.innerHTML='<div class="empty"><span>📂</span><span>لا توجد ملفات بعد<br>ابدأ بتصوير دفترك!</span></div>';return}
+  el.innerHTML=files.map(f=>`
+    <div class="fc" onclick="openDet(${f.id})">
+      <div class="ft" style="background:var(--vl)">📄</div>
+      <div style="flex:1;min-width:0">
+        <div class="fn">${f.name}</div>
+        <div class="fm">${f.cat} · ${f.size} · ${f.date} ${f.fav?'⭐':''}</div>
+      </div>
+      <button class="fm2" onclick="event.stopPropagation();toast('خيارات: ${f.name}')">⋯</button>
+    </div>`).join('');
+}
+renderHome();
+
+/* ══ CAMERA ══ */
+function openScan(){
+  document.getElementById('scan-back').classList.add('on');
+  document.getElementById('cam-err').classList.remove('on');
+  renderModes();
+  // Auto-start camera after sheet opens
+  setTimeout(startCam, 500);
+}
+function closeScan(){document.getElementById('scan-back').classList.remove('on');stopCam()}
+
+async function startCam(){
+  // Check if getUserMedia is available
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    showCamErr();return;
   }
-  
-  // timeout للأمان - إذا ما اشتغل بعد 15 ثانية
-  setTimeout(function() {
-    if (document.getElementById('loading').style.display !== 'none') {
-      var box = document.getElementById('error-box');
-      var detail = document.getElementById('error-detail');
-      if (box && detail && !box.classList.contains('show')) {
-        box.classList.add('show');
-        detail.textContent = 'انتهى وقت التحميل (15 ثانية).\n\nالأسباب المحتملة:\n1. ضعف الاتصال بالإنترنت\n2. المكتبات لم تُحمّل (React, Babel)\n3. الجوال يحظر JavaScript\n\nReact loaded: ' + libsLoaded.react + '\nReactDOM loaded: ' + libsLoaded.reactdom + '\nBabel loaded: ' + libsLoaded.babel;
-      }
-    }
-  }, 15000);
-</script>
-
-<!-- جرّب CDN بديل (jsDelivr أسرع من unpkg في بعض الدول) -->
-<script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js" crossorigin
-  onload="libsLoaded.react=true; checkLoaded();"
-  onerror="this.onerror=null; var s=document.createElement('script'); s.src='https://unpkg.com/react@18.2.0/umd/react.production.min.js'; s.crossOrigin='anonymous'; s.onload=function(){libsLoaded.react=true;checkLoaded();}; document.head.appendChild(s);"></script>
-<script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js" crossorigin
-  onload="libsLoaded.reactdom=true; checkLoaded();"
-  onerror="this.onerror=null; var s=document.createElement('script'); s.src='https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js'; s.crossOrigin='anonymous'; s.onload=function(){libsLoaded.reactdom=true;checkLoaded();}; document.head.appendChild(s);"></script>
-<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.24.0/babel.min.js"
-  onload="libsLoaded.babel=true; checkLoaded();"
-  onerror="this.onerror=null; var s=document.createElement('script'); s.src='https://unpkg.com/@babel/standalone/babel.min.js'; s.onload=function(){libsLoaded.babel=true;checkLoaded();}; document.head.appendChild(s);"></script>
-
-<script type="text/babel" data-presets="react">
-const { useState, useEffect, useRef } = React;
-
-// FocusLine - تطبيق محمد الكامل
-// ملف واحد - انسخه في App.tsx أو index.tsx
-// شغّل: npm create vite@latest focusline -- --template react-ts
-// ثم: npm install && npm run dev
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  THEMES
-// ══════════════════════════════════════════════════════════════════════════════
-const LIGHT = {
-  bg: "#F0F4FF",
-  card: "#FFFFFF",
-  border: "#E8EEFF",
-  green: "#10C98F",
-  blue: "#4A8CFF",
-  purple: "#8B5CF6",
-  amber: "#F59E0B",
-  red: "#F43F5E",
-  teal: "#06B6D4",
-  pink: "#EC4899",
-  text: "#1E2A3B",
-  textSub: "#6B7A99",
-  textDim: "#A8B4CC",
-  inputBg: "#F8FAFF",
-  navBg: "rgba(255,255,255,0.97)"
-};
-const DARK = {
-  bg: "#060A0E",
-  card: "#0F1923",
-  border: "rgba(255,255,255,0.08)",
-  green: "#00C896",
-  blue: "#4D9FFF",
-  purple: "#9B72FF",
-  amber: "#FFB547",
-  red: "#FF5C5C",
-  teal: "#22D3EE",
-  pink: "#F472B6",
-  text: "#F1F5F9",
-  textSub: "#94A3B8",
-  textDim: "#475569",
-  inputBg: "rgba(255,255,255,0.05)",
-  navBg: "rgba(6,10,14,0.96)"
-};
-// ══════════════════════════════════════════════════════════════════════════════
-//  PRAYER TIMES
-// ══════════════════════════════════════════════════════════════════════════════
-const PRAYERS = [{
-  id: "fajr",
-  label: "الفجر",
-  emoji: "🌙",
-  color: "#8B5CF6",
-  range: "05:30–07:00"
-}, {
-  id: "dhuhr",
-  label: "الظهر",
-  emoji: "☀️",
-  color: "#F59E0B",
-  range: "12:00–15:00"
-}, {
-  id: "asr",
-  label: "العصر",
-  emoji: "🌤",
-  color: "#4A8CFF",
-  range: "15:30–18:00"
-}, {
-  id: "maghrib",
-  label: "المغرب",
-  emoji: "🌅",
-  color: "#F43F5E",
-  range: "18:30–20:00"
-}, {
-  id: "isha",
-  label: "العشاء",
-  emoji: "🌃",
-  color: "#06B6D4",
-  range: "20:00–23:59"
-}];
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  POETRY
-// ══════════════════════════════════════════════════════════════════════════════
-const POETRY = [{
-  text: "إذا كانت النفوس كبارًا، تعبت في مرادها الأجسامُ",
-  poet: "المتنبي"
-}, {
-  text: "على قدر أهل العزم تأتي العزائم، وتأتي على قدر الكرام المكارمُ",
-  poet: "المتنبي"
-}, {
-  text: "وما نيل المطالب بالتمني، ولكن تؤخذ الدنيا غلابًا",
-  poet: "المتنبي"
-}, {
-  text: "إذا غامرت في شرفٍ مرومٍ، فلا تقنع بما دون النجومِ",
-  poet: "المتنبي"
-}, {
-  text: "الصبر مثل اسمه مرٌّ مذاقته، لكن عواقبه أحلى من العسلِ",
-  poet: "ابن القيم"
-}, {
-  text: "تعلّم فليس المرء يولد عالمًا، وليس أخو علمٍ كمن هو جاهلُ",
-  poet: "الشافعي"
-}, {
-  text: "دع الأيام تفعل ما تشاء، وطب نفسًا إذا حكم القضاءُ",
-  poet: "الشافعي"
-}, {
-  text: "السيف أصدق إنباءً من الكتب، في حدّه الحدّ بين الجدّ واللعبِ",
-  poet: "أبو تمام"
-}];
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  WORKOUT DATA
-// ══════════════════════════════════════════════════════════════════════════════
-const UPPER = [{
-  name: "بنش برس بالبار",
-  sets: "4×8",
-  link: "https://www.youtube.com/watch?v=rT7DgCr-3pg"
-}, {
-  name: "تجذيف بالدمبل",
-  sets: "4×10",
-  link: "https://www.youtube.com/watch?v=pYcpY20QaE8"
-}, {
-  name: "رفع الأكتاف (أوفر هيد)",
-  sets: "3×10",
-  link: "https://www.youtube.com/watch?v=qEwKCR5JCog"
-}, {
-  name: "تمرين الشراع (Pull-up)",
-  sets: "3×12",
-  link: "https://www.youtube.com/watch?v=Sto9kM3bmI0"
-}, {
-  name: "كيرل الدمبل للبايسبس",
-  sets: "3×12",
-  link: "https://www.youtube.com/watch?v=ykJmrZ5v0Oo"
-}, {
-  name: "تمديد الترايسبس",
-  sets: "3×12",
-  link: "https://www.youtube.com/watch?v=nRiJVZDpdL0"
-}];
-const LOWER = [{
-  name: "سكوات بالبار",
-  sets: "4×8",
-  link: "https://www.youtube.com/watch?v=ultWZbUMPL8"
-}, {
-  name: "لنج للأمام",
-  sets: "3×10",
-  link: "https://www.youtube.com/watch?v=QOVaHwm-Q6U"
-}, {
-  name: "رومانيان ديدليفت",
-  sets: "4×10",
-  link: "https://www.youtube.com/watch?v=JCXUYuzwNrM"
-}, {
-  name: "كيف ريز (رفع الساق)",
-  sets: "4×15",
-  link: "https://www.youtube.com/watch?v=-M4-G8p1fCI"
-}, {
-  name: "كرنش للبطن",
-  sets: "3×20",
-  link: "https://www.youtube.com/watch?v=Xyd_fa5zoEU"
-}, {
-  name: "بلانك",
-  sets: "3×45s",
-  link: "https://www.youtube.com/watch?v=pSHjTRCQxIw"
-}];
-// أيام التمرين: 0=أحد,2=ثلاثاء,3=أربعاء,6=سبت
-const WORKOUT_DAYS = [0, 2, 3, 6];
-// أيام السيرة: 1=اثنين,4=خميس
-const SEERAH_DAYS = [1, 4];
-// أيام القراءة: 4=خميس,6=سبت
-const READING_DAYS = [4, 6];
-
-// الشمائل: مقطعان يومياً من 8 إلى 43
-const SHAMAEL_BASE = "https://www.youtube.com/watch?v=olfY42bim_Y&list=PLiJggHtOlnN1hH-zuPOIddSkOUcpoyzkC";
-const SEERAH_LINK = "https://www.youtube.com/watch?v=tVPdysxXlcQ&list=PL_yGzeZL1u1kfhxSPXvssMwFSLkmRWkHB";
-const FUSUL_LINK = "https://share.google/jlXXdqmmtuXodw3ER";
-const ENGLISH_LINK = "https://share.google/9COHhuFu1tUQZvwMQ";
-const TARBIYA_LINK = "https://t.me/shathrats/4345";
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  TYPES
-// ══════════════════════════════════════════════════════════════════════════════
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  GENERATE DAILY TASKS (يتجدد كل يوم تلقائياً)
-// ══════════════════════════════════════════════════════════════════════════════
-function generateDailyTasks(date = new Date()) {
-  const dow = date.getDay();
-  const startDate = new Date("2026-05-19");
-  const dayIndex = Math.floor((date.getTime() - startDate.getTime()) / 86400000);
-  const shamEp1 = 8 + dayIndex % 18 * 2;
-  const shamEp2 = shamEp1 + 1;
-  const isWorkout = WORKOUT_DAYS.includes(dow);
-  const isSeerah = SEERAH_DAYS.includes(dow);
-  const isReading = READING_DAYS.includes(dow);
-  // علوي أو سفلي بالتناوب حسب عدد جلسات التمرين المرت
-  const workoutSessionCount = dayIndex; // تقريبي
-  const workoutType = workoutSessionCount % 2 === 0 ? "upper" : "lower";
-  const tasks = [];
-  let id = Date.now();
-
-  // ── بعد الفجر ──
-  tasks.push({
-    id: id++,
-    type: "daily",
-    prayer: "fajr",
-    priority: "high",
-    done: false,
-    time: "05:45",
-    title: "أذكار الصباح",
-    link: ""
-  });
-  tasks.push({
-    id: id++,
-    type: "daily",
-    prayer: "fajr",
-    priority: "high",
-    done: false,
-    time: "06:00",
-    title: "مراجعة أهداف اليوم",
-    link: ""
-  });
-  if (isWorkout) {
-    const wl = workoutType === "upper" ? UPPER[0].link : LOWER[0].link;
-    const wt = workoutType === "upper" ? "🔼 تمرين علوي (صدر + ظهر + أذرع)" : "🔽 تمرين سفلي (فخذ + ساق + بطن)";
-    tasks.push({
-      id: id++,
-      type: "daily",
-      prayer: "fajr",
-      priority: "high",
-      done: false,
-      time: "06:30",
-      title: wt,
-      link: wl
+  try{
+    if(camStream)stopCam();
+    camStream=await navigator.mediaDevices.getUserMedia({
+      video:{facingMode:camFace,width:{ideal:1280},height:{ideal:720}},
+      audio:false
     });
+    const vid=document.getElementById('cam-vid');
+    vid.srcObject=camStream;
+    // Wait for metadata then show
+    vid.onloadedmetadata=()=>{ vid.play(); };
+    document.getElementById('cam-ph').classList.add('hidden');
+    document.getElementById('frame-box').classList.add('on');
+    document.getElementById('cam-err').classList.remove('on');
+    toast('📷 الكاميرا تعمل ✅');
+  }catch(err){
+    console.warn('Camera error:',err);
+    showCamErr();
   }
+}
 
-  // ── بعد الظهر ──
-  tasks.push({
-    id: id++,
-    type: "daily",
-    prayer: "dhuhr",
-    priority: "high",
-    done: false,
-    time: "12:30",
-    title: "دراسة الأصول الفكرية (١٠ صفحات)",
-    link: FUSUL_LINK
-  });
-  tasks.push({
-    id: id++,
-    type: "daily",
-    prayer: "dhuhr",
-    priority: "high",
-    done: false,
-    time: "13:30",
-    title: "درس الإنجليزية اليومي",
-    link: ENGLISH_LINK
-  });
-  if (isReading) {
-    tasks.push({
-      id: id++,
-      type: "daily",
-      prayer: "dhuhr",
-      priority: "medium",
-      done: false,
-      time: "14:30",
-      title: "📖 قراءة ملخص التربية (٤٠ دقيقة)",
-      link: TARBIYA_LINK
+function showCamErr(){
+  document.getElementById('cam-ph').classList.remove('hidden');
+  document.getElementById('frame-box').classList.remove('on');
+  document.getElementById('cam-err').classList.add('on');
+}
+
+function stopCam(){
+  if(!camStream)return;
+  camStream.getTracks().forEach(t=>t.stop());camStream=null;
+  const vid=document.getElementById('cam-vid');
+  vid.srcObject=null;
+  const ph=document.getElementById('cam-ph');if(ph)ph.classList.remove('hidden');
+  const fb=document.getElementById('frame-box');if(fb)fb.classList.remove('on');
+}
+
+async function switchCam(){
+  camFace=camFace==='environment'?'user':'environment';
+  if(camStream)await startCam();
+  toast(camFace==='user'?'🤳 كاميرا أمامية':'📷 كاميرا خلفية');
+}
+
+function toggleFlash(){
+  flashOn=!flashOn;
+  if(camStream){
+    const track=camStream.getVideoTracks()[0];
+    if(track&&track.getCapabilities){
+      const cap=track.getCapabilities();
+      if(cap.torch)track.applyConstraints({advanced:[{torch:flashOn}]});
+    }
+  }
+  document.getElementById('flash-btn').style.color=flashOn?'var(--a)':'';
+  toast(flashOn?'⚡ فلاش شغّال':'⚡ فلاش مطفي');
+}
+
+function takePic(){
+  if(!camStream){
+    // Try to start camera first
+    startCam().then(()=>{
+      if(camStream)toast('الكاميرا جاهزة — اضغط 📸 مرة أخرى للالتقاط');
     });
+    return;
   }
+  const vid=document.getElementById('cam-vid');
+  if(!vid.videoWidth){toast('⚠️ الكاميرا لم تجهز بعد، انتظر...');return}
+  const cv=document.createElement('canvas');
+  cv.width=vid.videoWidth;cv.height=vid.videoHeight;
+  cv.getContext('2d').drawImage(vid,0,0);
+  pendImg=cv.toDataURL('image/jpeg',0.92);
+  pendOcr=genOCR();
+  closeScan();
+  setTimeout(()=>showPrev(pendImg),350);
+}
 
-  // ── بعد العصر ──
-  tasks.push({
-    id: id++,
-    type: "daily",
-    prayer: "asr",
-    priority: "high",
-    done: false,
-    time: "16:00",
-    title: `✨ الشمائل المحمدية — مقطع ${shamEp1} + ${shamEp2}`,
-    link: SHAMAEL_BASE
-  });
+/* ══ GALLERY ══ */
+// This function is triggered by the hidden <input type="file" id="gal-inp">
+function handleGallery(inp){
+  const f=inp.files[0];if(!f)return;
+  // Close scan sheet if open
+  document.getElementById('scan-back').classList.remove('on');
+  stopCam();
+  const reader=new FileReader();
+  reader.onload=e=>{
+    pendImg=e.target.result;
+    pendOcr=genOCR();
+    setTimeout(()=>showPrev(pendImg),200);
+  };
+  reader.readAsDataURL(f);
+  inp.value=''; // reset so same file can be selected again
+}
 
-  // ── بعد المغرب ──
-  tasks.push({
-    id: id++,
-    type: "daily",
-    prayer: "maghrib",
-    priority: "high",
-    done: false,
-    time: "19:00",
-    title: "أذكار المساء",
-    link: ""
-  });
-  if (isSeerah) {
-    tasks.push({
-      id: id++,
-      type: "daily",
-      prayer: "maghrib",
-      priority: "high",
-      done: false,
-      time: "19:30",
-      title: "🕌 سيرة النبي ﷺ — الشيخ بدر المشاري",
-      link: SEERAH_LINK
-    });
+function genOCR(){
+  const s=[
+    'الفقرة الأولى: مقدمة الدرس وأهدافه الرئيسية.\nالفقرة الثانية: شرح المفاهيم الأساسية.\nملاحظة: مراجعة الفصل الثالث مهمة للاختبار.',
+    'المحاضرة تتضمن:\n١. المفاهيم النظرية الأساسية\n٢. الأمثلة التطبيقية\n٣. التمارين والمسائل\n٤. أسئلة المراجعة',
+    'المصطلحات الأساسية:\n• المفهوم الأول: تعريفه وأهميته\n• المفهوم الثاني: تطبيقاته العملية\n• الخلاصة والاستنتاجات النهائية',
+  ];
+  return s[Math.floor(Math.random()*s.length)];
+}
+
+function showPrev(src){
+  const img=document.getElementById('prev-img-el'),ph=document.getElementById('prev-ph');
+  if(src){img.src=src;img.style.display='block';ph.style.display='none';}
+  else{img.style.display='none';ph.style.display='block';}
+  document.getElementById('ocr-area').value=pendOcr;
+  document.getElementById('prev-scr').classList.add('on');
+  toast('✅ جاهز — يمكنك تعديل النص قبل الحفظ');
+}
+function closePrev(){document.getElementById('prev-scr').classList.remove('on')}
+
+/* ══ MODES ══ */
+function renderModes(){
+  const el=document.getElementById('modes-row');
+  el.innerHTML=cats.map(c=>`<button class="mc${selCat===c.id?' on':''}" onclick="selCatFn(${c.id},this)">${c.name}</button>`).join('')
+    +`<button class="mc" style="background:var(--t);color:#fff;border-color:var(--t)" onclick="openAddCat()">+ إضافة أرشيف</button>`;
+}
+function selCatFn(id,btn){selCat=id;document.querySelectorAll('#modes-row .mc').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
+function openAddCat(){document.getElementById('addcat-back').classList.add('on');setTimeout(()=>document.getElementById('new-cat').focus(),200)}
+function closeAddCat(){document.getElementById('addcat-back').classList.remove('on');document.getElementById('new-cat').value=''}
+function addCat(){
+  const v=document.getElementById('new-cat').value.trim();
+  if(!v){toast('⚠️ أدخل اسم الأرشيف');return}
+  cats.push({id:Date.now(),name:v});closeAddCat();renderModes();toast('✅ تم إضافة الأرشيف');
+}
+
+/* ══ SAVE ══ */
+function openSaveMod(){
+  const ocrVal=document.getElementById('ocr-area').value;if(ocrVal)pendOcr=ocrVal;
+  const c=cats.find(x=>x.id===selCat);
+  document.getElementById('fname').value=`محاضرة ${c?.name||''} ${files.length+1}`;
+  const sc=document.getElementById('save-cats');
+  sc.innerHTML=cats.map(c=>`<button class="mc${selCat===c.id?' on':''}" onclick="document.querySelectorAll('#save-cats .mc').forEach(b=>b.classList.remove('on'));this.classList.add('on');selCat=${c.id}">${c.name}</button>`).join('');
+  document.getElementById('save-back').classList.add('on');
+}
+function closeSaveMod(){document.getElementById('save-back').classList.remove('on')}
+function saveFile(){
+  const name=document.getElementById('fname').value.trim();
+  if(!name){toast('⚠️ أدخل اسم الملف');return}
+  const c=cats.find(x=>x.id===selCat);
+  files.unshift({id:Date.now(),name,cat:c?.name||'📄 وثيقة',size:`0.${Math.floor(Math.random()*9)+1} MB`,date:'الآن',pages:Math.floor(Math.random()*5)+1,fav:false,img:pendImg||null,ocr:pendOcr||''});
+  closeSaveMod();closePrev();pendImg=null;pendOcr='';
+  renderHome();toast('✅ تم الحفظ كـ PDF! 🎉');
+}
+
+/* ══ MANUAL ══ */
+function openManual(){document.getElementById('manual-back').classList.add('on')}
+function closeManual(){document.getElementById('manual-back').classList.remove('on');document.getElementById('manual-txt').value=''}
+function saveManual(){
+  const txt=document.getElementById('manual-txt').value.trim();
+  if(!txt){toast('⚠️ اكتب شيئاً أولاً');return}
+  pendOcr=txt;pendImg=null;closeManual();setTimeout(()=>showPrev(null),200);
+}
+
+/* ══ DETAIL ══ */
+function openDet(id){
+  curFile=files.find(f=>f.id===id);if(!curFile)return;
+  document.getElementById('det-title').textContent=curFile.name;
+  document.getElementById('fav-btn').textContent=curFile.fav?'❤️':'🤍';
+  editOcr=false;renderDetBody();
+  document.getElementById('det-scr').classList.add('on');
+}
+function closeDet(){document.getElementById('det-scr').classList.remove('on')}
+function toggleFav(){
+  if(!curFile)return;curFile.fav=!curFile.fav;
+  files=files.map(f=>f.id===curFile.id?curFile:f);
+  document.getElementById('fav-btn').textContent=curFile.fav?'❤️':'🤍';
+  toast(curFile.fav?'❤️ أضيف للمفضلة':'💔 حُذف من المفضلة');renderHome();
+}
+function delFile(){
+  if(!curFile)return;
+  if(confirm('هل تريد حذف هذا الملف؟')){
+    files=files.filter(f=>f.id!==curFile.id);
+    closeDet();renderHome();toast('🗑️ تم الحذف');
   }
-
-  // ── بعد العشاء ──
-  tasks.push({
-    id: id++,
-    type: "daily",
-    prayer: "isha",
-    priority: "medium",
-    done: false,
-    time: "21:00",
-    title: "مراجعة ما تعلمته اليوم",
-    link: ""
-  });
-  tasks.push({
-    id: id++,
-    type: "daily",
-    prayer: "isha",
-    priority: "high",
-    done: false,
-    time: "22:30",
-    title: "تخطيط مهام الغد",
-    link: ""
-  });
-  return tasks;
+}
+function renderDetBody(){
+  const b=document.getElementById('det-body');
+  const imgH=curFile.img?`<img src="${curFile.img}" style="width:100%;height:100%;object-fit:contain">`:`<span style="font-size:64px">📄</span>`;
+  const ocrH=curFile.ocr?`
+    <div class="ob">
+      <div class="ol">🔤 النص المستخرج</div>
+      <div class="od" id="ocr-d">${curFile.ocr.replace(/\n/g,'<br>')}</div>
+      <textarea class="oe" id="ocr-e">${curFile.ocr}</textarea>
+      <div style="display:flex;gap:8px;margin-top:9px" id="ocr-btns">
+        <button class="btn btn-g" style="flex:1;padding:9px" onclick="toggleEditOcr()">✏️ تعديل النص</button>
+      </div>
+    </div>`:'';
+  b.innerHTML=`
+    <div class="dpr">${imgH}</div>
+    <div class="ic">
+      <div class="ir"><span class="ik">التصنيف</span><span class="iv">${curFile.cat}</span></div>
+      <div class="ir"><span class="ik">الحجم</span><span class="iv">${curFile.size}</span></div>
+      <div class="ir"><span class="ik">التاريخ</span><span class="iv">${curFile.date}</span></div>
+      <div class="ir" style="border-bottom:none"><span class="ik">الصفحات</span><span class="iv">${curFile.pages} صفحة</span></div>
+    </div>
+    ${ocrH}
+    <div class="dag">
+      <button class="da" onclick="toast('📤 تم المشاركة')"><span class="di">📤</span><span class="dl">مشاركة</span></button>
+      <button class="da" onclick="toast('📂 مدير الملفات')"><span class="di">📂</span><span class="dl">مدير الملفات</span></button>
+      <button class="da" onclick="toast('☁️ جاري الرفع...')"><span class="di">☁️</span><span class="dl">Drive</span></button>
+      <button class="da red" onclick="delFile()"><span class="di">🗑️</span><span class="dl">حذف</span></button>
+    </div>
+    <button class="aibtn" onclick="openAI()">🤖 تلخيص ذكي + خريطة + أسئلة</button>`;
+}
+function toggleEditOcr(){
+  editOcr=!editOcr;
+  document.getElementById('ocr-d').style.display=editOcr?'none':'block';
+  document.getElementById('ocr-e').classList.toggle('on',editOcr);
+  document.getElementById('ocr-btns').innerHTML=editOcr
+    ?`<button class="btn btn-g" style="flex:1;padding:9px" onclick="cancelOcr()">إلغاء</button><button class="btn btn-v" style="flex:2;padding:9px" onclick="saveOcr()">💾 حفظ</button>`
+    :`<button class="btn btn-g" style="flex:1;padding:9px" onclick="toggleEditOcr()">✏️ تعديل النص</button>`;
+  if(editOcr)document.getElementById('ocr-e').focus();
+}
+function cancelOcr(){editOcr=true;toggleEditOcr()}
+function saveOcr(){
+  const v=document.getElementById('ocr-e').value;
+  curFile.ocr=v;files=files.map(f=>f.id===curFile.id?curFile:f);
+  editOcr=true;toggleEditOcr();
+  document.getElementById('ocr-d').innerHTML=v.replace(/\n/g,'<br>');
+  toast('✅ تم حفظ التعديل');
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-//  STATIC TASKS (weekly + monthly)
-// ══════════════════════════════════════════════════════════════════════════════
-const STATIC_TASKS = [
-// شهري
-{
-  id: 101,
-  type: "monthly",
-  title: "إنهاء الأصول الفكرية — المادة الأولى",
-  prayer: "dhuhr",
-  priority: "high",
-  done: false,
-  time: "12:30",
-  link: FUSUL_LINK
-}, {
-  id: 102,
-  type: "monthly",
-  title: "إنهاء الأصول الفكرية — المادة الثانية",
-  prayer: "dhuhr",
-  priority: "high",
-  done: false,
-  time: "12:30",
-  link: FUSUL_LINK
-}, {
-  id: 103,
-  type: "monthly",
-  title: "إتمام قسم الإنجليزية الأول",
-  prayer: "dhuhr",
-  priority: "high",
-  done: false,
-  time: "13:30",
-  link: ENGLISH_LINK
-}, {
-  id: 104,
-  type: "monthly",
-  title: "إتمام قسم الإنجليزية الثاني",
-  prayer: "dhuhr",
-  priority: "high",
-  done: false,
-  time: "13:30",
-  link: ENGLISH_LINK
-}, {
-  id: 105,
-  type: "monthly",
-  title: "إتمام الشمائل المحمدية (٨ → ٤٣)",
-  prayer: "asr",
-  priority: "high",
-  done: false,
-  time: "16:00",
-  link: SHAMAEL_BASE
-}, {
-  id: 106,
-  type: "monthly",
-  title: "سيرة النبي ﷺ كاملة — الشيخ بدر",
-  prayer: "maghrib",
-  priority: "high",
-  done: false,
-  time: "19:30",
-  link: SEERAH_LINK
-},
-// أسبوعي
-{
-  id: 201,
-  type: "weekly",
-  title: "الأصول الفكرية — ٧٠ صفحة هذا الأسبوع",
-  prayer: "dhuhr",
-  priority: "high",
-  done: false,
-  time: "12:30",
-  link: FUSUL_LINK
-}, {
-  id: 202,
-  type: "weekly",
-  title: "الإنجليزية — ٧ دروس هذا الأسبوع",
-  prayer: "dhuhr",
-  priority: "high",
-  done: false,
-  time: "13:30",
-  link: ENGLISH_LINK
-}, {
-  id: 203,
-  type: "weekly",
-  title: "تمرين رياضي ٤ جلسات (سبت/أحد/ثلاثاء/أربعاء)",
-  prayer: "fajr",
-  priority: "high",
-  done: false,
-  time: "06:30",
-  link: ""
-}, {
-  id: 204,
-  type: "weekly",
-  title: "ملخص التربية — جلستان (خميس+سبت)",
-  prayer: "dhuhr",
-  priority: "medium",
-  done: false,
-  time: "14:30",
-  link: TARBIYA_LINK
-}, {
-  id: 205,
-  type: "weekly",
-  title: "السيرة النبوية — مقطعان (اثنين+خميس)",
-  prayer: "maghrib",
-  priority: "high",
-  done: false,
-  time: "19:30",
-  link: SEERAH_LINK
-}, {
-  id: 206,
-  type: "weekly",
-  title: "الشمائل المحمدية — ١٤ مقطع هذا الأسبوع",
-  prayer: "asr",
-  priority: "high",
-  done: false,
-  time: "16:00",
-  link: SHAMAEL_BASE
-}];
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  JOURNAL SEED
-// ══════════════════════════════════════════════════════════════════════════════
-const INIT_JOURNAL = [{
-  id: 1,
-  date: "2026-05-18",
-  text: "يوم منتج — أكملت الأصول الفكرية وتمرين الصدر.",
-  mood: "positive",
-  score: 88,
-  reasons: ["productivity", "exercise"],
-  insight: "تمرين الصباح يرفع طاقتك طوال اليوم."
-}, {
-  id: 2,
-  date: "2026-05-17",
-  text: "يوم مليء بالضغوط، لم أنجز الدرس الإنجليزي.",
-  mood: "negative",
-  score: 40,
-  reasons: ["stress", "phone"],
-  insight: "ضع الهاتف بعيداً وقت الدراسة."
-}];
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  HELPERS
-// ══════════════════════════════════════════════════════════════════════════════
-const uid = () => Date.now() + Math.random();
-const todayS = () => new Date().toISOString().slice(0, 10);
-const fmtDate = d => {
-  try {
-    return new Date(d).toLocaleDateString("ar-SA", {
-      weekday: "long",
-      month: "long",
-      day: "numeric"
-    });
-  } catch {
-    return d;
-  }
-};
-const todayFull = () => new Date().toLocaleDateString("ar-SA", {
-  weekday: "long",
-  year: "numeric",
-  month: "long",
-  day: "numeric"
-});
-const todayPoem = () => POETRY[new Date().getDate() % POETRY.length];
-const WEEKLY_SCR = [72, 35, 60, 88, 50, 78, 0];
-const WEEK_DAYS = ["أحد", "اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت"];
-const TYPE_META = {
-  daily: {
-    label: "يومي",
-    emoji: "✅",
-    color: "#10C98F"
-  },
-  weekly: {
-    label: "أسبوعي",
-    emoji: "📅",
-    color: "#4A8CFF"
-  },
-  monthly: {
-    label: "شهري",
-    emoji: "🗓",
-    color: "#8B5CF6"
-  },
-  side: {
-    label: "جانبي",
-    emoji: "📎",
-    color: "#F59E0B"
-  }
-};
-const PRIO_META = {
-  high: {
-    label: "عالي",
-    color: "#F43F5E"
-  },
-  medium: {
-    label: "متوسط",
-    color: "#F59E0B"
-  },
-  low: {
-    label: "منخفض",
-    color: "#10C98F"
-  }
-};
-const MOODS = {
-  positive: {
-    label: "إيجابي",
-    emoji: "😊",
-    color: "#10C98F",
-    lightBg: "#ECFDF5",
-    darkBg: "rgba(16,201,143,.12)"
-  },
-  neutral: {
-    label: "محايد",
-    emoji: "😐",
-    color: "#F59E0B",
-    lightBg: "#FFFBEB",
-    darkBg: "rgba(245,158,11,.12)"
-  },
-  negative: {
-    label: "سلبي",
-    emoji: "😞",
-    color: "#F43F5E",
-    lightBg: "#FFF1F2",
-    darkBg: "rgba(244,63,94,.12)"
-  }
-};
-const REASONS_META = {
-  stress: {
-    label: "ضغط نفسي",
-    icon: "🧠",
-    color: "#F43F5E"
-  },
-  productivity: {
-    label: "إنتاجية عالية",
-    icon: "⚡",
-    color: "#10C98F"
-  },
-  phone: {
-    label: "كثرة الهاتف",
-    icon: "📱",
-    color: "#F59E0B"
-  },
-  sleep: {
-    label: "نوم جيد",
-    icon: "😴",
-    color: "#4A8CFF"
-  },
-  exercise: {
-    label: "رياضة",
-    icon: "💪",
-    color: "#8B5CF6"
-  },
-  social: {
-    label: "تواصل اجتماعي",
-    icon: "🤝",
-    color: "#06B6D4"
-  }
-};
-async function callAI(text) {
-  const positive_words = ['ممتاز', 'رائع', 'سعيد', 'منتج', 'إيجابي', 'إنجاز', 'تمرين', 'أحسنت', 'فرح', 'حماس', 'الحمدلله', 'موفق'];
-  const negative_words = ['حزين', 'تعب', 'ضغط', 'كسل', 'فشل', 'سيء', 'مشكلة', 'صعب', 'متوتر', 'قلق', 'محبط', 'ملل'];
-  let pos_count = positive_words.filter(w => text.includes(w)).length;
-  let neg_count = negative_words.filter(w => text.includes(w)).length;
-  let mood, score, reasons = [];
-  if (pos_count > neg_count) {
-    mood = 'positive';
-    score = Math.min(95, 60 + pos_count * 8);
-    if (text.includes('تمرين') || text.includes('رياض')) reasons.push('exercise');
-    if (text.includes('منتج') || text.includes('أنجز')) reasons.push('productivity');
-    if (text.includes('نوم')) reasons.push('sleep');
-    if (text.includes('صديق') || text.includes('أهل')) reasons.push('social');
-  } else if (neg_count > pos_count) {
-    mood = 'negative';
-    score = Math.max(20, 50 - neg_count * 8);
-    if (text.includes('ضغط') || text.includes('قلق')) reasons.push('stress');
-    if (text.includes('هاتف')) reasons.push('phone');
-  } else { mood = 'neutral'; score = 55; }
-  if (reasons.length === 0) reasons.push(mood === 'positive' ? 'productivity' : mood === 'negative' ? 'stress' : 'sleep');
-  const insights = {
-    positive: ['استمر على هذا المنوال — يومك واعد!', 'الإيجابية تجلب البركة في الوقت والعمل.', 'احتفظ بهذا الزخم!'],
-    neutral: ['يوم متوسط — جرّب نشاطاً جديداً غداً.', 'تأمّل ما الذي يمكن تحسينه.', 'النمو يحدث في الأيام العادية.'],
-    negative: ['تذكّر أن الأيام الصعبة جزء من النمو.', 'استرح، اشرب ماءً، وارجع غداً بنشاط.', 'تقرّب من الله، وضع هاتفك جانباً.']
-  };
-  return {
-    mood, score, reasons: reasons.slice(0, 3),
-    insight: insights[mood][Math.floor(Math.random() * 3)],
-    summary: mood === 'positive' ? 'يوم إيجابي' : mood === 'negative' ? 'يوم صعب' : 'يوم عادي'
-  };
+/* ══ AI ══ */
+function openAI(){
+  document.getElementById('ai-sum').innerHTML=`
+    <div class="aic"><div class="act">📋 الملخص الرئيسي</div><div class="acb">${AI.summary}</div></div>
+    <div class="aic"><div class="act">🔑 النقاط الأساسية</div>
+    ${AI.points.map(p=>`<div class="kp"><div class="kpd"></div><div class="kpt">${p}</div></div>`).join('')}</div>`;
+  document.getElementById('ai-mind').innerHTML=`
+    <div class="aic"><div class="act" style="color:var(--t)">🗺️ الخريطة الذهنية</div>
+    <div class="mc2"><div class="mn">${AI.mindmap.center}</div></div>
+    <div class="mbs">${AI.mindmap.branches.map(b=>`<div class="mb">${b}</div>`).join('')}</div></div>`;
+  document.getElementById('ai-qs').innerHTML=AI.questions.map((q,qi)=>`
+    <div class="qc">
+      <span class="qb ${q.t}">${q.t==='s'?'✅ بسيط':'🔬 تحليلي'}</span>
+      <div class="qt">${q.txt}</div>
+      <div class="qo">${q.opts.map((o,oi)=>`
+        <button class="qopt" onclick="ansQ(this,${qi},${oi},${q.a})">
+          <span class="olt">${['أ','ب','ج','د'][oi]}</span>${o}
+        </button>`).join('')}
+      </div>
+      <div class="qe" id="qe-${qi}">${q.exp}</div>
+    </div>`).join('');
+  document.querySelectorAll('.aitab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.aip').forEach(p=>p.classList.remove('on'));
+  document.querySelector('.aitab').classList.add('on');
+  document.getElementById('ai-sum').classList.add('on');
+  document.getElementById('ai-scr').classList.add('on');
+}
+function closeAI(){document.getElementById('ai-scr').classList.remove('on')}
+function aiTab(btn,id){
+  document.querySelectorAll('.aitab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.aip').forEach(p=>p.classList.remove('on'));
+  btn.classList.add('on');document.getElementById(id).classList.add('on');
+}
+function ansQ(btn,qi,oi,correct){
+  const card=btn.closest('.qc');
+  card.querySelectorAll('.qopt').forEach(b=>b.disabled=true);
+  btn.classList.add(oi===correct?'correct':'wrong');
+  if(oi!==correct)card.querySelectorAll('.qopt')[correct].classList.add('correct');
+  document.getElementById('qe-'+qi).classList.add('on');
+  toast(oi===correct?'✅ ممتاز!':'❌ الإجابة الصحيحة باللون الأخضر');
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-//  SHARED COMPONENTS
-// ══════════════════════════════════════════════════════════════════════════════
-function Checkbox({
-  done,
-  onToggle,
-  color
-}) {
-  return <button onClick={onToggle} style={{
-    width: 26,
-    height: 26,
-    borderRadius: 7,
-    border: `2.5px solid ${done ? color : "#CBD5E1"}`,
-    background: done ? color : "transparent",
-    cursor: "pointer",
-    flexShrink: 0,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    boxShadow: done ? `0 3px 10px ${color}50` : "none",
-    transition: "all .2s"
-  }}>
-      {done && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
-    </button>;
+/* ══ REVIEW ══ */
+function renderReview(){
+  const b=document.getElementById('rev-body');
+  b.innerHTML=`
+    <div class="srow">
+      <div class="sb"><div class="sn">${files.length}</div><div class="sl">إجمالي الملفات</div></div>
+      <div class="sb"><div class="sn">${files.filter(f=>f.fav).length}</div><div class="sl">مفضلة</div></div>
+      <div class="sb"><div class="sn">${cats.length}</div><div class="sl">التصنيفات</div></div>
+    </div>
+    <div style="font-size:13px;font-weight:700;color:var(--tx2);margin-bottom:10px">اختر ملفات المراجعة:</div>
+    ${files.map(f=>`
+      <div class="rp${quizSel.has(f.id)?' sel':''}" id="rp-${f.id}" onclick="toggleSel(${f.id})">
+        <div class="ri" style="background:var(--vl)">📄</div>
+        <div style="flex:1;min-width:0"><div class="rn">${f.name}</div><div class="rm">${f.cat}</div></div>
+        <div class="rc">${quizSel.has(f.id)?'✓':''}</div>
+      </div>`).join('')}
+    <button class="stbtn" onclick="startQuiz(false)">🎯 ابدأ المسابقة للملفات المحددة</button>
+    <button class="stbtn2" onclick="startQuiz(true)">📚 مراجعة جميع الملفات</button>
+    <div style="height:16px"></div>`;
 }
-function Toggle({
-  on,
-  onToggle,
-  color = "#10C98F"
-}) {
-  return <button onClick={onToggle} style={{
-    width: 48,
-    height: 26,
-    borderRadius: 13,
-    border: "none",
-    background: on ? color : "#CBD5E1",
-    cursor: "pointer",
-    position: "relative",
-    flexShrink: 0,
-    transition: "background .2s"
-  }}>
-      <div style={{
-      width: 20,
-      height: 20,
-      borderRadius: "50%",
-      background: "#fff",
-      position: "absolute",
-      top: 3,
-      left: on ? 25 : 3,
-      transition: "left .2s",
-      boxShadow: "0 2px 5px rgba(0,0,0,.2)"
-    }} />
-    </button>;
+function toggleSel(id){
+  quizSel.has(id)?quizSel.delete(id):quizSel.add(id);
+  const el=document.getElementById('rp-'+id);
+  el.classList.toggle('sel',quizSel.has(id));
+  el.querySelector('.rc').textContent=quizSel.has(id)?'✓':'';
 }
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  TASK MODAL
-// ══════════════════════════════════════════════════════════════════════════════
-function TaskModal({
-  task,
-  onSave,
-  onClose,
-  onDelete,
-  C,
-  dark
-}) {
-  const isNew = !task.id;
-  const [title, setTitle] = useState(task.title || "");
-  const [type, setType] = useState(task.type || "daily");
-  const [prayer, setPrayer] = useState(task.prayer || "fajr");
-  const [prio, setPrio] = useState(task.priority || "medium");
-  const [time, setTime] = useState(task.time || "");
-  const [link, setLink] = useState(task.link || "");
-  const inp = {
-    width: "100%",
-    background: C.inputBg,
-    border: `1.5px solid ${C.border}`,
-    borderRadius: 11,
-    padding: "11px 13px",
-    color: C.text,
-    fontSize: 14,
-    fontFamily: "inherit",
-    outline: "none",
-    direction: "rtl",
-    marginBottom: 12,
-    boxSizing: "border-box"
-  };
-  const lbl = {
-    display: "block",
-    fontSize: 12,
-    color: C.textSub,
-    fontWeight: 700,
-    marginBottom: 5,
-    textAlign: "right"
-  };
-  return <div style={{
-    position: "fixed",
-    inset: 0,
-    zIndex: 999,
-    background: "rgba(0,0,0,.5)",
-    backdropFilter: "blur(6px)",
-    display: "flex",
-    alignItems: "flex-end",
-    justifyContent: "center"
-  }} onClick={e => e.target === e.currentTarget && onClose()}>
-      <div style={{
-      width: "100%",
-      maxWidth: 480,
-      background: C.card,
-      borderRadius: "22px 22px 0 0",
-      border: `1px solid ${C.border}`,
-      padding: "20px 20px 44px",
-      maxHeight: "90vh",
-      overflowY: "auto"
-    }}>
-        <div style={{
-        width: 40,
-        height: 4,
-        borderRadius: 2,
-        background: C.border,
-        margin: "0 auto 16px"
-      }} />
-        <p style={{
-        fontSize: 16,
-        fontWeight: 800,
-        marginBottom: 16,
-        color: C.text,
-        textAlign: "right"
-      }}>{isNew ? "✦ مهمة جديدة" : "تعديل المهمة"}</p>
-
-        <label style={lbl}>العنوان</label>
-        <input style={inp} placeholder="اكتب المهمة..." value={title} onChange={e => setTitle(e.target.value)} />
-
-        <label style={lbl}>النوع</label>
-        <div style={{
-        display: "flex",
-        gap: 7,
-        flexWrap: "wrap",
-        marginBottom: 12
-      }}>
-          {["daily", "weekly", "monthly", "side"].map(t => {
-          const m = TYPE_META[t];
-          const a = type === t;
-          return <button key={t} onClick={() => setType(t)} style={{
-            padding: "7px 13px",
-            borderRadius: 20,
-            fontSize: 12,
-            fontWeight: 700,
-            cursor: "pointer",
-            fontFamily: "inherit",
-            background: a ? m.color + "20" : C.inputBg,
-            border: `1.5px solid ${a ? m.color : C.border}`,
-            color: a ? m.color : C.textSub
-          }}>{m.emoji} {m.label}</button>;
-        })}
-        </div>
-
-        <label style={lbl}>بعد صلاة</label>
-        <div style={{
-        display: "flex",
-        gap: 6,
-        flexWrap: "wrap",
-        marginBottom: 12
-      }}>
-          {PRAYERS.map(p => {
-          const a = prayer === p.id;
-          return <button key={p.id} onClick={() => setPrayer(p.id)} style={{
-            padding: "7px 12px",
-            borderRadius: 20,
-            fontSize: 12,
-            fontWeight: 700,
-            cursor: "pointer",
-            fontFamily: "inherit",
-            background: a ? p.color + "20" : C.inputBg,
-            border: `1.5px solid ${a ? p.color : C.border}`,
-            color: a ? p.color : C.textSub
-          }}>{p.emoji} {p.label}</button>;
-        })}
-        </div>
-
-        <div style={{
-        display: "flex",
-        gap: 10,
-        marginBottom: 12
-      }}>
-          <div style={{
-          flex: 1
-        }}>
-            <label style={lbl}>الأولوية</label>
-            <select style={{
-            ...inp,
-            marginBottom: 0,
-            cursor: "pointer",
-            colorScheme: dark ? "dark" : "light"
-          }} value={prio} onChange={e => setPrio(e.target.value)}>
-              <option value="high">عالي</option><option value="medium">متوسط</option><option value="low">منخفض</option>
-            </select>
-          </div>
-          <div style={{
-          flex: 1
-        }}>
-            <label style={lbl}>الوقت</label>
-            <input type="time" style={{
-            ...inp,
-            marginBottom: 0,
-            colorScheme: dark ? "dark" : "light"
-          }} value={time} onChange={e => setTime(e.target.value)} />
-          </div>
-        </div>
-
-        <label style={lbl}>رابط (فيديو / مقالة)</label>
-        <input style={{
-        ...inp,
-        direction: "ltr",
-        textAlign: "left"
-      }} placeholder="https://..." value={link} onChange={e => setLink(e.target.value)} />
-
-        <div style={{
-        display: "flex",
-        gap: 10,
-        marginTop: 4
-      }}>
-          {!isNew && <button onClick={() => onDelete(task.id)} style={{
-          flex: 0.45,
-          padding: "13px 0",
-          borderRadius: 13,
-          background: dark ? "rgba(244,63,94,.12)" : "#FFF1F2",
-          border: `1.5px solid #F43F5E55`,
-          color: "#F43F5E",
-          fontSize: 13,
-          fontWeight: 700,
-          cursor: "pointer",
-          fontFamily: "inherit"
-        }}>🗑 حذف</button>}
-          <button onClick={() => onSave({
-          ...task,
-          id: task.id || uid(),
-          title,
-          type: type,
-          prayer,
-          priority: prio,
-          done: task.done || false,
-          time,
-          link
-        })} style={{
-          flex: 1,
-          padding: "13px 0",
-          borderRadius: 13,
-          background: "#10C98F",
-          border: "none",
-          color: "#fff",
-          fontSize: 15,
-          fontWeight: 800,
-          cursor: "pointer",
-          fontFamily: "inherit"
-        }}>{isNew ? "✓ إضافة" : "✓ حفظ"}</button>
-        </div>
-      </div>
-    </div>;
+function startQuiz(all){
+  const src=all?files:files.filter(f=>quizSel.has(f.id));
+  if(!src.length){toast('⚠️ اختر ملفاً واحداً على الأقل');return}
+  const pool=[];src.forEach(()=>AI.questions.forEach(q=>pool.push(q)));
+  quizQs=pool.sort(()=>Math.random()-.5).slice(0,Math.min(pool.length,8));
+  quizIdx=0;quizScore=0;quizAns=false;quizSelOpt=null;
+  document.getElementById('quiz-scr').classList.add('on');renderQ();
 }
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  HOME SCREEN
-// ══════════════════════════════════════════════════════════════════════════════
-function HomeScreen({
-  tasks,
-  setTasks,
-  onNavigate,
-  C,
-  dark
-}) {
-  const daily = tasks.filter(t => t.type === "daily");
-  const done = daily.filter(t => t.done).length;
-  const total = daily.length;
-  const pct = total ? Math.round(done / total * 100) : 0;
-  const poem = todayPoem();
-  const toggle = id => setTasks(ts => ts.map(t => t.id === id ? {
-    ...t,
-    done: !t.done
-  } : t));
-  const s = {
-    fontFamily: "inherit"
-  };
-  return <div style={{
-    display: "flex",
-    flexDirection: "column",
-    height: "100%",
-    ...s
-  }}>
-      {/* Poem Banner - ثابت */}
-      <div style={{
-      flexShrink: 0,
-      background: dark ? "linear-gradient(135deg,#1e1b4b,#312e81)" : "linear-gradient(135deg,#4338ca,#7c3aed)",
-      padding: "10px 20px"
-    }}>
-        <p style={{
-        fontSize: 10,
-        color: "rgba(255,255,255,.6)",
-        letterSpacing: 1.5,
-        marginBottom: 3,
-        textAlign: "right",
-        fontWeight: 700
-      }}>✦ شعر اليوم ✦</p>
-        <p style={{
-        fontSize: 13,
-        color: "#fff",
-        lineHeight: 1.6,
-        textAlign: "right",
-        fontStyle: "italic",
-        marginBottom: 2
-      }}>"{poem.text}"</p>
-        <p style={{
-        fontSize: 10,
-        color: "rgba(255,255,255,.6)",
-        textAlign: "right",
-        fontWeight: 600
-      }}>— {poem.poet}</p>
-      </div>
-
-      {/* Header - ثابت */}
-      <div style={{
-      flexShrink: 0,
-      background: "linear-gradient(135deg,#10C98F,#4A8CFF)",
-      padding: "12px 20px"
-    }}>
-        <div style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center"
-      }}>
-          <div style={{
-          width: 40,
-          height: 40,
-          borderRadius: "50%",
-          background: "rgba(255,255,255,.25)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: 16,
-          fontWeight: 800,
-          color: "#fff",
-          border: "2px solid rgba(255,255,255,.4)"
-        }}>م</div>
-          <div style={{
-          textAlign: "right"
-        }}>
-            <p style={{
-            fontSize: 11,
-            color: "rgba(255,255,255,.75)",
-            marginBottom: 2
-          }}>{todayFull()}</p>
-            <p style={{
-            fontSize: 18,
-            fontWeight: 900,
-            color: "#fff"
-          }}>مرحباً، محمد 👋</p>
-          </div>
-        </div>
-      </div>
-
-      {/* محتوى قابل للتمرير */}
-      <div style={{
-      flex: 1,
-      overflowY: "auto"
-    }}>
-      <div style={{
-        padding: "14px 16px 0"
-      }}>
-        {/* Progress Card */}
-        <div style={{
-          borderRadius: 20,
-          background: C.card,
-          padding: 18,
-          marginBottom: 12,
-          boxShadow: "0 8px 30px rgba(0,0,0,.08)",
-          border: `1px solid ${C.border}`,
-          display: "flex",
-          alignItems: "center",
-          gap: 14
-        }}>
-          <div style={{
-            position: "relative",
-            flexShrink: 0
-          }}>
-            <svg width={90} height={90} style={{
-              transform: "rotate(-90deg)"
-            }}>
-              <circle cx={45} cy={45} r={38} fill="none" stroke={C.border} strokeWidth={7} />
-              <circle cx={45} cy={45} r={38} fill="none" stroke="#10C98F" strokeWidth={7} strokeLinecap="round" strokeDasharray={`${pct / 100 * 2 * Math.PI * 38} ${2 * Math.PI * 38}`} style={{
-                transition: "stroke-dasharray 1s ease"
-              }} />
-            </svg>
-            <div style={{
-              position: "absolute",
-              inset: 0,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center"
-            }}>
-              <span style={{
-                fontSize: 18,
-                fontWeight: 900,
-                color: "#10C98F"
-              }}>{pct}%</span>
-              <span style={{
-                fontSize: 9,
-                color: C.textDim
-              }}>مكتمل</span>
-            </div>
-          </div>
-          <div style={{
-            flex: 1
-          }}>
-            <p style={{
-              fontSize: 15,
-              fontWeight: 800,
-              color: C.text,
-              marginBottom: 4,
-              textAlign: "right"
-            }}>إنجاز اليوم</p>
-            <p style={{
-              fontSize: 13,
-              color: C.textSub,
-              marginBottom: 10,
-              textAlign: "right"
-            }}>
-              <span style={{
-                color: "#10C98F",
-                fontWeight: 800
-              }}>{done}</span> من <span style={{
-                fontWeight: 700,
-                color: C.text
-              }}>{total}</span> مهمة
-            </p>
-            <div style={{
-              display: "flex",
-              gap: 6,
-              flexWrap: "wrap",
-              justifyContent: "flex-end"
-            }}>
-              <span style={{
-                padding: "4px 11px",
-                borderRadius: 20,
-                background: dark ? "rgba(16,201,143,.15)" : "#ECFDF5",
-                fontSize: 11,
-                fontWeight: 700,
-                color: "#10C98F"
-              }}>{pct >= 80 ? "🏆 رائع!" : pct >= 50 ? "⚡ استمر!" : "🚀 ابدأ!"}</span>
-              <span style={{
-                padding: "4px 11px",
-                borderRadius: 20,
-                background: dark ? "rgba(245,158,11,.12)" : "#FFFBEB",
-                fontSize: 11,
-                fontWeight: 700,
-                color: "#F59E0B"
-              }}>🔥 سلسلة ٥ أيام</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Weekly Chart */}
-        <div style={{
-          borderRadius: 18,
-          background: C.card,
-          padding: 14,
-          marginBottom: 12,
-          boxShadow: "0 4px 16px rgba(0,0,0,.05)",
-          border: `1px solid ${C.border}`
-        }}>
-          <div style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: 12
-          }}>
-            <span style={{
-              fontSize: 11,
-              color: C.textDim
-            }}>آخر ٧ أيام</span>
-            <span style={{
-              fontSize: 13,
-              fontWeight: 800,
-              color: C.text
-            }}>📊 أداء الأسبوع</span>
-          </div>
-          <div style={{
-            display: "flex",
-            gap: 4,
-            height: 70,
-            alignItems: "flex-end"
-          }}>
-            {WEEKLY_SCR.map((v, i) => {
-              const isT = i === 6;
-              const col = v >= 70 ? "#10C98F" : v >= 40 ? "#F59E0B" : v > 0 ? "#F43F5E" : C.border;
-              return <div key={i} style={{
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: 4
-              }}>
-                  {v > 0 && <span style={{
-                  fontSize: 7,
-                  color: col,
-                  fontWeight: 700
-                }}>{v}</span>}
-                  <div style={{
-                  width: "100%",
-                  borderRadius: "4px 4px 0 0",
-                  height: v > 0 ? `${v}%` : "8%",
-                  background: col,
-                  boxShadow: isT ? `0 4px 12px ${col}50` : "none",
-                  transition: "height .8s ease"
-                }} />
-                  <span style={{
-                  fontSize: 8,
-                  color: isT ? "#10C98F" : C.textDim,
-                  fontWeight: isT ? 800 : 400
-                }}>{WEEK_DAYS[i]}</span>
-                </div>;
-            })}
-          </div>
-        </div>
-
-        {/* Today Tasks by Prayer */}
-        <div style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: 10
-        }}>
-          <button onClick={() => onNavigate("tasks")} style={{
-            background: dark ? "rgba(16,201,143,.15)" : "#ECFDF5",
-            border: "none",
-            color: "#10C98F",
-            fontSize: 11,
-            fontWeight: 700,
-            cursor: "pointer",
-            fontFamily: "inherit",
-            padding: "5px 12px",
-            borderRadius: 20
-          }}>عرض الكل ←</button>
-          <div style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8
-          }}>
-            <span style={{
-              fontSize: 12,
-              color: C.textSub,
-              background: dark ? "rgba(255,255,255,.07)" : C.border,
-              padding: "3px 10px",
-              borderRadius: 20,
-              fontWeight: 700
-            }}>
-              {new Date().toLocaleDateString("ar-SA", {
-                weekday: "long"
-              })}
-            </span>
-            <span style={{
-              fontSize: 14,
-              fontWeight: 800,
-              color: C.text
-            }}>مهام اليوم</span>
-          </div>
-        </div>
-
-        {PRAYERS.map(p => {
-          const pTasks = daily.filter(t => t.prayer === p.id);
-          if (!pTasks.length) return null;
-          return <div key={p.id} style={{
-            marginBottom: 12
-          }}>
-              <div style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 7,
-              marginBottom: 7
-            }}>
-                <span style={{
-                fontSize: 11,
-                color: C.textDim
-              }}>{p.range}</span>
-                <div style={{
-                flex: 1,
-                height: 1.5,
-                background: C.border
-              }} />
-                <span style={{
-                fontSize: 12,
-                fontWeight: 800,
-                color: p.color
-              }}>{p.emoji} بعد {p.label}</span>
-              </div>
-              {pTasks.map(t => <div key={t.id} style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-              padding: "11px 13px",
-              borderRadius: 13,
-              background: C.card,
-              border: `1px solid ${C.border}`,
-              marginBottom: 6,
-              opacity: t.done ? 0.5 : 1
-            }}>
-                  <Checkbox done={t.done} onToggle={() => toggle(t.id)} color={p.color} />
-                  <span style={{
-                flex: 1,
-                fontSize: 13,
-                fontWeight: 500,
-                color: C.text,
-                textAlign: "right",
-                textDecoration: t.done ? "line-through" : "none"
-              }}>{t.title}</span>
-                  <div style={{
-                display: "flex",
-                gap: 6,
-                alignItems: "center"
-              }}>
-                    {t.link && <a href={t.link} target="_blank" rel="noreferrer" style={{
-                  fontSize: 16,
-                  textDecoration: "none"
-                }}>🔗</a>}
-                    {t.time && <span style={{
-                  fontSize: 10,
-                  color: C.textDim,
-                  fontWeight: 600
-                }}>{t.time}</span>}
-                  </div>
-                </div>)}
-            </div>;
-        })}
-
-        {/* Workout Detail */}
-        {(() => {
-          const dow = new Date().getDay();
-          if (!WORKOUT_DAYS.includes(dow)) return null;
-          const startDate = new Date("2026-05-19");
-          const dayIndex = Math.floor((Date.now() - startDate.getTime()) / 86400000);
-          const exercises = dayIndex % 2 === 0 ? UPPER : LOWER;
-          const label = dayIndex % 2 === 0 ? "🔼 تمرين علوي" : "🔽 تمرين سفلي";
-          return <div style={{
-            borderRadius: 16,
-            background: dark ? "rgba(16,201,143,.06)" : "#F0FDF4",
-            border: `1.5px solid #10C98F30`,
-            padding: 14,
-            marginBottom: 12
-          }}>
-              <p style={{
-              fontSize: 13,
-              fontWeight: 800,
-              color: "#10C98F",
-              marginBottom: 10,
-              textAlign: "right"
-            }}>{label} — تمارين اليوم</p>
-              {exercises.map((ex, i) => <div key={i} style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-              paddingVertical: 6,
-              borderBottom: i < exercises.length - 1 ? `1px solid ${C.border}` : "none",
-              marginBottom: 6
-            }}>
-                  <a href={ex.link} target="_blank" rel="noreferrer" style={{
-                fontSize: 14,
-                textDecoration: "none",
-                background: "#10C98F20",
-                borderRadius: 8,
-                padding: "4px 8px",
-                color: "#10C98F",
-                fontWeight: 700,
-                flexShrink: 0
-              }}>▶</a>
-                  <span style={{
-                flex: 1,
-                fontSize: 13,
-                color: C.text,
-                textAlign: "right"
-              }}>{ex.name}</span>
-                  <span style={{
-                fontSize: 11,
-                color: C.textDim,
-                fontWeight: 700,
-                background: C.inputBg,
-                borderRadius: 8,
-                padding: "3px 8px"
-              }}>{ex.sets}</span>
-                </div>)}
-            </div>;
-        })()}
-
-        {/* Stats Row */}
-        <div style={{
-          display: "flex",
-          gap: 8,
-          marginBottom: 16
-        }}>
-          {[{
-            l: "مكتملة",
-            v: String(done),
-            c: "#10C98F",
-            bg: dark ? "rgba(16,201,143,.12)" : "#ECFDF5"
-          }, {
-            l: "متبقية",
-            v: String(total - done),
-            c: "#F43F5E",
-            bg: dark ? "rgba(244,63,94,.12)" : "#FFF1F2"
-          }, {
-            l: "سلسلة",
-            v: "5 🔥",
-            c: "#F59E0B",
-            bg: dark ? "rgba(245,158,11,.12)" : "#FFFBEB"
-          }].map((s, i) => <div key={i} style={{
-            flex: 1,
-            borderRadius: 14,
-            padding: "13px 8px",
-            textAlign: "center",
-            background: s.bg
-          }}>
-              <p style={{
-              fontSize: 20,
-              fontWeight: 900,
-              color: s.c,
-              marginBottom: 3
-            }}>{s.v}</p>
-              <p style={{
-              fontSize: 10,
-              color: C.textSub,
-              fontWeight: 700
-            }}>{s.l}</p>
-            </div>)}
-        </div>
-      </div>
-      </div>
-    </div>;
+function closeQuiz(){document.getElementById('quiz-scr').classList.remove('on')}
+function renderQ(){
+  const q=quizQs[quizIdx];
+  document.getElementById('q-lbl').textContent=`السؤال ${quizIdx+1} من ${quizQs.length}`;
+  document.getElementById('q-sc-lbl').textContent=`⭐ ${quizScore}`;
+  document.getElementById('q-prog').style.width=`${(quizIdx/quizQs.length)*100}%`;
+  document.getElementById('nxt-btn').classList.remove('on');
+  document.getElementById('quiz-body').innerHTML=`
+    <div class="scbdg">⭐ النقاط: ${quizScore}</div>
+    <div style="display:inline-block;padding:4px 10px;border-radius:100px;margin-bottom:10px;font-size:11px;font-weight:700;background:${q.t==='s'?'var(--tl)':'var(--vl)'};color:${q.t==='s'?'var(--t)':'var(--v)'}">
+      ${q.t==='s'?'✅ بسيط':'🔬 تحليلي'}
+    </div>
+    <div style="font-size:16px;font-weight:900;color:var(--tx);line-height:1.55;margin-bottom:18px">${q.txt}</div>
+    <div class="qo">
+      ${q.opts.map((o,oi)=>`
+        <button class="qopt" id="qo-${oi}" onclick="pickOpt(this,${oi},${q.a},'${q.exp.replace(/'/g,"\\'").replace(/\n/g,' ')}')">
+          <span class="olt">${['أ','ب','ج','د'][oi]}</span>${o}
+        </button>`).join('')}
+    </div>
+    <div class="qfb" id="qfb"></div>`;
 }
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  TASKS SCREEN
-// ══════════════════════════════════════════════════════════════════════════════
-function TasksScreen({
-  tasks,
-  setTasks,
-  C,
-  dark
-}) {
-  const [filter, setFilter] = useState("daily");
-  const [prayerF, setPrayerF] = useState("all");
-  const [modal, setModal] = useState(null);
-  const [search, setSearch] = useState("");
-  const visible = tasks.filter(t => t.type === filter && (prayerF === "all" || t.prayer === prayerF) && (!search || t.title.includes(search)));
-  const done = visible.filter(t => t.done).length;
-  const pct = visible.length ? Math.round(done / visible.length * 100) : 0;
-  const col = TYPE_META[filter].color;
-  const toggle = id => setTasks(ts => ts.map(t => t.id === id ? {
-    ...t,
-    done: !t.done
-  } : t));
-  const save = t => {
-    setTasks(ts => ts.find(x => x.id === t.id) ? ts.map(x => x.id === t.id ? t : x) : [...ts, t]);
-    setModal(null);
-  };
-  const del = id => {
-    setTasks(ts => ts.filter(t => t.id !== id));
-    setModal(null);
-  };
-  return <div style={{
-    display: "flex",
-    flexDirection: "column",
-    height: "100%"
-  }}>
-      {/* Header */}
-      <div style={{
-      background: "linear-gradient(135deg,#4A8CFF,#8B5CF6)",
-      padding: "18px 20px 18px",
-      position: "relative",
-      overflow: "hidden"
-    }}>
-        <div style={{
-        position: "absolute",
-        top: -20,
-        right: -20,
-        width: 100,
-        height: 100,
-        borderRadius: "50%",
-        background: "rgba(255,255,255,.1)"
-      }} />
-        <div style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center"
-      }}>
-          <button onClick={() => setModal({})} style={{
-          background: "rgba(255,255,255,.2)",
-          border: "1.5px solid rgba(255,255,255,.4)",
-          color: "#fff",
-          borderRadius: 12,
-          padding: "8px 16px",
-          fontSize: 13,
-          fontWeight: 700,
-          cursor: "pointer",
-          fontFamily: "inherit"
-        }}>+ مهمة</button>
-          <span style={{
-          fontSize: 19,
-          fontWeight: 900,
-          color: "#fff"
-        }}>إدارة المهام 📋</span>
-        </div>
-      </div>
-
-      <div style={{
-      flex: 1,
-      overflowY: "auto",
-      padding: "0 16px",
-      marginTop: 14
-    }}>
-        {/* Progress */}
-        <div style={{
-        borderRadius: 15,
-        background: C.card,
-        padding: "12px 14px",
-        marginBottom: 12,
-        boxShadow: "0 4px 16px rgba(0,0,0,.06)",
-        border: `1px solid ${C.border}`,
-        display: "flex",
-        alignItems: "center",
-        gap: 12
-      }}>
-          <div style={{
-          flex: 1
-        }}>
-            <div style={{
-            display: "flex",
-            justifyContent: "space-between",
-            fontSize: 11,
-            color: C.textSub,
-            marginBottom: 6,
-            fontWeight: 600
-          }}>
-              <span style={{
-              color: col,
-              fontWeight: 800
-            }}>{done}/{visible.length}</span>
-              <span>{TYPE_META[filter].emoji} {TYPE_META[filter].label}</span>
-            </div>
-            <div style={{
-            height: 5,
-            borderRadius: 10,
-            background: C.border,
-            overflow: "hidden"
-          }}>
-              <div style={{
-              height: 5,
-              width: `${pct}%`,
-              background: col,
-              borderRadius: 10,
-              transition: "width .8s ease"
-            }} />
-            </div>
-          </div>
-          <span style={{
-          fontSize: 18,
-          fontWeight: 900,
-          color: col
-        }}>{pct}%</span>
-        </div>
-
-        {/* Search */}
-        <div style={{
-        position: "relative",
-        marginBottom: 10
-      }}>
-          <svg style={{
-          position: "absolute",
-          right: 12,
-          top: "50%",
-          transform: "translateY(-50%)",
-          opacity: .4
-        }} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={C.text} strokeWidth="2.5"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
-          <input style={{
-          width: "100%",
-          background: C.inputBg,
-          border: `1.5px solid ${C.border}`,
-          borderRadius: 11,
-          padding: "10px 36px 10px 12px",
-          color: C.text,
-          fontSize: 13,
-          outline: "none",
-          direction: "rtl",
-          boxSizing: "border-box",
-          fontFamily: "inherit"
-        }} placeholder="🔍 ابحث عن مهمة..." value={search} onChange={e => setSearch(e.target.value)} />
-        </div>
-
-        {/* Type Filter */}
-        <div style={{
-        display: "flex",
-        gap: 7,
-        overflowX: "auto",
-        paddingBottom: 4,
-        marginBottom: 8
-      }}>
-          {["daily", "weekly", "monthly", "side"].map(t => {
-          const m = TYPE_META[t];
-          const a = filter === t;
-          return <button key={t} onClick={() => setFilter(t)} style={{
-            padding: "7px 14px",
-            borderRadius: 20,
-            fontSize: 11,
-            fontWeight: 700,
-            cursor: "pointer",
-            whiteSpace: "nowrap",
-            fontFamily: "inherit",
-            background: a ? m.color + "20" : C.card,
-            border: `1.5px solid ${a ? m.color : C.border}`,
-            color: a ? m.color : C.textSub,
-            boxShadow: a ? `0 3px 10px ${m.color}30` : "none",
-            flexShrink: 0
-          }}>{m.emoji} {m.label}</button>;
-        })}
-        </div>
-
-        {/* Prayer Filter */}
-        <div style={{
-        display: "flex",
-        gap: 6,
-        overflowX: "auto",
-        paddingBottom: 6,
-        marginBottom: 14
-      }}>
-          {[{
-          id: "all",
-          label: "🕌 الكل",
-          color: "#10C98F"
-        }, ...PRAYERS].map(p => {
-          const a = prayerF === p.id;
-          return <button key={p.id} onClick={() => setPrayerF(p.id)} style={{
-            padding: "6px 12px",
-            borderRadius: 20,
-            fontSize: 11,
-            fontWeight: 700,
-            cursor: "pointer",
-            whiteSpace: "nowrap",
-            fontFamily: "inherit",
-            background: a ? p.color + "18" : C.card,
-            border: `1.5px solid ${a ? p.color : C.border}`,
-            color: a ? p.color : C.textSub,
-            flexShrink: 0
-          }}>{"emoji" in p ? p.emoji + " " : ""}{p.label}</button>;
-        })}
-        </div>
-
-        {/* Tasks */}
-        {PRAYERS.map(p => {
-        const list = visible.filter(t => t.prayer === p.id);
-        if (!list.length) return null;
-        return <div key={p.id} style={{
-          marginBottom: 18
-        }}>
-              <div style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 7,
-            marginBottom: 9
-          }}>
-                <span style={{
-              fontSize: 10,
-              color: p.color,
-              fontWeight: 700
-            }}>{list.filter(t => t.done).length}/{list.length}</span>
-                <div style={{
-              flex: 1,
-              height: 1.5,
-              background: C.border
-            }} />
-                <span style={{
-              fontSize: 12,
-              fontWeight: 800,
-              color: p.color
-            }}>{p.emoji} بعد {p.label}</span>
-              </div>
-              {list.map(t => <div key={t.id} style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            padding: 13,
-            borderRadius: 13,
-            background: C.card,
-            border: `1.5px solid ${C.border}`,
-            marginBottom: 7,
-            opacity: t.done ? 0.45 : 1,
-            boxShadow: "0 2px 8px rgba(0,0,0,.04)"
-          }}>
-                  <Checkbox done={t.done} onToggle={() => toggle(t.id)} color={p.color} />
-                  <div style={{
-              flex: 1,
-              minWidth: 0
-            }}>
-                    <p style={{
-                fontSize: 13,
-                fontWeight: 600,
-                color: C.text,
-                textAlign: "right",
-                textDecoration: t.done ? "line-through" : "none",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap"
-              }}>{t.title}</p>
-                    <div style={{
-                display: "flex",
-                gap: 6,
-                marginTop: 4,
-                justifyContent: "flex-end"
-              }}>
-                      <span style={{
-                  padding: "2px 8px",
-                  borderRadius: 20,
-                  fontSize: 10,
-                  fontWeight: 700,
-                  background: PRIO_META[t.priority].color + "18",
-                  color: PRIO_META[t.priority].color
-                }}>{PRIO_META[t.priority].label}</span>
-                      {t.time && <span style={{
-                  fontSize: 10,
-                  color: C.textDim,
-                  fontWeight: 600
-                }}>⏰ {t.time}</span>}
-                    </div>
-                  </div>
-                  <div style={{
-              display: "flex",
-              gap: 6,
-              alignItems: "center",
-              flexShrink: 0
-            }}>
-                    {t.link && <a href={t.link} target="_blank" rel="noreferrer" style={{
-                fontSize: 16,
-                textDecoration: "none",
-                padding: 4
-              }}>🔗</a>}
-                    <button onClick={() => setModal(t)} style={{
-                background: C.bg,
-                border: `1px solid ${C.border}`,
-                borderRadius: 9,
-                padding: "5px 8px",
-                cursor: "pointer",
-                color: C.textSub,
-                fontSize: 12,
-                fontFamily: "inherit"
-              }}>✎</button>
-                  </div>
-                </div>)}
-            </div>;
-      })}
-
-        {visible.length === 0 && <div style={{
-        textAlign: "center",
-        padding: "60px 0",
-        color: C.textDim
-      }}><p style={{
-          fontSize: 40,
-          marginBottom: 10
-        }}>📋</p><p>لا توجد مهام — اضغط + لإضافة!</p></div>}
-        <div style={{
-        height: 20
-      }} />
-      </div>
-
-      {modal !== null && <TaskModal task={modal} onSave={save} onClose={() => setModal(null)} onDelete={del} C={C} dark={dark} />}
-    </div>;
+function pickOpt(btn,oi,correct,exp){
+  if(quizAns)return;quizAns=true;
+  document.querySelectorAll('.qopt').forEach(b=>b.disabled=true);
+  const isRight=oi===correct;
+  btn.classList.add(isRight?'correct':'wrong');
+  if(!isRight)document.getElementById('qo-'+correct).classList.add('correct');
+  if(isRight)quizScore++;
+  document.getElementById('q-sc-lbl').textContent=`⭐ ${quizScore}`;
+  const fb=document.getElementById('qfb');
+  fb.className='qfb '+(isRight?'ok':'nope')+' on';
+  fb.textContent=(isRight?'✅ ممتاز! ':'')+exp;
+  const nb=document.getElementById('nxt-btn');nb.classList.add('on');
+  nb.textContent=quizIdx<quizQs.length-1?'التالي ←':'🏁 النتيجة';
 }
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  JOURNAL SCREEN
-// ══════════════════════════════════════════════════════════════════════════════
-function JournalScreen({
-  entries,
-  setEntries,
-  C,
-  dark
-}) {
-  const [tab, setTab] = useState("write");
-  const [text, setText] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
-  const [error, setError] = useState("");
-  const [selected, setSelected] = useState(null);
-  const moodBg = m => dark ? MOODS[m].darkBg : MOODS[m].lightBg;
-  const analyze = async () => {
-    if (text.trim().length < 20) {
-      setError("اكتب على الأقل ٢٠ حرفاً");
-      return;
-    }
-    setError("");
-    setLoading(true);
-    setResult(null);
-    try {
-      setResult(await callAI(text));
-    } catch {
-      setError("تعذّر التحليل — تأكد من الاتصال.");
-    } finally {
-      setLoading(false);
-    }
-  };
-  const save = () => {
-    setEntries(es => [{
-      id: uid(),
-      date: todayS(),
-      text,
-      ...result
-    }, ...es]);
-    setText("");
-    setResult(null);
-    setTab("history");
-  };
-  const TAB = a => ({
-    flex: 1,
-    padding: "10px 0",
-    border: "none",
-    background: a ? C.card : "transparent",
-    color: a ? "#8B5CF6" : C.textSub,
-    fontSize: 11,
-    fontWeight: 700,
-    cursor: "pointer",
-    fontFamily: "inherit",
-    borderRadius: a ? 11 : 0,
-    transition: "all .2s"
-  });
-  return <div style={{
-    display: "flex",
-    flexDirection: "column",
-    height: "100%"
-  }}>
-      <div style={{
-      background: "linear-gradient(135deg,#8B5CF6,#EC4899)",
-      padding: "18px 20px 18px"
-    }}>
-        <div style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center"
-      }}>
-          <span style={{
-          padding: "5px 12px",
-          borderRadius: 20,
-          background: "rgba(255,255,255,.2)",
-          fontSize: 10,
-          color: "#fff",
-          fontWeight: 700
-        }}>🧠 AI مدعوم</span>
-          <span style={{
-          fontSize: 19,
-          fontWeight: 900,
-          color: "#fff"
-        }}>اليوميات 📔</span>
-        </div>
-      </div>
-
-      <div style={{
-      flex: 1,
-      overflowY: "auto",
-      padding: "0 16px",
-      marginTop: 14
-    }}>
-        <div style={{
-        background: dark ? "rgba(255,255,255,.06)" : "#F1F5F9",
-        borderRadius: 14,
-        padding: 4,
-        display: "flex",
-        gap: 3,
-        marginBottom: 14
-      }}>
-          {[["write", "✍️ كتابة"], ["history", "📅 السجل"], ["insights", "📊 رؤى"]].map(([k, l]) => <button key={k} style={TAB(tab === k)} onClick={() => setTab(k)}>{l}</button>)}
-        </div>
-
-        {/* WRITE */}
-        {tab === "write" && <div>
-            <p style={{
-          fontSize: 11,
-          color: C.textSub,
-          fontWeight: 700,
-          marginBottom: 8,
-          textAlign: "right"
-        }}>📅 {fmtDate(todayS())}</p>
-            <textarea value={text} onChange={e => {
-          setText(e.target.value);
-          setResult(null);
-          setError("");
-        }} placeholder="اكتب ما تشعر به اليوم... ماذا حدث؟ كيف كان تركيزك؟" style={{
-          width: "100%",
-          minHeight: 150,
-          background: C.inputBg,
-          border: `1.5px solid ${C.border}`,
-          borderRadius: 14,
-          padding: 14,
-          color: C.text,
-          fontSize: 14,
-          lineHeight: 1.8,
-          fontFamily: "inherit",
-          outline: "none",
-          resize: "vertical",
-          direction: "rtl",
-          marginBottom: 12,
-          boxSizing: "border-box",
-          display: "block"
-        }} />
-            {error && <div style={{
-          padding: "10px 13px",
-          borderRadius: 11,
-          background: dark ? "rgba(244,63,94,.12)" : "#FFF1F2",
-          border: `1px solid #F43F5E50`,
-          fontSize: 13,
-          color: "#F43F5E",
-          marginBottom: 10
-        }}>{error}</div>}
-            {!result && <button onClick={analyze} disabled={loading} style={{
-          width: "100%",
-          padding: 14,
-          borderRadius: 14,
-          background: loading ? C.inputBg : "linear-gradient(135deg,#8B5CF6,#EC4899)",
-          border: "none",
-          color: loading ? C.textSub : "#fff",
-          fontSize: 14,
-          fontWeight: 700,
-          cursor: loading ? "not-allowed" : "pointer",
-          fontFamily: "inherit",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 10,
-          marginBottom: 10,
-          boxShadow: loading ? "none" : "0 8px 24px rgba(139,92,246,.4)"
-        }}>
-                {loading ? <><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="10" strokeOpacity=".2" /><path d="M12 2a10 10 0 0 1 10 10"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur=".8s" repeatCount="indefinite" /></path></svg>جاري التحليل...</> : "🧠 تحليل المزاج بالذكاء الاصطناعي"}
-              </button>}
-            {result && <div style={{
-          borderRadius: 16,
-          overflow: "hidden",
-          border: `1.5px solid ${MOODS[result.mood].color}40`,
-          background: moodBg(result.mood),
-          marginBottom: 10
-        }}>
-                <div style={{
-            padding: "14px 14px 10px",
-            borderBottom: `1px solid ${C.border}`
-          }}>
-                  <div style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: 10
-            }}>
-                    <span style={{
-                padding: "4px 11px",
-                borderRadius: 20,
-                fontSize: 11,
-                fontWeight: 700,
-                background: C.card,
-                color: MOODS[result.mood].color,
-                border: `1.5px solid ${MOODS[result.mood].color}40`
-              }}>{MOODS[result.mood].emoji} {MOODS[result.mood].label}</span>
-                    <span style={{
-                fontSize: 13,
-                fontWeight: 800,
-                color: C.text
-              }}>نتيجة التحليل ✨</span>
-                  </div>
-                  <div style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 14
-            }}>
-                    <div style={{
-                width: 60,
-                height: 60,
-                borderRadius: "50%",
-                border: `5px solid ${result.score >= 70 ? "#10C98F" : result.score >= 40 ? "#F59E0B" : "#F43F5E"}`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0
-              }}>
-                      <span style={{
-                  fontSize: 14,
-                  fontWeight: 900,
-                  color: result.score >= 70 ? "#10C98F" : result.score >= 40 ? "#F59E0B" : "#F43F5E"
-                }}>{result.score}</span>
-                    </div>
-                    <div>
-                      <p style={{
-                  fontSize: 10,
-                  color: C.textSub,
-                  fontWeight: 600,
-                  marginBottom: 2,
-                  textAlign: "right"
-                }}>نقاط الإنتاجية</p>
-                      <p style={{
-                  fontSize: 24,
-                  fontWeight: 900,
-                  color: result.score >= 70 ? "#10C98F" : result.score >= 40 ? "#F59E0B" : "#F43F5E",
-                  textAlign: "right"
-                }}>{result.score}<span style={{
-                    fontSize: 12,
-                    color: C.textDim
-                  }}>/100</span></p>
-                      {result.summary && <p style={{
-                  fontSize: 11,
-                  color: C.textSub,
-                  textAlign: "right"
-                }}>{result.summary}</p>}
-                    </div>
-                  </div>
-                </div>
-                {result.reasons?.length > 0 && <div style={{
-            padding: "10px 14px",
-            borderBottom: `1px solid ${C.border}`
-          }}>
-                    <p style={{
-              fontSize: 10,
-              color: C.textSub,
-              fontWeight: 700,
-              marginBottom: 6,
-              textAlign: "right"
-            }}>العوامل المؤثرة</p>
-                    <div style={{
-              display: "flex",
-              gap: 5,
-              flexWrap: "wrap",
-              justifyContent: "flex-end"
-            }}>
-                      {result.reasons.map(r => {
-                const m = REASONS_META[r] || {
-                  label: r,
-                  icon: "•",
-                  color: C.textSub
-                };
-                return <span key={r} style={{
-                  padding: "4px 9px",
-                  borderRadius: 20,
-                  fontSize: 11,
-                  fontWeight: 600,
-                  background: C.card,
-                  color: m.color,
-                  border: `1.5px solid ${m.color}30`,
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 3
-                }}>{m.icon} {m.label}</span>;
-              })}
-                    </div>
-                  </div>}
-                {result.insight && <div style={{
-            padding: "10px 14px"
-          }}><p style={{
-              fontSize: 10,
-              color: C.textSub,
-              fontWeight: 700,
-              marginBottom: 4,
-              textAlign: "right"
-            }}>💡 رؤية شخصية</p><p style={{
-              fontSize: 13,
-              color: C.text,
-              lineHeight: 1.7,
-              textAlign: "right"
-            }}>{result.insight}</p></div>}
-                <div style={{
-            display: "flex",
-            gap: 9,
-            padding: "0 14px 14px"
-          }}>
-                  <button onClick={() => setResult(null)} style={{
-              flex: .45,
-              padding: "11px 0",
-              borderRadius: 11,
-              background: C.card,
-              border: `1.5px solid ${C.border}`,
-              color: C.textSub,
-              fontSize: 12,
-              fontWeight: 700,
-              cursor: "pointer",
-              fontFamily: "inherit"
-            }}>تجاهل</button>
-                  <button onClick={save} style={{
-              flex: 1,
-              padding: "11px 0",
-              borderRadius: 11,
-              background: "#10C98F",
-              border: "none",
-              color: "#fff",
-              fontSize: 14,
-              fontWeight: 800,
-              cursor: "pointer",
-              fontFamily: "inherit"
-            }}>✓ حفظ في السجل</button>
-                </div>
-              </div>}
-          </div>}
-
-        {/* HISTORY */}
-        {tab === "history" && <div>
-            {entries.length === 0 && <div style={{
-          textAlign: "center",
-          padding: "50px 0",
-          color: C.textDim
-        }}><p style={{
-            fontSize: 36,
-            marginBottom: 8
-          }}>📔</p><p>لا توجد إدخالات بعد</p></div>}
-            {entries.map(e => <button key={e.id} onClick={() => setSelected(e)} style={{
-          width: "100%",
-          textAlign: "right",
-          padding: 14,
-          borderRadius: 14,
-          background: C.card,
-          border: `1.5px solid ${C.border}`,
-          marginBottom: 10,
-          cursor: "pointer",
-          boxShadow: "0 2px 8px rgba(0,0,0,.05)",
-          fontFamily: "inherit",
-          display: "block"
-        }}>
-                <div style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            marginBottom: 8
-          }}>
-                  <div style={{
-              width: 50,
-              height: 50,
-              borderRadius: "50%",
-              border: `4px solid ${MOODS[e.mood].color}`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
-            }}><span style={{
-                fontSize: 13,
-                fontWeight: 900,
-                color: MOODS[e.mood].color
-              }}>{e.score}</span></div>
-                  <div><p style={{
-                fontSize: 12,
-                fontWeight: 700,
-                color: C.text,
-                marginBottom: 4
-              }}>{fmtDate(e.date)}</p><span style={{
-                padding: "3px 9px",
-                borderRadius: 20,
-                fontSize: 10,
-                fontWeight: 700,
-                background: moodBg(e.mood),
-                color: MOODS[e.mood].color
-              }}>{MOODS[e.mood].emoji} {MOODS[e.mood].label}</span></div>
-                </div>
-                <p style={{
-            fontSize: 12,
-            color: C.textSub,
-            lineHeight: 1.6,
-            overflow: "hidden",
-            display: "-webkit-box",
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical"
-          }}>{e.text}</p>
-              </button>)}
-          </div>}
-
-        {/* INSIGHTS */}
-        {tab === "insights" && <div>
-            <div style={{
-          borderRadius: 16,
-          background: C.card,
-          padding: 14,
-          marginBottom: 12,
-          border: `1px solid ${C.border}`
-        }}>
-              <div style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: 12
-          }}>
-                <span style={{
-              fontSize: 11,
-              color: C.textDim
-            }}>نقاط المزاج</span>
-                <span style={{
-              fontSize: 13,
-              fontWeight: 800,
-              color: C.text
-            }}>📊 أداء الأسبوع</span>
-              </div>
-              <div style={{
-            display: "flex",
-            gap: 4,
-            height: 70,
-            alignItems: "flex-end"
-          }}>
-                {WEEKLY_SCR.map((v, i) => {
-              const col = v >= 70 ? "#10C98F" : v >= 40 ? "#F59E0B" : v > 0 ? "#F43F5E" : C.border;
-              return <div key={i} style={{
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: 4
-              }}>{v > 0 && <span style={{
-                  fontSize: 7,
-                  color: col,
-                  fontWeight: 700
-                }}>{v}</span>}<div style={{
-                  width: "100%",
-                  borderRadius: "4px 4px 0 0",
-                  height: `${v > 0 ? v : 8}%`,
-                  background: col
-                }} /><span style={{
-                  fontSize: 7,
-                  color: i === 6 ? "#10C98F" : C.textDim,
-                  fontWeight: i === 6 ? 800 : 400
-                }}>{WEEK_DAYS[i]}</span></div>;
-            })}
-              </div>
-            </div>
-            <div style={{
-          display: "flex",
-          gap: 8,
-          marginBottom: 12
-        }}>
-              {[{
-            l: "متوسط",
-            v: "61%",
-            c: "#F59E0B",
-            bg: dark ? "rgba(245,158,11,.12)" : "#FFFBEB"
-          }, {
-            l: "أفضل",
-            v: "88%",
-            c: "#10C98F",
-            bg: dark ? "rgba(16,201,143,.12)" : "#ECFDF5"
-          }, {
-            l: "سلسلة",
-            v: "5 🔥",
-            c: "#8B5CF6",
-            bg: dark ? "rgba(139,92,246,.12)" : "#F5F3FF"
-          }].map((s, i) => <div key={i} style={{
-            flex: 1,
-            borderRadius: 13,
-            padding: "12px 6px",
-            textAlign: "center",
-            background: s.bg
-          }}><p style={{
-              fontSize: 16,
-              fontWeight: 900,
-              color: s.c,
-              marginBottom: 2
-            }}>{s.v}</p><p style={{
-              fontSize: 9,
-              color: C.textSub,
-              fontWeight: 600
-            }}>{s.l}</p></div>)}
-            </div>
-            <div style={{
-          borderRadius: 14,
-          background: dark ? "rgba(139,92,246,.1)" : "#F5F3FF",
-          border: `1.5px solid rgba(139,92,246,.2)`,
-          padding: 14
-        }}>
-              <p style={{
-            fontSize: 12,
-            fontWeight: 800,
-            color: "#8B5CF6",
-            marginBottom: 10,
-            textAlign: "right"
-          }}>🧠 رؤى الذكاء الاصطناعي</p>
-              {["أداؤك يرتفع ٤٠٪ في أيام التمرين — لا تتخطَّ الجلسات الرياضية.", "ساعة الدراسة بعد الفجر أكثر إنتاجية من بعد الظهر.", "مقطعا الشمائل بعد العصر يهيّئانك ذهنياً لبقية اليوم."].map((tip, i, arr) => <div key={i} style={{
-            display: "flex",
-            gap: 8,
-            padding: "8px 0",
-            borderBottom: i < arr.length - 1 ? `1px solid ${C.border}` : "none"
-          }}><span style={{
-              color: "#8B5CF6"
-            }}>✦</span><span style={{
-              fontSize: 12,
-              color: C.text,
-              lineHeight: 1.6,
-              textAlign: "right"
-            }}>{tip}</span></div>)}
-            </div>
-          </div>}
-        <div style={{
-        height: 20
-      }} />
-      </div>
-
-      {/* Detail Modal */}
-      {selected && <div style={{
-      position: "fixed",
-      inset: 0,
-      zIndex: 999,
-      background: "rgba(0,0,0,.55)",
-      backdropFilter: "blur(6px)",
-      display: "flex",
-      alignItems: "flex-end",
-      justifyContent: "center"
-    }} onClick={e => e.target === e.currentTarget && setSelected(null)}>
-          <div style={{
-        width: "100%",
-        maxWidth: 480,
-        background: C.card,
-        borderRadius: "22px 22px 0 0",
-        border: `1px solid ${C.border}`,
-        padding: "20px 20px 44px",
-        maxHeight: "85vh",
-        overflowY: "auto"
-      }}>
-            <div style={{
-          width: 38,
-          height: 4,
-          borderRadius: 2,
-          background: C.border,
-          margin: "0 auto 16px"
-        }} />
-            <div style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: 12
-        }}>
-              <span style={{
-            padding: "4px 11px",
-            borderRadius: 20,
-            fontSize: 11,
-            fontWeight: 700,
-            background: moodBg(selected.mood),
-            color: MOODS[selected.mood].color
-          }}>{MOODS[selected.mood].emoji} {MOODS[selected.mood].label}</span>
-              <span style={{
-            fontSize: 14,
-            fontWeight: 800,
-            color: C.text
-          }}>{fmtDate(selected.date)}</span>
-            </div>
-            <p style={{
-          padding: 13,
-          borderRadius: 13,
-          background: C.bg,
-          border: `1px solid ${C.border}`,
-          fontSize: 13,
-          color: C.text,
-          lineHeight: 1.8,
-          textAlign: "right",
-          marginBottom: 12
-        }}>{selected.text}</p>
-            {selected.insight && <p style={{
-          padding: "11px 13px",
-          borderRadius: 12,
-          background: dark ? "rgba(139,92,246,.1)" : "#F5F3FF",
-          border: `1px solid rgba(139,92,246,.2)`,
-          fontSize: 12,
-          color: C.text,
-          lineHeight: 1.7,
-          textAlign: "right",
-          marginBottom: 12
-        }}>💡 {selected.insight}</p>}
-            <button onClick={() => setSelected(null)} style={{
-          width: "100%",
-          padding: 12,
-          borderRadius: 13,
-          background: C.bg,
-          border: `1.5px solid ${C.border}`,
-          color: C.textSub,
-          fontSize: 13,
-          fontWeight: 700,
-          cursor: "pointer",
-          fontFamily: "inherit"
-        }}>إغلاق</button>
-          </div>
-        </div>}
-    </div>;
+function nextQ(){
+  quizIdx++;quizAns=false;
+  if(quizIdx>=quizQs.length){closeQuiz();showResult();}else renderQ();
 }
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  PROFILE SCREEN
-// ══════════════════════════════════════════════════════════════════════════════
-function ProfileScreen({
-  tasks,
-  entries,
-  dark,
-  setDark,
-  onLogout,
-  C
-}) {
-  const [notif, setNotif] = useState(true);
-  const [cal, setCal] = useState(true);
-  const [focus, setFocus] = useState(true);
-  const allDone = tasks.filter(t => t.done).length;
-
-  // Shamael progress
-  const startDate = new Date("2026-05-19");
-  const daysPassed = Math.max(0, Math.floor((Date.now() - startDate.getTime()) / 86400000));
-  const shamDay = daysPassed % 18;
-  const shamEp1 = 8 + shamDay * 2;
-  const shamEp2 = shamEp1 + 1;
-  return <div style={{
-    overflowY: "auto",
-    height: "100%"
-  }}>
-      <div style={{
-      background: "linear-gradient(135deg,#06B6D4,#4A8CFF)",
-      padding: "20px 20px 20px",
-      textAlign: "center",
-      position: "relative",
-      overflow: "hidden"
-    }}>
-        <div style={{
-        position: "absolute",
-        top: -30,
-        right: -30,
-        width: 130,
-        height: 130,
-        borderRadius: "50%",
-        background: "rgba(255,255,255,.08)"
-      }} />
-        <div style={{
-        width: 72,
-        height: 72,
-        borderRadius: "50%",
-        background: "rgba(255,255,255,.25)",
-        border: "3px solid rgba(255,255,255,.6)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: 28,
-        fontWeight: 800,
-        color: "#fff",
-        margin: "0 auto 10px"
-      }}>م</div>
-        <p style={{
-        fontSize: 18,
-        fontWeight: 900,
-        color: "#fff",
-        marginBottom: 2
-      }}>محمد</p>
-        <p style={{
-        fontSize: 12,
-        color: "rgba(255,255,255,.75)",
-        marginBottom: 10
-      }}>mohammed@gmail.com</p>
-        <span style={{
-        display: "inline-block",
-        padding: "5px 14px",
-        borderRadius: 20,
-        background: "rgba(255,255,255,.2)",
-        fontSize: 11,
-        color: "#fff",
-        fontWeight: 700
-      }}>🔥 سلسلة ٥ أيام نشطة</span>
-      </div>
-
-      <div style={{
-      padding: "0 16px",
-      marginTop: 14
-    }}>
-        {/* Stats */}
-        <div style={{
-        display: "flex",
-        gap: 8,
-        marginBottom: 14
-      }}>
-          {[{
-          l: "المهام",
-          v: tasks.length,
-          c: "#10C98F",
-          bg: dark ? "rgba(16,201,143,.12)" : "#ECFDF5"
-        }, {
-          l: "المكتملة",
-          v: allDone,
-          c: "#4A8CFF",
-          bg: dark ? "rgba(77,159,255,.12)" : "#EFF6FF"
-        }, {
-          l: "اليوميات",
-          v: entries.length,
-          c: "#8B5CF6",
-          bg: dark ? "rgba(139,92,246,.12)" : "#F5F3FF"
-        }].map((s, i) => <div key={i} style={{
-          flex: 1,
-          borderRadius: 14,
-          padding: "13px 6px",
-          textAlign: "center",
-          background: s.bg
-        }}><p style={{
-            fontSize: 22,
-            fontWeight: 900,
-            color: s.c,
-            marginBottom: 3
-          }}>{s.v}</p><p style={{
-            fontSize: 9,
-            color: C.textSub,
-            fontWeight: 700
-          }}>{s.l}</p></div>)}
-        </div>
-
-        {/* Shamael Today */}
-        <div style={{
-        borderRadius: 16,
-        background: dark ? "rgba(6,182,212,.08)" : "#F0FDFA",
-        border: "1.5px solid rgba(6,182,212,.25)",
-        padding: 14,
-        marginBottom: 14
-      }}>
-          <p style={{
-          fontSize: 12,
-          fontWeight: 800,
-          color: "#06B6D4",
-          marginBottom: 8,
-          textAlign: "right"
-        }}>✨ الشمائل المحمدية — متابعة التقدم</p>
-          <div style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: 6
-        }}>
-            <span style={{
-            fontSize: 12,
-            color: "#06B6D4",
-            fontWeight: 700
-          }}>يوم {shamDay + 1} من 18</span>
-            <span style={{
-            fontSize: 12,
-            color: C.textSub
-          }}>مقطع {shamEp1} + {shamEp2}</span>
-          </div>
-          <div style={{
-          height: 5,
-          borderRadius: 10,
-          background: C.border,
-          overflow: "hidden"
-        }}>
-            <div style={{
-            height: 5,
-            width: `${(shamDay + 1) / 18 * 100}%`,
-            background: "#06B6D4",
-            borderRadius: 10
-          }} />
-          </div>
-          <a href={SHAMAEL_BASE} target="_blank" rel="noreferrer" style={{
-          display: "block",
-          marginTop: 8,
-          fontSize: 12,
-          color: "#06B6D4",
-          fontWeight: 700,
-          textAlign: "right",
-          textDecoration: "none"
-        }}>▶ افتح القائمة 🔗</a>
-        </div>
-
-        {/* Settings */}
-        <div style={{
-        borderRadius: 18,
-        background: C.card,
-        overflow: "hidden",
-        boxShadow: "0 4px 16px rgba(0,0,0,.06)",
-        border: `1px solid ${C.border}`,
-        marginBottom: 14
-      }}>
-          {[{
-          icon: "🔔",
-          label: "الإشعارات",
-          val: notif,
-          onT: () => setNotif(v => !v),
-          color: "#10C98F"
-        }, {
-          icon: "🌙",
-          label: "الوضع الليلي",
-          val: dark,
-          onT: () => setDark(!dark),
-          color: "#8B5CF6"
-        }, {
-          icon: "🗓",
-          label: "Google Calendar",
-          val: cal,
-          onT: () => setCal(v => !v),
-          color: "#4A8CFF"
-        }, {
-          icon: "🔒",
-          label: "وضع التركيز",
-          val: focus,
-          onT: () => setFocus(v => !v),
-          color: "#F59E0B"
-        }].map((s, i, arr) => <div key={i} style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          padding: "15px 16px",
-          borderBottom: i < arr.length - 1 ? `1px solid ${C.border}` : "none",
-          background: C.card
-        }}>
-              <Toggle on={s.val} onToggle={s.onT} color={s.color} />
-              <span style={{
-            flex: 1,
-            fontSize: 14,
-            fontWeight: 600,
-            color: C.text,
-            textAlign: "right"
-          }}>{s.label}</span>
-              <span style={{
-            fontSize: 20
-          }}>{s.icon}</span>
-            </div>)}
-          <div style={{
-          display: "flex",
-          alignItems: "center",
-          padding: "15px 16px",
-          background: C.card
-        }}>
-            <span style={{
-            flex: 1,
-            fontSize: 12,
-            color: C.textDim,
-            fontWeight: 600
-          }}>العربية</span>
-            <span style={{
-            flex: 1,
-            fontSize: 14,
-            fontWeight: 600,
-            color: C.text,
-            textAlign: "right"
-          }}>اللغة</span>
-            <span style={{
-            fontSize: 20,
-            marginRight: 12
-          }}>🌐</span>
-          </div>
-        </div>
-
-        {/* Prayer times */}
-        <div style={{
-        borderRadius: 16,
-        background: dark ? "rgba(139,92,246,.08)" : "#F5F3FF",
-        border: "1.5px solid rgba(139,92,246,.2)",
-        padding: 14,
-        marginBottom: 14
-      }}>
-          <p style={{
-          fontSize: 12,
-          fontWeight: 800,
-          color: "#8B5CF6",
-          marginBottom: 10,
-          textAlign: "right"
-        }}>🕌 أوقات الصلاة المضبوطة</p>
-          {PRAYERS.map((p, i) => <div key={i} style={{
-          display: "flex",
-          alignItems: "center",
-          paddingTop: 7,
-          paddingBottom: 7,
-          borderBottom: i < PRAYERS.length - 1 ? `1px solid ${C.border}` : "none"
-        }}>
-              <span style={{
-            fontSize: 11,
-            color: C.textDim,
-            fontWeight: 600
-          }}>{p.range}</span>
-              <span style={{
-            flex: 1,
-            fontSize: 13,
-            fontWeight: 600,
-            color: C.text,
-            textAlign: "right"
-          }}>{p.label}</span>
-              <span style={{
-            fontSize: 18,
-            marginRight: 10
-          }}>{p.emoji}</span>
-            </div>)}
-        </div>
-
-        <button onClick={onLogout} style={{
-        width: "100%",
-        padding: 14,
-        borderRadius: 14,
-        background: dark ? "rgba(244,63,94,.12)" : "#FFF1F2",
-        border: "1.5px solid rgba(244,63,94,.3)",
-        color: "#F43F5E",
-        fontSize: 14,
-        fontWeight: 800,
-        cursor: "pointer",
-        fontFamily: "inherit",
-        marginBottom: 8
-      }}>تسجيل الخروج ←</button>
-        <div style={{
-        height: 20
-      }} />
-      </div>
-    </div>;
+function showResult(){
+  const pct=Math.round((quizScore/quizQs.length)*100);
+  document.getElementById('res-trophy').textContent=pct>=80?'🏆':pct>=50?'🌟':'💪';
+  document.getElementById('res-title').textContent=pct>=80?'ممتاز جداً!':pct>=50?'جيد جداً!':'يمكنك التحسن!';
+  document.getElementById('res-score').textContent=quizScore;
+  document.getElementById('res-of').textContent=`من ${quizQs.length} سؤال · ${pct}%`;
+  document.getElementById('res-scr').classList.add('on');
 }
+function closeRes(){document.getElementById('res-scr').classList.remove('on')}
+function restartQuiz(){closeRes();startQuiz(true)}
 
-// ══════════════════════════════════════════════════════════════════════════════
-//  ROOT APP
-// ══════════════════════════════════════════════════════════════════════════════
-const NAV = [{
-  id: "home",
-  label: "الرئيسية",
-  icon: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-}, {
-  id: "tasks",
-  label: "المهام",
-  icon: "M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"
-}, {
-  id: "journal",
-  label: "يومياتي",
-  icon: "M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"
-}, {
-  id: "profile",
-  label: "حسابي",
-  icon: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"
-}];
-const NAV_COLORS = {
-  home: "#10C98F",
-  tasks: "#4A8CFF",
-  journal: "#8B5CF6",
-  profile: "#06B6D4"
-};
-function App() {
-  const [loggedIn, setLoggedIn] = useState(() => {
-    try {
-      return localStorage.getItem("fl_li") === "1";
-    } catch {
-      return false;
-    }
-  });
-  const [dark, setDark] = useState(() => {
-    try {
-      return localStorage.getItem("fl_dark") === "1";
-    } catch {
-      return false;
-    }
-  });
-  const [navTab, setNavTab] = useState("home");
-  const [signing, setSigning] = useState(false);
-  const [tasks, setTasks] = useState(() => [...generateDailyTasks(), ...STATIC_TASKS]);
-  const [entries, setEntries] = useState(INIT_JOURNAL);
-  const lastReset = useRef("");
-  const C = dark ? DARK : LIGHT;
-
-  // persist dark mode
-  useEffect(() => {
-    try {
-      localStorage.setItem("fl_dark", dark ? "1" : "0");
-    } catch {}
-  }, [dark]);
-
-  // Auto-reset daily tasks after midnight
-  useEffect(() => {
-    const check = () => {
-      const today = todayS();
-      if (lastReset.current !== today) {
-        lastReset.current = today;
-        setTasks(prev => {
-          const nonDaily = prev.filter(t => t.type !== "daily");
-          return [...generateDailyTasks(new Date()), ...nonDaily];
-        });
-      }
-    };
-    check();
-    const interval = setInterval(check, 60_000);
-    return () => clearInterval(interval);
-  }, []);
-  const handleLogin = () => {
-    setSigning(true);
-    setTimeout(() => {
-      setLoggedIn(true);
-      setSigning(false);
-      try {
-        localStorage.setItem("fl_li", "1");
-      } catch {}
-    }, 1600);
-  };
-  const handleLogout = () => {
-    setLoggedIn(false);
-    try {
-      localStorage.removeItem("fl_li");
-    } catch {}
-  };
-  const handleDark = v => {
-    setDark(v);
-    try {
-      localStorage.setItem("fl_dark", v ? "1" : "0");
-    } catch {}
-  };
-
-  // ── LOGIN ──
-  if (!loggedIn) {
-    return <div style={{
-      minHeight: "100vh",
-      background: dark ? "#060A0E" : "linear-gradient(145deg,#EEF2FF,#F0FDF4,#FFF7ED)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: 20,
-      fontFamily: "'Tajawal', 'Noto Sans Arabic', sans-serif",
-      direction: "rtl"
-    }}>
-        <style>{`@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap'); *{margin:0;padding:0;box-sizing:border-box;}`}</style>
-        <div style={{
-        width: "100%",
-        maxWidth: 360,
-        background: C.card,
-        borderRadius: 28,
-        padding: "38px 28px",
-        boxShadow: "0 20px 60px rgba(0,0,0,.1)",
-        border: `1px solid ${C.border}`,
-        textAlign: "center"
-      }}>
-          <div style={{
-          width: 72,
-          height: 72,
-          borderRadius: 22,
-          background: "linear-gradient(135deg,#10C98F,#4A8CFF)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: 30,
-          margin: "0 auto 18px",
-          boxShadow: "0 12px 32px rgba(16,201,143,.3)"
-        }}>🎯</div>
-          <p style={{
-          fontSize: 26,
-          fontWeight: 900,
-          color: C.text,
-          marginBottom: 4
-        }}>Focus<span style={{
-            color: "#10C98F"
-          }}>Line</span></p>
-          <p style={{
-          fontSize: 13,
-          color: C.textSub,
-          marginBottom: 24
-        }}>نظامك الشخصي للإنتاجية والانضباط</p>
-          <div style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: 7,
-          justifyContent: "center",
-          marginBottom: 26
-        }}>
-            {[["✓ أوقات الصلوات", "#10C98F", "#ECFDF5"], ["✓ تحليل AI", "#4A8CFF", "#EFF6FF"], ["✓ شعر يومي", "#8B5CF6", "#F5F3FF"], ["✓ تجدد تلقائي", "#F59E0B", "#FFFBEB"]].map(([f, c, bg], i) => <span key={i} style={{
-            padding: "4px 11px",
-            borderRadius: 20,
-            fontSize: 11,
-            fontWeight: 700,
-            background: bg,
-            color: c
-          }}>{f}</span>)}
-          </div>
-          <button onClick={handleLogin} disabled={signing} style={{
-          width: "100%",
-          padding: "14px 20px",
-          borderRadius: 16,
-          border: `1.5px solid ${C.border}`,
-          background: C.bg,
-          color: C.text,
-          fontSize: 14,
-          fontWeight: 700,
-          cursor: signing ? "not-allowed" : "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 12,
-          fontFamily: "inherit",
-          boxShadow: "0 4px 16px rgba(0,0,0,.08)"
-        }}>
-            {signing ? <><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#10C98F" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="10" strokeOpacity=".2" /><path d="M12 2a10 10 0 0 1 10 10"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur=".8s" repeatCount="indefinite" /></path></svg>جاري تسجيل الدخول...</> : <><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" /><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" /><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" /><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" /></svg>الدخول مرة واحدة مع Google</>}
-          </button>
-          <p style={{
-          fontSize: 10,
-          color: C.textDim,
-          marginTop: 12
-        }}>سيتم تذكّرك تلقائياً في كل مرة</p>
-        </div>
-      </div>;
-  }
-
-  // ── MAIN APP ──
-  return <div style={{
-    height: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    background: C.bg,
-    fontFamily: "'Tajawal', 'Noto Sans Arabic', sans-serif",
-    direction: "rtl",
-    maxWidth: 480,
-    margin: "0 auto",
-    position: "relative",
-    overflow: "hidden"
-  }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
-        *{margin:0;padding:0;box-sizing:border-box;}
-        ::-webkit-scrollbar{width:0;}
-        button:active{transform:scale(.96);opacity:.85;}
-        p,span,div{font-family:inherit;}
-        input,textarea,select{font-family:inherit;}
-        select option{background:${C.card};}
-        input[type=time],input[type=date]{color-scheme:${dark ? "dark" : "light"};}
-      `}</style>
-
-      {/* Screens */}
-      <div style={{
-      flex: 1,
-      overflow: "hidden"
-    }}>
-        {navTab === "home" && <HomeScreen tasks={tasks} setTasks={setTasks} onNavigate={setNavTab} C={C} dark={dark} />}
-        {navTab === "tasks" && <TasksScreen tasks={tasks} setTasks={setTasks} C={C} dark={dark} />}
-        {navTab === "journal" && <JournalScreen entries={entries} setEntries={setEntries} C={C} dark={dark} />}
-        {navTab === "profile" && <ProfileScreen tasks={tasks} entries={entries} dark={dark} setDark={handleDark} onLogout={handleLogout} C={C} />}
+/* ══ SETTINGS ══ */
+function renderSettings(){
+  const pct=Math.min(files.length*6,100);
+  document.getElementById('set-body').innerHTML=`
+    <div class="phero">
+      <div class="pav">👤</div>
+      <div style="flex:1"><div class="pnm">ورّاق</div><div class="psb">مجاني للأبد ✨</div></div>
+      <div class="fbdg">🔓 بلا قيود</div>
+    </div>
+    <div class="strc">
+      <div class="strtp"><span>💾 مساحة التخزين</span><span>${pct}%</span></div>
+      <div class="strb"><div class="strf" style="width:${pct}%"></div></div>
+      <div class="strn">📂 ${files.length} ملف — مساحة لامحدودة ✨</div>
+    </div>
+    <div class="slbl">المظهر</div>
+    <div class="sg">
+      <div class="sr" onclick="toggleTheme()">
+        <div class="sico" style="background:var(--al)">🌙</div>
+        <div style="flex:1"><div class="slb">الوضع الليلي / النهاري</div><div class="ssb" id="theme-sub">${isDark?'الوضع الليلي مفعّل':'الوضع النهاري مفعّل'}</div></div>
+        <button class="tog${isDark?' on':''}" id="theme-tog" onclick="event.stopPropagation();toggleTheme()"></button>
       </div>
-
-      {/* Bottom Nav */}
-      <div style={{
-      display: "flex",
-      background: C.navBg,
-      backdropFilter: "blur(20px)",
-      borderTop: `1.5px solid ${C.border}`,
-      padding: "8px 0 12px",
-      boxShadow: "0 -4px 24px rgba(0,0,0,.08)",
-      flexShrink: 0
-    }}>
-        {NAV.map(n => {
-        const active = navTab === n.id;
-        const col = NAV_COLORS[n.id];
-        return <button key={n.id} onClick={() => setNavTab(n.id)} style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 4,
-          border: "none",
-          background: "none",
-          cursor: "pointer",
-          color: active ? col : C.textDim,
-          fontSize: 10,
-          fontFamily: "inherit",
-          fontWeight: active ? 800 : 500,
-          padding: "4px 0",
-          transition: "all .2s"
-        }}>
-              <div style={{
-            width: 44,
-            height: 30,
-            borderRadius: 12,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: active ? col + "18" : "transparent",
-            transition: "all .25s"
-          }}>
-                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke={active ? col : C.textDim} strokeWidth={active ? 2.2 : 1.6} strokeLinecap="round" strokeLinejoin="round"><path d={n.icon} /></svg>
-              </div>
-              {n.label}
-            </button>;
-      })}
+    </div>
+    <div class="slbl">الذكاء الاصطناعي</div>
+    <div class="sg">
+      ${mkSet('📝','var(--vl)','تلخيص تلقائي','ملخص + خريطة + أسئلة','autoSum',true)}
+      ${mkSet('🔤','var(--tl)','استخراج النص (OCR)','قراءة الخط المكتوب','autoOCR',true)}
+      ${mkSet('✨','var(--al)','تسمية ذكية','يسمّي الملف تلقائياً','smartNm',true)}
+      ${mkSet('🗺️','var(--skl)','خريطة ذهنية تلقائية','داخل كل ملف','mindAuto',false)}
+    </div>
+    <div class="slbl">التخزين والنسخ الاحتياطي</div>
+    <div class="sg">
+      ${mkSet('☁️','var(--al)','Google Drive','نسخ احتياطي تلقائي','drive',true)}
+      <div class="sr" onclick="toast('📂 جاري الربط بمدير الملفات...')">
+        <div class="sico" style="background:var(--skl)">📂</div>
+        <div style="flex:1"><div class="slb">مدير الملفات</div><div class="ssb">ترتيب ونقل الملفات</div></div>
+        <span class="srt" style="color:var(--v);font-weight:700">ربط ←</span>
       </div>
-    </div>;
+    </div>
+    <div class="slbl">الأمان والخصوصية</div>
+    <div class="sg">
+      ${mkSet('👆','var(--tl)','قفل البصمة / Face ID','حماية ملفاتك','bioLock',true)}
+      <div class="sr" onclick="toast('🔢 إعداد رمز الأمان')">
+        <div class="sico" style="background:var(--rol)">🔢</div>
+        <div style="flex:1"><div class="slb">رمز الأمان (PIN)</div><div class="ssb">4 أرقام سرية</div></div>
+        <span class="srt" style="color:var(--v);font-weight:700">إعداد ←</span>
+      </div>
+    </div>
+    <div style="height:16px"></div>`;
 }
-
-
-// Mount
-document.getElementById('loading').style.display='none';
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(React.createElement(App));
-
+function mkSet(ico,bg,lbl,sub,key,border){
+  return `<div class="sr" style="${!border?'border-bottom:none':''}" onclick="toggleSet('${key}')">
+    <div class="sico" style="background:${bg}">${ico}</div>
+    <div style="flex:1"><div class="slb">${lbl}</div><div class="ssb">${sub}</div></div>
+    <button class="tog${togState[key]?' on':''}" id="tog-${key}" onclick="event.stopPropagation();toggleSet('${key}')"></button>
+  </div>`;
+}
+function toggleSet(key){
+  togState[key]=!togState[key];
+  const el=document.getElementById('tog-'+key);if(el)el.classList.toggle('on',togState[key]);
+  toast(togState[key]?'✅ تم التفعيل':'⛔ تم الإيقاف');
+}
+renderSettings();
 </script>
 </body>
 </html>
